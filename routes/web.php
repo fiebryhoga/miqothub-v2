@@ -50,6 +50,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('dashboard');
 
+    Route::get('/my-courses', function () {
+        $user = auth()->user();
+        
+        // Ambil data kelas milik user (bisa disesuaikan dengan relasi database Anda)
+        $myCourses = $user->courses()->get()->map(function ($course) {
+            $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
+            return $course;
+        });
+
+        return Inertia::render('Member/Courses/Index', [
+            'myCourses' => $myCourses
+        ]);
+    })->name('member.courses.index');
+
     // Pengaturan Profil
     Route::prefix('profile')->name('profile.')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
