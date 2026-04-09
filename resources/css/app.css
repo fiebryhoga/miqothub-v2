@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Sembunyikan semua elemen saat halaman di-print */
+@media print {
+    body * {
+        display: none !important;
+    }
+    
+    /* Opsional: Tampilkan pesan saat mencoba nge-print */
+    body::after {
+        content: "Mencetak dokumen ini sangat dilarang dan dilindungi hak cipta.";
+        display: block !important;
+        text-align: center;
+        margin-top: 50px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+}

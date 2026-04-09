@@ -1,10 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminManagementController; // Pastikan ini di-import
-use App\Http\Controllers\Admin\CourseController; // Tambahkan import ini di atas
-use App\Http\Controllers\Admin\MemberController; // Tambahkan ini di atas
+use App\Http\Controllers\AdminManagementController; 
+use App\Http\Controllers\Admin\CourseController; 
+use App\Http\Controllers\Admin\MemberController; 
 use App\Http\Controllers\Admin\CurriculumController;
+use App\Http\Controllers\Member\CourseController as MemberCourseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,35 +35,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $user = auth()->user();
 
         if ($user->role === 'admin') {
-            // Tampilkan halaman Dashboard Admin yang sudah kita buat sebelumnya
             return Inertia::render('Dashboard'); 
         }
 
-        // UNTUK MEMBER: Ambil kelas yang transaksinya sudah 'verified'
         $myCourses = $user->courses()->get()->map(function ($course) {
             $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
             return $course;
         });
 
-        // Tampilkan halaman khusus Member
         return Inertia::render('Member/Dashboard', [
             'myCourses' => $myCourses
         ]);
     })->name('dashboard');
 
-    Route::get('/my-courses', function () {
-        $user = auth()->user();
-        
-        // Ambil data kelas milik user (bisa disesuaikan dengan relasi database Anda)
-        $myCourses = $user->courses()->get()->map(function ($course) {
-            $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
-            return $course;
-        });
+    // -- MEMBER COURSES --
+    Route::get('/my-courses', [MemberCourseController::class, 'index'])->name('member.courses.index');
+    Route::get('/my-courses/{id}', [MemberCourseController::class, 'show'])->name('member.courses.show');
 
-        return Inertia::render('Member/Courses/Index', [
-            'myCourses' => $myCourses
-        ]);
-    })->name('member.courses.index');
+    // 👇 INI POSISI YANG BENAR UNTUK ROUTE KUIS MEMBER 👇
+    // ==========================================
+    // DI DALAM GRUP ROUTE MEMBER (middleware: auth)
+    // ==========================================
+    Route::prefix('member/materials/{material}/exercise')->name('member.exercise.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Member\ExerciseController::class, 'show'])->name('show');
+        Route::post('/verify', [\App\Http\Controllers\Member\ExerciseController::class, 'verifyPassword'])->name('verify');
+        Route::post('/submit', [\App\Http\Controllers\Member\ExerciseController::class, 'submit'])->name('submit');
+    });
+    // 👆 SAMPAI SINI 👆
 
     // Pengaturan Profil
     Route::prefix('profile')->name('profile.')->group(function () {
@@ -85,7 +84,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/management/{admin}', [AdminManagementController::class, 'update'])->name('management.update');
     Route::delete('/management/{admin}', [AdminManagementController::class, 'destroy'])->name('management.destroy');
     
-    // Manajemen Kelas / Course (TAMBAHKAN INI)
+    // Manajemen Kelas / Course
     Route::resource('courses', CourseController::class);
 
     // MANAJEMEN KURIKULUM (BAB & MATERI)
@@ -94,18 +93,38 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Rute untuk Bab
     Route::post('/courses/{course}/chapters', [CurriculumController::class, 'storeChapter'])->name('chapters.store');
     Route::delete('/chapters/{chapter}', [CurriculumController::class, 'destroyChapter'])->name('chapters.destroy');
+    Route::put('/chapters/{chapter}', [CurriculumController::class, 'updateChapter'])->name('chapters.update');
+
+    
+    
+    // Rute untuk Update dan Delete (Tetap disatukan karena ID-nya sama-sama ID Material)
+    Route::put('/materials/{material}', [CurriculumController::class, 'updateMaterial'])->name('materials.update');
+    Route::delete('/materials/{material}', [CurriculumController::class, 'destroyMaterial'])->name('materials.destroy');
     
     // Rute untuk Materi
     Route::post('/chapters/{chapter}/materials', [CurriculumController::class, 'storeMaterial'])->name('materials.store');
+    Route::post('/chapters/{chapter}/meetings', [CurriculumController::class, 'storeMeeting'])->name('meetings.store');
+    Route::post('/chapters/{chapter}/exercises', [CurriculumController::class, 'storeExercise'])->name('exercises.store');
+    
+    // Rute untuk Update dan Delete (Tetap disatukan karena ID-nya sama-sama ID Material)
+    Route::put('/materials/{material}', [CurriculumController::class, 'updateMaterial'])->name('materials.update');
     Route::delete('/materials/{material}', [CurriculumController::class, 'destroyMaterial'])->name('materials.destroy');
+
 
     Route::get('/members', [MemberController::class, 'index'])->name('members.index');
     Route::put('/members/{member}/verify', [MemberController::class, 'verify'])->name('members.verify');
     Route::put('/members/{member}/reject', [MemberController::class, 'reject'])->name('members.reject');
-    Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update'); // TAMBAHKAN INI
+    Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
     Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+
+    // Manajemen Induk Latihan & Soal (ADMIN)
+    Route::resource('exercises', \App\Http\Controllers\Admin\ExerciseController::class);
+    Route::post('/exercises/{exercise}/questions', [\App\Http\Controllers\Admin\ExerciseController::class, 'storeQuestion'])->name('questions.store');
+    Route::delete('/questions/{question}', [\App\Http\Controllers\Admin\ExerciseController::class, 'destroyQuestion'])->name('questions.destroy');
     
-    // Nanti route Modul Kursus dan Data Member diletakkan di sini...
+    // 👇 TAMBAHKAN DUA ROUTE INI 👇
+    Route::put('/exercises/{exercise}/reorder-questions', [\App\Http\Controllers\Admin\ExerciseController::class, 'reorderQuestions'])->name('questions.reorder');
+    Route::put('/questions/{question}', [\App\Http\Controllers\Admin\ExerciseController::class, 'updateQuestion'])->name('questions.update');
     
 });
 

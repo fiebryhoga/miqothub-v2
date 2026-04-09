@@ -62,11 +62,21 @@ class User extends Authenticatable
     /**
      * Helper: Mendapatkan semua kursus yang dimiliki user (yang sudah lunas/terverifikasi)
      */
+
+    /**
+     * Helper: Mendapatkan semua kursus yang dimiliki user (yang sudah lunas/terverifikasi)
+     */
     public function courses()
     {
-        return $this->belongsToMany(Course::class, 'course_transaction', 'transaction_id', 'course_id')
-                    ->join('transactions', 'transactions.id', '=', 'course_transaction.transaction_id')
-                    ->where('transactions.status', 'verified')
-                    ->where('transactions.user_id', $this->id);
+        return \App\Models\Course::join('course_transaction', 'courses.id', '=', 'course_transaction.course_id')
+            ->join('transactions', 'transactions.id', '=', 'course_transaction.transaction_id')
+            ->where('transactions.user_id', $this->id)
+            ->where('transactions.status', 'verified')
+            ->select('courses.*')
+            ->distinct(); // Pakai distinct agar kelas tidak dobel kalau misal ada transaksi berulang
+    }
+
+    public function exerciseScores() {
+        return $this->hasMany(ExerciseScore::class);
     }
 }
