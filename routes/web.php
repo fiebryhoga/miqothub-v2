@@ -94,7 +94,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/courses/{course}/chapters', [CurriculumController::class, 'storeChapter'])->name('chapters.store');
     Route::delete('/chapters/{chapter}', [CurriculumController::class, 'destroyChapter'])->name('chapters.destroy');
     Route::put('/chapters/{chapter}', [CurriculumController::class, 'updateChapter'])->name('chapters.update');
-
+    Route::put('/chapters/{chapter}/reorder', [CurriculumController::class, 'reorderChapter'])->name('chapters.reorder');
     
     
     // Rute untuk Update dan Delete (Tetap disatukan karena ID-nya sama-sama ID Material)
@@ -109,6 +109,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Rute untuk Update dan Delete (Tetap disatukan karena ID-nya sama-sama ID Material)
     Route::put('/materials/{material}', [CurriculumController::class, 'updateMaterial'])->name('materials.update');
     Route::delete('/materials/{material}', [CurriculumController::class, 'destroyMaterial'])->name('materials.destroy');
+    Route::put('/materials/{material}/reorder', [CurriculumController::class, 'reorderMaterial'])->name('materials.reorder');
 
 
     Route::get('/members', [MemberController::class, 'index'])->name('members.index');

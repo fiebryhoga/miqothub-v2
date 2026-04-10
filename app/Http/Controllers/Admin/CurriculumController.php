@@ -229,4 +229,77 @@ class CurriculumController extends Controller
         $material->delete();
         return back()->with('success', 'Materi berhasil dihapus.');
     }
+
+    // ==========================================
+    // BAGIAN REORDER (GESER URUTAN)
+    // ==========================================
+    public function reorderChapter(Request $request, Chapter $chapter)
+    {
+        $direction = $request->direction;
+        $course = $chapter->course;
+
+        // 1. Ambil semua chapter di kelas ini, urutkan sesuai tampilan visual saat ini
+        $chapters = $course->chapters()->orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
+
+        // 2. Cari index (posisi urutan array) dari chapter yang diklik
+        $currentIndex = $chapters->search(function ($c) use ($chapter) {
+            return $c->id === $chapter->id;
+        });
+
+        // 3. Tentukan target index untuk ditukar posisinya
+        if ($direction === 'up' && $currentIndex > 0) {
+            $swapIndex = $currentIndex - 1;
+        } elseif ($direction === 'down' && $currentIndex < $chapters->count() - 1) {
+            $swapIndex = $currentIndex + 1;
+        } else {
+            return back(); // Batalkan jika sudah di paling atas/bawah
+        }
+
+        // 4. Tukar posisi di dalam data Collection
+        $temp = $chapters[$currentIndex];
+        $chapters[$currentIndex] = $chapters[$swapIndex];
+        $chapters[$swapIndex] = $temp;
+
+        // 5. Tulis ulang seluruh angka 'urutan' dari 1 sampai N agar bersih dari duplikat
+        foreach ($chapters as $index => $c) {
+            $c->update(['urutan' => $index + 1]);
+        }
+
+        return back();
+    }
+
+    public function reorderMaterial(Request $request, Material $material)
+    {
+        $direction = $request->direction;
+        $chapter = $material->chapter;
+
+        // 1. Ambil semua materi dalam bab ini
+        $materials = $chapter->materials()->orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
+
+        // 2. Cari index materi yang diklik
+        $currentIndex = $materials->search(function ($m) use ($material) {
+            return $m->id === $material->id;
+        });
+
+        // 3. Tentukan target index
+        if ($direction === 'up' && $currentIndex > 0) {
+            $swapIndex = $currentIndex - 1;
+        } elseif ($direction === 'down' && $currentIndex < $materials->count() - 1) {
+            $swapIndex = $currentIndex + 1;
+        } else {
+            return back();
+        }
+
+        // 4. Tukar posisi
+        $temp = $materials[$currentIndex];
+        $materials[$currentIndex] = $materials[$swapIndex];
+        $materials[$swapIndex] = $temp;
+
+        // 5. Tulis ulang urutan dengan rapi
+        foreach ($materials as $index => $m) {
+            $m->update(['urutan' => $index + 1]);
+        }
+
+        return back();
+    }
 }

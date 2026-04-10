@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
     ArrowLeft, Plus, ChevronDown, ChevronUp, Trash2, 
     Video, FileText, FileBadge, PlayCircle, ShieldAlert, 
-    LayoutList, Layers, Edit, Eye, MonitorPlay, ClipboardList, Clock, Target 
-} from 'lucide-react'; // <-- Tambahan Ikon Target
+    LayoutList, Layers, Edit, Eye, MonitorPlay, ClipboardList, Clock, Target,
+    ArrowUp, ArrowDown // <-- Tambahan Ikon Arrow
+} from 'lucide-react'; 
 
 // Import Partials
 import ChapterModal from './Partials/ChapterModal';
@@ -25,6 +26,15 @@ export default function Curriculum({ auth, course }) {
 
     const toggleChapter = (id) => {
         setExpandedChapters(prev => prev.includes(id) ? prev.filter(chapId => chapId !== id) : [...prev, id]);
+    };
+
+    // --- FUNGSI REORDER (GESER POSISI) ---
+    const moveChapter = (id, direction) => {
+        router.put(route('admin.chapters.reorder', id), { direction }, { preserveScroll: true });
+    };
+
+    const moveMaterial = (id, direction) => {
+        router.put(route('admin.materials.reorder', id), { direction }, { preserveScroll: true });
     };
 
     const deleteChapter = (id) => {
@@ -107,7 +117,7 @@ export default function Curriculum({ auth, course }) {
                         </button>
                     </div>
                 ) : (
-                    chapters.map((chapter) => (
+                    chapters.map((chapter, index) => (
                         <div key={chapter.id} className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden group/chapter">
                             
                             <div className="bg-slate-50/50 px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 gap-4 transition-colors hover:bg-slate-50">
@@ -121,9 +131,17 @@ export default function Curriculum({ auth, course }) {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2 sm:opacity-0 group-hover/chapter:opacity-100 transition-opacity">
+                                    
+                                    {/* --- ARROW BUTTONS BAB --- */}
+                                    <div className="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mr-2">
+                                        <button onClick={() => moveChapter(chapter.id, 'up')} disabled={index === 0} className="p-2.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-30 disabled:hover:bg-white transition-all" title="Geser ke Atas"><ArrowUp size={16}/></button>
+                                        <div className="w-px h-5 bg-slate-200"></div>
+                                        <button onClick={() => moveChapter(chapter.id, 'down')} disabled={index === chapters.length - 1} className="p-2.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-30 disabled:hover:bg-white transition-all" title="Geser ke Bawah"><ArrowDown size={16}/></button>
+                                    </div>
+
                                     <button 
                                         onClick={() => setModalMaterial({ show: true, chapterId: chapter.id, material: null, nextOrder: chapter.materials?.length + 1 || 1 })} 
-                                        className="text-sm font-bold px-4 py-2 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all flex items-center gap-1.5 shadow-sm"
+                                        className="text-sm font-bold px-4 py-2.5 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-xl hover:bg-indigo-600 hover:text-white transition-all flex items-center gap-1.5 shadow-sm"
                                     >
                                         <Plus size={16}/> Materi
                                     </button>
@@ -147,7 +165,7 @@ export default function Curriculum({ auth, course }) {
                                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden bg-slate-50/30">
                                         <div className="p-6 space-y-3">
                                             {chapter.materials && chapter.materials.length > 0 ? (
-                                                chapter.materials.map((material) => {
+                                                chapter.materials.map((material, matIndex) => {
                                                     const config = getMaterialConfig(material.tipe);
                                                     return (
                                                         <div key={material.id} className="group flex flex-col md:flex-row md:items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 hover:border-indigo-200 hover:shadow-md transition-all gap-4 relative overflow-hidden">
@@ -177,9 +195,15 @@ export default function Curriculum({ auth, course }) {
                                                                 </div>
                                                             </div>
                                                             
-                                                            <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all justify-end border-t border-slate-100 md:border-0 pt-3 md:pt-0">
+                                                            <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all justify-end border-t border-slate-100 md:border-0 pt-3 md:pt-0 items-center">
                                                                 
-                                                                {/* 👇 TOMBOL KHUSUS KELOLA SOAL (Hanya muncul jika tipe latihan) 👇 */}
+                                                                {/* --- ARROW BUTTONS MATERI --- */}
+                                                                <div className="flex items-center bg-slate-50 border border-slate-200 rounded-lg overflow-hidden mr-2">
+                                                                    <button onClick={() => moveMaterial(material.id, 'up')} disabled={matIndex === 0} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-slate-50 transition-all" title="Geser ke Atas"><ArrowUp size={14}/></button>
+                                                                    <div className="w-px h-4 bg-slate-200"></div>
+                                                                    <button onClick={() => moveMaterial(material.id, 'down')} disabled={matIndex === chapter.materials.length - 1} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-100 disabled:opacity-30 disabled:hover:bg-slate-50 transition-all" title="Geser ke Bawah"><ArrowDown size={14}/></button>
+                                                                </div>
+
                                                                 {material.tipe === 'latihan' && material.exercise_id && (
                                                                     <Link 
                                                                         href={route('admin.exercises.show', material.exercise_id)}
@@ -220,29 +244,13 @@ export default function Curriculum({ auth, course }) {
 
             <AnimatePresence>
                 {modalChapter.show && (
-                    <ChapterModal 
-                        show={modalChapter.show} 
-                        onClose={() => setModalChapter({ show: false, chapter: null })} 
-                        courseId={course.id} 
-                        chapter={modalChapter.chapter} 
-                        nextOrder={chapters.length + 1} 
-                    />
+                    <ChapterModal show={modalChapter.show} onClose={() => setModalChapter({ show: false, chapter: null })} courseId={course.id} chapter={modalChapter.chapter} nextOrder={chapters.length + 1} />
                 )}
                 {modalMaterial.show && (
-                    <MaterialModal 
-                        show={modalMaterial.show} 
-                        onClose={() => setModalMaterial({ show: false, chapterId: null, material: null, nextOrder: 1 })} 
-                        chapterId={modalMaterial.chapterId} 
-                        material={modalMaterial.material} 
-                        nextOrder={modalMaterial.nextOrder} 
-                    />
+                    <MaterialModal show={modalMaterial.show} onClose={() => setModalMaterial({ show: false, chapterId: null, material: null, nextOrder: 1 })} chapterId={modalMaterial.chapterId} material={modalMaterial.material} nextOrder={modalMaterial.nextOrder} />
                 )}
                 {modalDetail.show && (
-                    <MaterialDetailModal 
-                        show={modalDetail.show} 
-                        onClose={() => setModalDetail({ show: false, material: null })} 
-                        material={modalDetail.material} 
-                    />
+                    <MaterialDetailModal show={modalDetail.show} onClose={() => setModalDetail({ show: false, material: null })} material={modalDetail.material} />
                 )}
             </AnimatePresence>
         </AdminLayout>

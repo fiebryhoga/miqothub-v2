@@ -19,13 +19,19 @@ class ExerciseController extends Controller
 
     public function show(Exercise $exercise)
     {
-        // Load pertanyaan, DAN load relasi materials -> chapter untuk melacak ID Kelas (Course)
-        $exercise->load(['questions' => function($query) {
+        $exercise->load(['questions' => function ($query) {
             $query->orderBy('urutan', 'asc');
-        }, 'materials.chapter']);
-        
+        }]);
+
+        // 👇 PERBAIKANNYA DI SINI 👇 (Ubah 'nilai' jadi 'skor')
+        $scores = \App\Models\ExerciseScore::where('exercise_id', $exercise->id)
+            ->with('user:id,name,email') 
+            ->orderBy('skor', 'desc') // <-- Ganti 'nilai' jadi 'skor'
+            ->get();
+
         return Inertia::render('Admin/Exercises/Show', [
-            'exercise' => $exercise
+            'exercise' => $exercise,
+            'scores' => $scores
         ]);
     }
 

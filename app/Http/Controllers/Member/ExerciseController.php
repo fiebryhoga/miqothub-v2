@@ -72,37 +72,37 @@ class ExerciseController extends Controller
     public function submit(Request $request, Material $material)
     {
         $exercise = $material->exercise;
-        $user = Auth::user();
-
-        // Cegah member ngerjain lebih dari 1 kali
-        if (ExerciseScore::where('user_id', $user->id)->where('exercise_id', $exercise->id)->exists()) {
-            return redirect()->route('member.exercise.show', $material->id);
-        }
-
-        $userAnswers = $request->input('answers', []); 
         $questions = $exercise->questions;
-        $jumlahBenar = 0;
-        $totalSoal = $questions->count();
+        $userAnswers = $request->input('answers', []);
 
-        if ($totalSoal === 0) return back()->with('error', 'Latihan ini belum memiliki soal.');
-
-        foreach ($questions as $question) {
-            if (isset($userAnswers[$question->id]) && $userAnswers[$question->id] === $question->jawaban_benar) {
-                $jumlahBenar++;
+        $benar = 0;
+        
+        foreach ($questions as $q) {
+            if (isset($userAnswers[$q->id]) && $userAnswers[$q->id] === $q->jawaban_benar) {
+                $benar++;
             }
         }
 
-        $skorAkhir = round(($jumlahBenar / $totalSoal) * 100);
+        $totalSoal = $questions->count();
+        
+        // Kalkulasi Nilai Skala 100
+        $nilai = $totalSoal > 0 ? round(($benar / $totalSoal) * 100) : 0;
 
-        ExerciseScore::create([
-            'user_id' => $user->id,
-            'exercise_id' => $exercise->id,
-            'skor' => $skorAkhir,
-            'jumlah_benar' => $jumlahBenar,
-            'total_soal' => $totalSoal,
-            'dikerjakan_pada' => now(),
-        ]);
+        // 👇 PERBAIKANNYA DI SINI 👇 Sesuaikan dengan nama kolom migration
+        \App\Models\ExerciseScore::updateOrCreate(
+            [
+                'user_id' => auth()->id(),
+                'exercise_id' => $exercise->id,
+            ],
+            [
+                'skor' => $nilai,
+                'jumlah_benar' => $benar,
+                'total_soal' => $totalSoal,
+                'dikerjakan_pada' => now(), // Tambahkan ini sesuai migration
+            ]
+        );
 
-        return redirect()->route('member.exercise.show', $material->id);
+        return redirect()->route('member.exercise.result', $material->id)
+                         ->with('success', 'Latihan berhasil diselesaikan!');
     }
 }
