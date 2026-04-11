@@ -21,179 +21,165 @@ export default function Login({ status, canResetPassword }) {
         post(route('login'));
     };
 
-    // Konfigurasi Animasi
+    // Animasi disederhanakan: Cukup kontainer utama yang muncul cepat (Snappy)
     const containerVariants = {
-        hidden: { opacity: 0, scale: 0.95 },
-        visible: { 
-            opacity: 1, 
-            scale: 1,
-            transition: { duration: 0.5, ease: "easeOut", staggerChildren: 0.1 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+        hidden: { opacity: 0, y: 15 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-4 sm:p-6 selection:bg-indigo-500 selection:text-white font-sans relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] p-4 sm:p-6 selection:bg-blue-500 selection:text-white font-sans relative">
             <Head title="Masuk - MiqotHub" />
 
-            {/* Background Ornamen Ringan */}
-            <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/40 rounded-full blur-[100px] mix-blend-multiply pointer-events-none"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/40 rounded-full blur-[100px] mix-blend-multiply pointer-events-none"></div>
-
-            {/* Tombol Kembali Floating */}
-            <Link href="/" className="absolute top-6 left-6 sm:top-8 sm:left-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-colors z-20 bg-white/50 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+            {/* Tombol Kembali - Disederhanakan (Tanpa backdrop blur) agar ringan */}
+            <Link href="/" className="absolute top-6 left-6 sm:top-8 sm:left-8 flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors z-20 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
                 <ArrowLeft size={18} />
-                <span className="font-bold text-sm">Kembali</span>
+                <span className="font-semibold text-sm">Kembali</span>
             </Link>
 
             <motion.div 
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl shadow-indigo-900/10 overflow-hidden flex flex-col md:flex-row relative z-10 border border-slate-100"
+                className="w-full max-w-5xl bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 overflow-hidden flex flex-col md:flex-row relative z-10 border border-slate-100"
             >
-                {/* --- BAGIAN KIRI (Branding & Gambar) --- */}
-                <div className="hidden md:flex md:w-5/12 bg-indigo-900 relative flex-col justify-between overflow-hidden">
-                    {/* Gambar Background dengan Efek Overlay Gelap/Ungu */}
-                    <img src="assets/images/bg-login.jpg" className='absolute object-cover w-full h-full opacity-40 mix-blend-overlay' alt="Background Login" />
+                {/* --- BAGIAN KIRI (Branding) --- */}
+                {/* Dioptimasi: Menghilangkan mix-blend-mode yang memberatkan GPU */}
+                <div className="hidden md:flex md:w-5/12 bg-slate-900 relative flex-col justify-between overflow-hidden">
+                    {/* Gambar Background cukup pakai opacity, tidak perlu overlay blend */}
+                    <img src="/assets/images/bg-login.jpg" className="absolute inset-0 w-full h-full object-cover opacity-20" alt="Background Login" loading="lazy" />
                     
-                    {/* Gradien tambahan agar teks mudah dibaca */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-900/80 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent pointer-events-none"></div>
 
-                    <div className='md:flex h-full w-full p-12 relative flex-col justify-between overflow-hidden z-10'>
-                        {/* Logo Minimalis */}
+                    <div className="relative h-full w-full p-10 flex flex-col justify-between z-10">
+                        {/* Logo */}
                         <div className="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
-                            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center text-indigo-600 shadow-lg">
-                                <BookOpen size={18} strokeWidth={3} />
+                            <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-md">
+                                <BookOpen size={18} strokeWidth={2.5} />
                             </div>
                             MiqotHub.
                         </div>
                         
-                        <div className="relative mt-auto mb-8">
+                        <div className="mt-auto mb-8">
                             <h2 className="text-4xl font-black text-white mb-4 leading-tight">
                                 Selamat Datang <br/> Kembali!
                             </h2>
-                            <p className="text-indigo-200 text-lg font-medium leading-relaxed">
+                            <p className="text-slate-300 text-base leading-relaxed">
                                 Masuk untuk melanjutkan proses belajar, akses modul terbaru, dan tingkatkan kapasitas keilmuan Anda.
                             </p>
                         </div>
 
-                        {/* Quote Box Glassmorphism */}
-                        <div className="relative">
-                            <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-white shadow-xl">
-                                <div className="flex items-center gap-2 mb-2 text-purple-300">
-                                    <Sparkles size={16} /> <span className="text-xs font-bold uppercase tracking-widest">Inspirasi</span>
-                                </div>
-                                <p className="italic font-medium text-indigo-50 leading-relaxed">
-                                    "Pendidikan adalah senjata paling ampuh yang bisa Anda gunakan untuk mengubah dunia."
-                                </p>
+                        {/* Quote Box - Menggunakan solid opacity alih-alih backdrop-blur */}
+                        <div className="p-5 bg-white/10 rounded-2xl border border-white/10 text-white">
+                            <div className="flex items-center gap-2 mb-2 text-amber-400">
+                                <Sparkles size={16} /> <span className="text-[10px] font-bold uppercase tracking-widest">Inspirasi</span>
                             </div>
+                            <p className="italic font-medium text-slate-200 text-sm leading-relaxed">
+                                "Pendidikan adalah senjata paling ampuh yang bisa Anda gunakan untuk mengubah dunia."
+                            </p>
                         </div>
                     </div>
                 </div>
 
                 {/* --- BAGIAN KANAN (Form Login) --- */}
-                <div className="w-full md:w-7/12 p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-white relative">
-                    <motion.div variants={itemVariants} className="mb-10 text-center md:text-left">
+                {/* Dioptimasi: Menghilangkan motion.div pada setiap input agar render form instan */}
+                <div className="w-full md:w-7/12 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-white">
+                    <div className="mb-8 text-center md:text-left">
                         <h3 className="text-3xl font-black text-slate-900 mb-2">Masuk ke Akun</h3>
-                        <p className="text-slate-500 font-medium">Silakan masukkan email dan kata sandi Anda.</p>
-                    </motion.div>
+                        <p className="text-slate-500">Silakan masukkan email dan kata sandi Anda.</p>
+                    </div>
 
                     {status && (
-                        <motion.div variants={itemVariants} className="mb-6 font-bold text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 p-4 rounded-2xl flex items-center gap-3">
-                            <CheckCircle2 size={20} /> {status}
-                        </motion.div>
+                        <div className="mb-6 font-semibold text-sm text-emerald-700 bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-center gap-3">
+                            <CheckCircle2 size={18} className="shrink-0" /> {status}
+                        </div>
                     )}
 
                     <form onSubmit={submit} className="space-y-5">
                         {/* Input Email */}
-                        <motion.div variants={itemVariants}>
-                            <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Email Address</label>
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                                    <Mail size={20} />
+                                    <Mail size={18} />
                                 </div>
                                 <input
                                     type="email"
                                     name="email"
                                     value={data.email}
-                                    className={`pl-12 w-full rounded-2xl border ${errors.email ? 'border-rose-300 focus:ring-rose-500' : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500'} bg-slate-50 focus:bg-white transition-all py-3.5 px-4 shadow-sm text-sm font-medium`}
+                                    className={`pl-11 w-full rounded-xl border ${errors.email ? 'border-rose-300 focus:ring-rose-500' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-colors py-3 px-4 text-sm font-medium outline-none`}
                                     autoComplete="username"
                                     autoFocus
                                     onChange={(e) => setData('email', e.target.value)}
                                     placeholder="nama@email.com"
                                 />
                             </div>
-                            {errors.email && <p className="text-rose-500 text-xs mt-2 font-bold">{errors.email}</p>}
-                        </motion.div>
+                            {errors.email && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.email}</p>}
+                        </div>
 
                         {/* Input Password */}
-                        <motion.div variants={itemVariants}>
-                            <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">Password</label>
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password</label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                                    <Lock size={20} />
+                                    <Lock size={18} />
                                 </div>
                                 <input
                                     type="password"
                                     name="password"
                                     value={data.password}
-                                    className={`pl-12 w-full rounded-2xl border ${errors.password ? 'border-rose-300 focus:ring-rose-500' : 'border-slate-200 focus:border-indigo-500 focus:ring-indigo-500'} bg-slate-50 focus:bg-white transition-all py-3.5 px-4 shadow-sm text-sm font-medium`}
+                                    className={`pl-11 w-full rounded-xl border ${errors.password ? 'border-rose-300 focus:ring-rose-500' : 'border-slate-200 focus:border-blue-500 focus:ring-blue-500'} bg-slate-50 focus:bg-white transition-colors py-3 px-4 text-sm font-medium outline-none`}
                                     autoComplete="current-password"
                                     onChange={(e) => setData('password', e.target.value)}
                                     placeholder="••••••••"
                                 />
                             </div>
-                            {errors.password && <p className="text-rose-500 text-xs mt-2 font-bold">{errors.password}</p>}
-                        </motion.div>
+                            {errors.password && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.password}</p>}
+                        </div>
 
                         {/* Remember Me & Lupa Password */}
-                        <motion.div variants={itemVariants} className="flex items-center justify-between pt-2">
+                        <div className="flex items-center justify-between pt-1">
                             <label className="flex items-center cursor-pointer group">
                                 <input
                                     type="checkbox"
                                     name="remember"
                                     checked={data.remember}
                                     onChange={(e) => setData('remember', e.target.checked)}
-                                    className="rounded-md border-slate-300 text-indigo-600 shadow-sm focus:ring-indigo-500 w-4 h-4 cursor-pointer transition-colors"
+                                    className="rounded border-slate-300 text-blue-600 shadow-sm focus:ring-blue-500 w-4 h-4 cursor-pointer transition-colors"
                                 />
-                                <span className="ml-2 text-sm font-bold text-slate-500 group-hover:text-slate-800 transition-colors">Ingat Saya</span>
+                                <span className="ml-2 text-sm font-semibold text-slate-500 group-hover:text-slate-800 transition-colors">Ingat Saya</span>
                             </label>
 
                             {canResetPassword && (
                                 <Link
                                     href={route('password.request')}
-                                    className="text-sm font-bold text-indigo-600 hover:text-indigo-400 transition-colors"
+                                    className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
                                 >
                                     Lupa kata sandi?
                                 </Link>
                             )}
-                        </motion.div>
+                        </div>
 
-                        {/* Tombol Submit (Warna Tema Baru) */}
-                        <motion.div variants={itemVariants} className="pt-4">
+                        {/* Tombol Submit (Solid Color, tanpa animasi gradient yang berat) */}
+                        <div className="pt-4">
                             <button
                                 disabled={processing}
-                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white py-4 px-4 rounded-2xl font-bold shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
+                                className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-600 text-white py-3.5 px-4 rounded-xl font-bold transition-colors duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'Memverifikasi...' : 'Masuk Sekarang'}
-                                {!processing && <LogIn size={20} />}
+                                {!processing && <LogIn size={18} />}
                             </button>
-                        </motion.div>
+                        </div>
 
                         {/* Link Daftar */}
-                        <motion.div variants={itemVariants} className="text-center mt-8">
-                            <p className="text-sm font-medium text-slate-500">
+                        <div className="text-center mt-6">
+                            <p className="text-sm text-slate-500 font-medium">
                                 Belum punya akun?{' '}
-                                <Link href={route('register')} className="font-black text-indigo-600 hover:text-indigo-500 transition-colors underline decoration-indigo-200 underline-offset-4">
+                                <Link href={route('register')} className="font-bold text-blue-600 hover:text-blue-700 transition-colors">
                                     Daftar Gratis
                                 </Link>
                             </p>
-                        </motion.div>
+                        </div>
                     </form>
                 </div>
             </motion.div>

@@ -16,42 +16,43 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             {/* Overlay untuk mobile */}
             {isOpen && (
                 <div 
-                    className="fixed inset-0 bg-slate-900/50 z-20 md:hidden backdrop-blur-sm"
+                    className="fixed inset-0 bg-slate-900/60 z-20 md:hidden backdrop-blur-sm transition-opacity"
                     onClick={() => setIsOpen(false)}
                 ></div>
             )}
 
-            {/* Sidebar Tema Terang (Aksen Indigo) */}
-            <aside className={`fixed inset-y-0 left-0 z-30 w-72 bg-white border-r border-slate-100 transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            {/* Sidebar Tema Terang dengan Aksen Biru Dongker (Navy) */}
+            <aside className={`fixed inset-y-0 left-0 z-30 w-72 bg-white border-r border-slate-200 transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 {/* Logo Area */}
                 <div className="flex items-center justify-between h-20 px-6 border-b border-slate-100">
-                    <Link href="/" className="flex items-center gap-2 text-2xl font-black tracking-tighter text-indigo-700">
-                        <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg text-white shadow-md shadow-indigo-500/20">
-                            <BookOpen size={20} strokeWidth={3} />
+                    <Link href="/" className="flex items-center gap-2.5 text-2xl font-black tracking-tighter text-slate-900">
+                        {/* Ikon Logo Biru Dongker */}
+                        <div className="p-2 bg-blue-900 rounded-lg text-white shadow-md shadow-blue-900/20">
+                            <BookOpen size={20} strokeWidth={2.5} />
                         </div>
-                        Miqot<span className="text-slate-900">Admin</span>
+                        Miqot<span className="text-blue-900">Admin</span>
                     </Link>
-                    <button onClick={() => setIsOpen(false)} className="md:hidden p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-full transition-colors">
+                    <button onClick={() => setIsOpen(false)} className="md:hidden p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors">
                         <X size={20} />
                     </button>
                 </div>
 
                 {/* Menu Navigasi */}
-                <nav className="p-4 space-y-1.5 mt-4">
-                    <p className="px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Menu Utama</p>
+                <nav className="p-4 space-y-1.5 mt-2">
+                    <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Menu Utama</p>
                     
                     {menuItems.map((item, index) => (
                         <Link
                             key={index}
                             href={item.route === '#' ? '#' : route(item.route)}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-200 group font-bold text-sm ${
+                            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group font-semibold text-sm ${
                                 item.active 
-                                ? 'bg-indigo-50 text-indigo-700 shadow-sm border border-indigo-100' 
-                                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent'
+                                ? 'bg-slate-900 text-white shadow-md shadow-slate-900/10' 
+                                : 'text-slate-500 hover:bg-slate-50 hover:text-blue-900 border border-transparent'
                             }`}
                         >
-                            {/* Warna icon menyesuaikan status aktif/tidak */}
-                            <span className={`${item.active ? 'text-indigo-600' : 'text-slate-400 group-hover:text-indigo-500'} transition-colors`}>
+                            {/* Warna icon menyesuaikan status */}
+                            <span className={`${item.active ? 'text-white' : 'text-slate-400 group-hover:text-blue-800'} transition-colors`}>
                                 {item.icon}
                             </span>
                             <span>{item.name}</span>
