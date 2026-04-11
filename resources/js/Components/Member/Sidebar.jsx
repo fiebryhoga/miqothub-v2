@@ -1,7 +1,7 @@
 // resources/js/Components/Member/Sidebar.jsx
 import { Link, usePage } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, LayoutDashboard, BookOpen, Calendar, Award, Receipt, X } from 'lucide-react';
+import { ShieldCheck, LayoutDashboard, BookOpen, Calendar, Award, Receipt, X, ShoppingBag } from 'lucide-react';
 
 export default function Sidebar({ user, isOpen, onClose }) {
     const { url } = usePage();
@@ -10,6 +10,12 @@ export default function Sidebar({ user, isOpen, onClose }) {
     const menuItems = [
         { name: 'Beranda', icon: <LayoutDashboard size={20} />, route: 'dashboard', active: url.startsWith('/dashboard') },
         { name: 'Kelas Saya', icon: <BookOpen size={20} />, route: 'member.courses.index', active: url.startsWith('/my-courses') },
+        { 
+            name: 'Katalog Kelas',
+            icon: <ShoppingBag size={20} />, 
+            route: 'member.catalog', 
+            active: url.startsWith('/katalog') 
+        },
         { name: 'Jadwal & Live', icon: <Calendar size={20} />, route: '#', active: url.startsWith('/schedules') },
         { name: 'Sertifikat', icon: <Award size={20} />, route: '#', active: url.startsWith('/certificates') },
         { name: 'Transaksi', icon: <Receipt size={20} />, route: '#', active: url.startsWith('/transactions') },

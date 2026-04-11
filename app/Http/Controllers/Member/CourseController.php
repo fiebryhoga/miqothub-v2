@@ -52,4 +52,57 @@ class CourseController extends Controller
             'course' => $course
         ]);
     }
+
+    // Menampilkan daftar kelas yang BELUM dibeli oleh member
+    public function catalog()
+    {
+        $user = auth()->user();
+        
+        // Cari ID kelas yang sudah dimiliki atau sedang diproses (pending)
+        $ownedCourseIds = \App\Models\Transaction::where('user_id', $user->id)
+            ->whereIn('status', ['verified', 'pending'])
+            ->with('courses')
+            ->get()
+            ->pluck('courses.*.id')
+            ->flatten()
+            ->unique()
+            ->toArray();
+
+        // Tampilkan kelas yang statusnya 'onsale' dan belum dimiliki member
+        $availableCourses = \App\Models\Course::where('status', 'onsale')
+            ->whereNotIn('id', $ownedCourseIds)
+            ->get()
+            ->map(function ($course) {
+                $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
+                return $course;
+            });
+
+        return \Inertia\Inertia::render('Member/Courses/Catalog', [
+            'courses' => $availableCourses
+        ]);
+    }
+
+    // Memproses pengajuan pembelian kelas baru
+    public function purchase(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $course = \App\Models\Course::find($request->course_id);
+        $buktiPath = $request->file('bukti_pembayaran')->store('bukti_transfer', 'public');
+
+        $transaction = \App\Models\Transaction::create([
+            'user_id' => auth()->id(),
+            'kode_transaksi' => 'INV-' . date('Ymd') . '-' . strtoupper(uniqid()),
+            'total_harga' => $course->harga,
+            'bukti_pembayaran' => $buktiPath,
+            'status' => 'pending', // Masuk antrean Admin
+        ]);
+
+        $transaction->courses()->attach($course->id, ['harga_saat_beli' => $course->harga]);
+
+        return redirect()->route('dashboard')->with('success', 'Pengajuan kelas berhasil dikirim! Mohon tunggu Admin memverifikasi bukti transfer Anda.');
+    }
 }

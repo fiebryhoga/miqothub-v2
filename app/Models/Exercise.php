@@ -14,28 +14,14 @@ class Exercise extends Model
         'deskripsi',
         'password',
         'is_active',
-        'max_attempts',
+        'waktu_menit',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
     ];
 
-    // Relasi ke tabel Soal (1 Latihan punya Banyak Soal)
-    public function questions()
-    {
-        return $this->hasMany(Question::class);
-    }
-
-    // Relasi ke tabel Nilai (1 Latihan punya Banyak Nilai/Riwayat dari berbagai user)
-    public function scores()
-    {
-        return $this->hasMany(ExerciseScore::class);
-    }
-
-    // Relasi balik ke Material (Jika ingin mencari materi apa yang memakai latihan ini)
-    public function materials()
-    {
-        return $this->hasMany(Material::class);
-    }
+    public function questions() { return $this->hasMany(Question::class); }
+    public function scores() { return $this->hasMany(ExerciseScore::class); }
+    public function materials() { return $this->hasMany(Material::class); }
 }

@@ -13,7 +13,10 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::latest()->get()->map(function ($course) {
+        // Muat relasi transactions yang 'verified' beserta user yang melakukannya
+        $courses = Course::with(['transactions' => function ($query) {
+            $query->where('status', 'verified')->with('user:id,name,email');
+        }])->latest()->get()->map(function ($course) {
             $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
             return $course;
         });

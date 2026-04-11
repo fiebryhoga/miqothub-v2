@@ -52,6 +52,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/my-courses', [MemberCourseController::class, 'index'])->name('member.courses.index');
     Route::get('/my-courses/{id}', [MemberCourseController::class, 'show'])->name('member.courses.show');
 
+    // Route::get('/my-courses', [MemberCourseController::class, 'index'])->name('member.courses.index');
+    // Route::get('/my-courses/{id}', [MemberCourseController::class, 'show'])->name('member.courses.show');
+
+    Route::get('/katalog', [MemberCourseController::class, 'catalog'])->name('member.catalog');
+    Route::post('/katalog/purchase', [MemberCourseController::class, 'purchase'])->name('member.purchase');
+
     // 👇 INI POSISI YANG BENAR UNTUK ROUTE KUIS MEMBER 👇
     // ==========================================
     // DI DALAM GRUP ROUTE MEMBER (middleware: auth)
@@ -113,6 +119,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 
     Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+    Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+    Route::post('/members/{member}/enroll', [MemberController::class, 'enrollCourse'])->name('members.enroll');
+    Route::delete('/members/{member}/unenroll/{course}', [MemberController::class, 'unenrollCourse'])->name('members.unenroll');
     Route::put('/members/{member}/verify', [MemberController::class, 'verify'])->name('members.verify');
     Route::put('/members/{member}/reject', [MemberController::class, 'reject'])->name('members.reject');
     Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');

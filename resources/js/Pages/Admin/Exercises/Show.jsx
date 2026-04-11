@@ -15,7 +15,7 @@ export default function Show({ auth, exercise, scores }) {
     // Tab Navigation State
     const [activeTab, setActiveTab] = useState('soal');
 
-    // Menentukan Course ID untuk tombol kembali (jika kuis ini ditautkan dari kurikulum)
+    // Menentukan Course ID untuk tombol kembali (diambil dari relasi controller)
     const courseId = exercise.materials && exercise.materials.length > 0 && exercise.materials[0].chapter 
         ? exercise.materials[0].chapter.course_id 
         : null;
@@ -25,14 +25,13 @@ export default function Show({ auth, exercise, scores }) {
     const [settingModal, setSettingModal] = useState(false);
     const [isReordering, setIsReordering] = useState(false);
 
-    // Form Pengaturan Kuis
+    // Form Pengaturan Kuis (Max Attempt Dihapus)
     const formSettings = useForm({
         judul: exercise.judul || '',
         deskripsi: exercise.deskripsi || '',
         password: exercise.password || '',
-        waktu_menit: exercise.waktu_menit || 30, // Tambahan field waktu_menit
+        waktu_menit: exercise.waktu_menit || 30, // Waktu Default
         is_active: exercise.is_active === 1 || exercise.is_active === true,
-        max_attempts: exercise.max_attempts || 1,
     });
 
     const submitSettings = (e) => {
@@ -53,7 +52,6 @@ export default function Show({ auth, exercise, scores }) {
         const newQuestions = [...questions];
         const targetIndex = direction === 'up' ? index - 1 : index + 1;
         
-        // Swap visual array untuk dikirim ke backend
         [newQuestions[index], newQuestions[targetIndex]] = [newQuestions[targetIndex], newQuestions[index]];
         const orderedIds = newQuestions.map(q => q.id);
         
@@ -66,19 +64,16 @@ export default function Show({ auth, exercise, scores }) {
         <AdminLayout user={auth.user}>
             <Head title={`Kelola Latihan: ${exercise.judul}`} />
 
-            {/* ========================================= */}
-            {/* HEADER INFORMASI LATIHAN                  */}
-            {/* ========================================= */}
             <div className="mb-8 p-8 bg-white rounded-[2rem] shadow-sm border border-slate-100 relative overflow-hidden">
                 <div className="relative z-10 flex flex-col md:flex-row justify-between md:items-end gap-6">
                     <div>
                         {courseId ? (
                             <Link href={route('admin.courses.curriculum', courseId)} className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-orange-600 mb-6 transition-colors">
-                                <ArrowLeft size={16} /> Kembali ke Kurikulum
+                                <ArrowLeft size={16} /> Kembali ke Kurikulum Kelas
                             </Link>
                         ) : (
-                            <Link href={route('admin.exercises.index')} className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-orange-600 mb-6 transition-colors">
-                                <ArrowLeft size={16} /> Kembali ke Bank Soal
+                            <Link href={route('admin.courses.index')} className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-orange-600 mb-6 transition-colors">
+                                <ArrowLeft size={16} /> Kembali ke Menu Kelas
                             </Link>
                         )}
                         <div className="flex items-center gap-3 mb-2">
@@ -106,7 +101,7 @@ export default function Show({ auth, exercise, scores }) {
                                 <Clock size={14}/> {exercise.waktu_menit} Menit
                             </span>
                             <span className="px-3 py-1.5 bg-slate-50 text-slate-600 font-bold text-xs rounded-lg border border-slate-200 flex items-center gap-1.5">
-                                <Users size={14}/> {scores.length} Peserta
+                                <Users size={14}/> {scores.length} Peserta Selesai
                             </span>
                         </div>
                     </div>
@@ -130,9 +125,6 @@ export default function Show({ auth, exercise, scores }) {
                 )}
             </AnimatePresence>
 
-            {/* ========================================= */}
-            {/* TABS NAVIGATION                           */}
-            {/* ========================================= */}
             <div className="flex bg-slate-200/60 p-1.5 rounded-2xl w-full max-w-md mb-6 relative">
                 <button onClick={() => setActiveTab('soal')} className={`relative flex-1 px-6 py-3 text-sm font-bold rounded-xl transition-all z-10 flex items-center justify-center gap-2 ${activeTab === 'soal' ? 'text-orange-700' : 'text-slate-500 hover:text-slate-700'}`}>
                     {activeTab === 'soal' && <motion.div layoutId="activeTabEx" className="absolute inset-0 bg-white rounded-xl shadow-sm border border-slate-100 z-[-1]" />}
@@ -144,9 +136,7 @@ export default function Show({ auth, exercise, scores }) {
                 </button>
             </div>
 
-            {/* ========================================= */}
-            {/* TAB 1: KELOLA SOAL                        */}
-            {/* ========================================= */}
+            {/* TAB SOAL */}
             {activeTab === 'soal' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 relative">
                     {isReordering && (
@@ -164,13 +154,11 @@ export default function Show({ auth, exercise, scores }) {
                     ) : (
                         questions.map((q, index) => (
                             <div key={q.id} className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-6 hover:border-orange-200 transition-colors">
-                                
                                 <div className="flex flex-row md:flex-col items-center gap-2 shrink-0 border-b md:border-b-0 border-slate-100 pb-4 md:pb-0">
                                     <button onClick={() => moveQuestion(index, 'up')} disabled={index === 0} className="p-1 text-slate-400 hover:text-indigo-600 disabled:opacity-30"><ArrowUp size={20}/></button>
                                     <div className="w-10 h-10 bg-slate-50 text-slate-600 rounded-xl font-black flex items-center justify-center text-lg border border-slate-200">{index + 1}</div>
                                     <button onClick={() => moveQuestion(index, 'down')} disabled={index === questions.length - 1} className="p-1 text-slate-400 hover:text-indigo-600 disabled:opacity-30"><ArrowDown size={20}/></button>
                                 </div>
-
                                 <div className="flex-1">
                                     {q.gambar_soal && (
                                         <div className="mb-4 rounded-xl overflow-hidden bg-slate-50 max-w-sm border border-slate-200">
@@ -212,13 +200,11 @@ export default function Show({ auth, exercise, scores }) {
                 </motion.div>
             )}
 
-            {/* ========================================= */}
-            {/* TAB 2: REKAP NILAI SISWA                  */}
-            {/* ========================================= */}
+            {/* TAB NILAI */}
             {activeTab === 'nilai' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                     <div className="p-6 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-                        <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2"><Award className="text-emerald-500"/> Peringkat Peserta (Leaderboard)</h3>
+                        <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2"><Award className="text-emerald-500"/> Peringkat Peserta</h3>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse whitespace-nowrap">
@@ -247,12 +233,8 @@ export default function Show({ auth, exercise, scores }) {
                                                 <p className="font-bold text-slate-800">{score.user?.name || 'Peserta Dihapus'}</p>
                                                 <p className="text-xs text-slate-500">{score.user?.email}</p>
                                             </td>
-                                            {/* 👇 GANTI PANGGILAN KOLOMNYA DI SINI 👇 */}
                                             <td className="p-4 text-center font-bold text-emerald-600 bg-emerald-50/30">{score.jumlah_benar}</td>
-                                            
-                                            {/* Salah = total_soal dikurangi jumlah_benar */}
                                             <td className="p-4 text-center font-bold text-rose-500 bg-rose-50/30">{score.total_soal - score.jumlah_benar}</td>
-                                            
                                             <td className="p-4 text-center text-xs font-medium text-slate-500">
                                                 {new Date(score.dikerjakan_pada).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                             </td>
@@ -270,14 +252,11 @@ export default function Show({ auth, exercise, scores }) {
                 </motion.div>
             )}
 
-            {/* ========================================= */}
-            {/* MODAL PENGATURAN KUIS                     */}
-            {/* ========================================= */}
+            {/* MODAL PENGATURAN KUIS */}
             <AnimatePresence>
                 {settingModal && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSettingModal(false)} className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" />
-                        
                         <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative z-10 w-full max-w-lg bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col">
                             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 shrink-0">
                                 <div className="flex items-center gap-3">
@@ -296,17 +275,12 @@ export default function Show({ auth, exercise, scores }) {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-2"><Lock size={16}/> Password Kuis</label>
-                                        <input type="text" value={formSettings.data.password} onChange={e => formSettings.setData('password', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 font-medium text-slate-800" placeholder="Kosong = Tanpa Password" />
+                                        <input type="text" value={formSettings.data.password} onChange={e => formSettings.setData('password', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 font-medium text-slate-800" placeholder="Kosong = Tanpa" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-2"><Clock size={16}/> Waktu (Menit)</label>
                                         <input type="number" min="1" value={formSettings.data.waktu_menit} onChange={e => formSettings.setData('waktu_menit', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 font-medium text-slate-800 text-center" required />
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Max Percobaan</label>
-                                    <input type="number" min="1" value={formSettings.data.max_attempts} onChange={e => formSettings.setData('max_attempts', e.target.value)} className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-indigo-500 font-medium text-slate-800" required />
                                 </div>
 
                                 <div>
@@ -318,7 +292,7 @@ export default function Show({ auth, exercise, scores }) {
                                     <input type="checkbox" checked={formSettings.data.is_active} onChange={e => formSettings.setData('is_active', e.target.checked)} className="w-5 h-5 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer" />
                                     <div>
                                         <p className="text-sm font-bold text-slate-800">Status Aktif Kuis</p>
-                                        <p className="text-xs text-slate-500 mt-0.5">Jika dimatikan, member tidak akan bisa mengerjakan kuis ini meskipun sudah membeli kelas.</p>
+                                        <p className="text-xs text-slate-500 mt-0.5">Jika dimatikan, member tidak akan bisa mengerjakan kuis ini.</p>
                                     </div>
                                 </label>
 
@@ -334,20 +308,11 @@ export default function Show({ auth, exercise, scores }) {
                 )}
             </AnimatePresence>
 
-            {/* ========================================= */}
-            {/* MODAL SOAL (CREATE/EDIT)                  */}
-            {/* ========================================= */}
             <AnimatePresence>
                 {modal.show && (
-                    <QuestionModal 
-                        show={modal.show} 
-                        onClose={() => setModal({ show: false, question: null })} 
-                        exerciseId={exercise.id} 
-                        question={modal.question} 
-                    />
+                    <QuestionModal show={modal.show} onClose={() => setModal({ show: false, question: null })} exerciseId={exercise.id} question={modal.question} />
                 )}
             </AnimatePresence>
-
         </AdminLayout>
     );
 }

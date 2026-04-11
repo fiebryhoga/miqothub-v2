@@ -19,14 +19,15 @@ class ExerciseController extends Controller
 
     public function show(Exercise $exercise)
     {
-        $exercise->load(['questions' => function ($query) {
-            $query->orderBy('urutan', 'asc');
-        }]);
+        // 👇 PERBAIKAN: Load 'materials.chapter' agar Tombol Kembali Kurikulum berfungsi!
+        $exercise->load([
+            'questions' => function ($query) { $query->orderBy('urutan', 'asc'); },
+            'materials.chapter' 
+        ]);
 
-        // 👇 PERBAIKANNYA DI SINI 👇 (Ubah 'nilai' jadi 'skor')
         $scores = \App\Models\ExerciseScore::where('exercise_id', $exercise->id)
             ->with('user:id,name,email') 
-            ->orderBy('skor', 'desc') // <-- Ganti 'nilai' jadi 'skor'
+            ->orderBy('skor', 'desc') 
             ->get();
 
         return Inertia::render('Admin/Exercises/Show', [
@@ -36,7 +37,7 @@ class ExerciseController extends Controller
     }
 
     // ==========================================
-    // UPDATE PENGATURAN LATIHAN (Password, Aktif, dll)
+    // UPDATE PENGATURAN LATIHAN
     // ==========================================
     public function update(Request $request, Exercise $exercise)
     {
@@ -45,7 +46,7 @@ class ExerciseController extends Controller
             'deskripsi' => 'nullable|string',
             'password' => 'nullable|string|max:50',
             'is_active' => 'boolean',
-            'max_attempts' => 'required|integer|min:1',
+            'waktu_menit' => 'required|integer|min:1', // <-- UBAH KE WAKTU_MENIT
         ]);
 
         $exercise->update([
@@ -53,7 +54,7 @@ class ExerciseController extends Controller
             'deskripsi' => $request->deskripsi,
             'password' => $request->password,
             'is_active' => $request->is_active ?? false,
-            'max_attempts' => $request->max_attempts,
+            'waktu_menit' => $request->waktu_menit, // <-- UBAH KE WAKTU_MENIT
         ]);
 
         return back()->with('success', 'Pengaturan Kuis/Latihan berhasil diperbarui!');

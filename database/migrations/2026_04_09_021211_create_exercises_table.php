@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->string('password')->nullable(); // Kosong = tidak perlu password
             $table->boolean('is_active')->default(true);
-            $table->integer('max_attempts')->default(1); // Batas maksimal mengerjakan
+            $table->integer('waktu_menit')->default(30); // <-- UBAH JADI WAKTU MENIT
             $table->timestamps();
         });
     }

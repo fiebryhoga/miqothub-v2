@@ -3,7 +3,10 @@ import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { Calendar, Users, ArrowRight, Trash2, BookOpen, Layers } from 'lucide-react';
 
-export default function CourseCard({ course, index, onEdit, onDelete, formatRupiah }) {
+export default function CourseCard({ course, index, onEdit, onDelete, formatRupiah, onShowMembers }) {
+    // Hitung jumlah member yang sudah diverifikasi di kelas ini
+    const enrolledCount = course.transactions ? course.transactions.length : 0;
+
     return (
         <motion.div 
             initial={{ opacity: 0, y: 20 }} 
@@ -11,7 +14,7 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
             transition={{ delay: index * 0.1 }} 
             className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
         >
-            {/* Bagian Gambar / Thumbnail */}
+            {/* Bagian Gambar / Thumbnail (TETAP SAMA) */}
             <div className="h-48 bg-gray-100 relative overflow-hidden">
                 {course.thumbnail_url ? (
                     <img src={course.thumbnail_url} alt={course.nama} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -42,14 +45,19 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                         <Calendar size={16} className="text-gray-400" /> 
                         Mulai: {course.tanggal_mulai ? new Date(course.tanggal_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Belum ditentukan'}
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Users size={16} className="text-gray-400" /> 
-                        Kuota: {course.kuota ? `${course.kuota} Peserta` : 'Tidak Terbatas'}
+                    {/* 👇 PERUBAHAN DI SINI: TAMPILKAN KUOTA 10/50 & BISA DIKLIK 👇 */}
+                    <div 
+                        className="flex items-center gap-2 cursor-pointer hover:text-emerald-600 transition-colors"
+                        onClick={() => onShowMembers(course)} // Panggil fungsi saat diklik
+                        title="Klik untuk melihat daftar peserta"
+                    >
+                        <Users size={16} className={enrolledCount > 0 ? 'text-emerald-500' : 'text-gray-400'} /> 
+                        Peserta: <span className="font-bold">{enrolledCount}</span> / {course.kuota || '∞'} 
                     </div>
                 </div>
             </div>
 
-            {/* Bagian Aksi / Tombol */}
+            {/* Bagian Aksi / Tombol (TETAP SAMA) */}
             <div className="p-4 border-t border-gray-50 bg-gray-50/50 flex flex-wrap justify-between items-center gap-2">
                 <div className="flex gap-2">
                     <button onClick={() => onDelete(course.id)} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Kelas">
@@ -59,8 +67,6 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                         Edit <ArrowRight size={16} />
                     </button>
                 </div>
-                
-                {/* TOMBOL MENUJU HALAMAN KURIKULUM */}
                 <Link 
                     href={route('admin.courses.curriculum', course.id)} 
                     className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors shadow-sm"

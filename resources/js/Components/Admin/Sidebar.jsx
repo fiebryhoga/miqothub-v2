@@ -6,10 +6,8 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     const menuItems = [
         { name: 'Dashboard', icon: <LayoutDashboard size={20} />, route: 'dashboard', active: route().current('dashboard') },
         { name: 'Manajemen Admin', icon: <Users size={20} />, route: 'admin.management.index', active: route().current('admin.management.*') },
+        { name: 'Manejemen Member', icon: <Users size={20} />, route: 'admin.members.index', active: route().current('admin.members.*') },
         { name: 'Manajemen Kelas', icon: <BookOpen size={20} />, route: 'admin.courses.index', active: route().current('admin.courses.*') },
-        { name: 'Data Member', icon: <Users size={20} />, route: 'admin.members.index', active: route().current('admin.members.*') },
-        { name: 'Modul Kursus', icon: <BookOpen size={20} />, route: '#', active: false },
-        { name: 'Pengaturan', icon: <Settings size={20} />, route: '#', active: false },
     ];
 
     return (

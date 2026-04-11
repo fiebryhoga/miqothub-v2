@@ -1,12 +1,12 @@
+// resources/js/Pages/Member/Dashboard.jsx
 import MemberLayout from '@/Layouts/MemberLayout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { PlayCircle, BookOpen, Clock, ChevronRight, GraduationCap, Sparkles, Compass } from 'lucide-react';
+import { PlayCircle, BookOpen, Clock, ChevronRight, GraduationCap, Sparkles, Compass, MessageCircle } from 'lucide-react'; // <-- Tambahkan MessageCircle
 
 export default function Dashboard({ auth, myCourses = [] }) {
-    
-    // Variasi animasi untuk grid container
-    const containerVariants = {
+    // ... variasi animasi sama ...
+     const containerVariants = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -14,7 +14,6 @@ export default function Dashboard({ auth, myCourses = [] }) {
         }
     };
 
-    // Variasi animasi untuk setiap item/card
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
         show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
@@ -23,9 +22,10 @@ export default function Dashboard({ auth, myCourses = [] }) {
     return (
         <MemberLayout user={auth.user}>
             <Head title="Kelas Saya | Ruang Belajar" />
+            {/* ... Welcome banner & Header section TETAP SAMA ... */}
 
-            {/* WELCOME BANNER */}
-            <motion.div 
+             {/* WELCOME BANNER */}
+             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-gradient-to-r from-emerald-600 to-teal-500 rounded-3xl p-8 sm:p-10 text-white shadow-xl shadow-emerald-500/20 mb-10 relative overflow-hidden"
@@ -61,9 +61,8 @@ export default function Dashboard({ auth, myCourses = [] }) {
                 </div>
             </div>
 
-            {/* DAFTAR KELAS (GRID) */}
             {myCourses.length === 0 ? (
-                // EMPTY STATE JIKA BELUM ADA KELAS
+                // ... Empty state TETAP SAMA ...
                 <motion.div 
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -84,7 +83,6 @@ export default function Dashboard({ auth, myCourses = [] }) {
                     </Link>
                 </motion.div>
             ) : (
-                // GRID KELAS AKTIF
                 <motion.div 
                     variants={containerVariants}
                     initial="hidden"
@@ -97,8 +95,8 @@ export default function Dashboard({ auth, myCourses = [] }) {
                             variants={itemVariants}
                             className="bg-white rounded-3xl p-3 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
                         >
-                            {/* Thumbnail */}
-                            <div className="relative h-48 rounded-2xl overflow-hidden bg-gray-100 mb-4">
+                            {/* Thumbnail TETAP SAMA */}
+                             <div className="relative h-48 rounded-2xl overflow-hidden bg-gray-100 mb-4">
                                 {course.thumbnail_url ? (
                                     <img 
                                         src={course.thumbnail_url} 
@@ -129,24 +127,37 @@ export default function Dashboard({ auth, myCourses = [] }) {
                                     {course.nama}
                                 </h3>
                                 
-                                <div className="flex items-center gap-4 text-sm text-gray-500 font-medium mb-6 mt-auto">
-                                    <div className="flex items-center gap-1.5">
-                                        <Clock size={16} className="text-emerald-500" /> Aktif
-                                    </div>
-                                    <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                                    <div className="flex items-center gap-1.5">
-                                        <BookOpen size={16} className="text-blue-500" /> Modul Tersedia
-                                    </div>
+                                <div className="flex items-center justify-between text-sm text-gray-500 font-medium mb-6 mt-auto">
+                                   <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-1.5">
+                                            <Clock size={16} className="text-emerald-500" /> Aktif
+                                        </div>
+                                        <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                                        <div className="flex items-center gap-1.5">
+                                            <BookOpen size={16} className="text-blue-500" /> Modul
+                                        </div>
+                                   </div>
                                 </div>
 
-                                {/* Tombol Masuk Kelas */}
-                                {/* Catatan: Ganti href di bawah ini dengan route yang mengarah ke ruang belajar/materi */}
-                                <Link 
-                                    href="#" 
-                                    className="w-full py-3 bg-emerald-50 text-emerald-700 font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-emerald-600 group-hover:text-white transition-colors"
-                                >
-                                    Akses Ruang Belajar <ChevronRight size={18} />
-                                </Link>
+                                {/* 👇 PERUBAHAN DI SINI: TAMBAH TOMBOL WA 👇 */}
+                                <div className="flex flex-col gap-2">
+                                     {course.link_grup_wa && (
+                                        <a 
+                                            href={course.link_grup_wa} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="w-full py-2.5 bg-green-50 text-green-700 font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-colors border border-green-100"
+                                        >
+                                            <MessageCircle size={18} /> Grup WhatsApp
+                                        </a>
+                                    )}
+                                    <Link 
+                                        href={route('member.courses.show', course.id)} 
+                                        className="w-full py-3 bg-emerald-50 text-emerald-700 font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-emerald-600 group-hover:text-white transition-colors"
+                                    >
+                                        Akses Ruang Belajar <ChevronRight size={18} />
+                                    </Link>
+                                </div>
                             </div>
                         </motion.div>
                     ))}
