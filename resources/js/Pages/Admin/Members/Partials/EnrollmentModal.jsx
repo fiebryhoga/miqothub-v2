@@ -28,13 +28,16 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
     const handleEnroll = (e) => {
         e.preventDefault();
         post(route('admin.members.enroll', member.id), {
+            preserveScroll: true, // <-- Tambahkan ini agar layar tidak berkedip/melompat
             onSuccess: () => { reset(); }
         });
     };
 
     const handleUnenroll = (courseId, courseName) => {
         if (confirm(`Yakin ingin mencabut akses member ini dari kelas: ${courseName}?`)) {
-            router.delete(route('admin.members.unenroll', { member: member.id, course: courseId }));
+            router.delete(route('admin.members.unenroll', { member: member.id, course: courseId }), {
+                preserveScroll: true // <-- Tambahkan ini juga di sini
+            });
         }
     };
 

@@ -1,7 +1,6 @@
-// resources/js/Pages/Admin/Courses/Partials/CourseCard.jsx
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { Calendar, Users, ArrowRight, Trash2, BookOpen, Layers } from 'lucide-react';
+import { Calendar, Users, Edit, Trash2, BookOpen, Layers, ArrowRight } from 'lucide-react';
 
 export default function CourseCard({ course, index, onEdit, onDelete, formatRupiah, onShowMembers }) {
     // Hitung jumlah member yang sudah diverifikasi di kelas ini
@@ -12,67 +11,108 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ delay: index * 0.1 }} 
-            className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+            className="bg-white rounded-[2rem] p-3 shadow-sm border border-slate-100 overflow-hidden flex flex-col hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
         >
-            {/* Bagian Gambar / Thumbnail (TETAP SAMA) */}
-            <div className="h-48 bg-gray-100 relative overflow-hidden">
+            {/* --- BAGIAN GAMBAR / THUMBNAIL --- */}
+            <div className="relative h-52 rounded-2xl overflow-hidden bg-slate-50 mb-5">
                 {course.thumbnail_url ? (
-                    <img src={course.thumbnail_url} alt={course.nama} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img 
+                        src={course.thumbnail_url} 
+                        alt={course.nama} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
+                    />
                 ) : (
-                    <div className="w-full h-full bg-emerald-50 flex items-center justify-center text-emerald-300">
-                        <BookOpen size={48} />
+                    <div className="w-full h-full bg-emerald-50 flex items-center justify-center text-emerald-200">
+                        <BookOpen size={56} strokeWidth={1.5} />
                     </div>
                 )}
-                <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 text-xs font-bold uppercase rounded-full shadow-sm backdrop-blur-md ${course.status === 'onsale' ? 'bg-emerald-500/90 text-white' : 'bg-red-500/90 text-white'}`}>
+                
+                {/* Overlay Gradient untuk teks putih */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                {/* Badge Status */}
+                <div className="absolute top-3 right-3">
+                    <span className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-xl shadow-md backdrop-blur-md border border-white/20 ${course.status === 'onsale' ? 'bg-emerald-500/90 text-white' : 'bg-rose-500/90 text-white'}`}>
                         {course.status === 'onsale' ? 'Buka Pendaftaran' : 'Ditutup'}
                     </span>
                 </div>
-                <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 text-xs font-bold bg-white/90 text-gray-800 rounded-full shadow-sm backdrop-blur-md">Batch {course.batch}</span>
+                
+                {/* Badge Batch */}
+                <div className="absolute top-3 left-3">
+                    <span className="px-3 py-1.5 text-xs font-black uppercase tracking-wider bg-white/95 text-slate-800 rounded-xl shadow-md backdrop-blur-md">
+                        Batch {course.batch}
+                    </span>
                 </div>
             </div>
 
-            {/* Bagian Detail Kelas */}
-            <div className="p-6 flex-1 flex flex-col">
-                <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">{course.nama}</h3>
-                <div className="mb-4 flex items-center gap-2">
-                    <span className="text-xl font-extrabold text-emerald-600">{formatRupiah(course.harga)}</span>
-                    {course.harga_coret > 0 && <span className="text-sm text-gray-400 line-through decoration-red-400">{formatRupiah(course.harga_coret)}</span>}
+            {/* --- BAGIAN KONTEN --- */}
+            <div className="px-3 flex-1 flex flex-col pb-2">
+                <h3 className="text-xl font-black text-slate-800 mb-2 line-clamp-2 leading-tight group-hover:text-emerald-600 transition-colors">
+                    {course.nama}
+                </h3>
+                
+                {/* Harga */}
+                <div className="mb-5 flex items-end gap-2">
+                    <span className="text-2xl font-black text-emerald-500 leading-none">{formatRupiah(course.harga)}</span>
+                    {course.harga_coret > 0 && (
+                        <span className="text-sm font-bold text-slate-400 line-through decoration-rose-400 mb-0.5">
+                            {formatRupiah(course.harga_coret)}
+                        </span>
+                    )}
                 </div>
-                <div className="flex flex-col gap-2 mt-auto text-sm text-gray-500 font-medium">
-                    <div className="flex items-center gap-2">
-                        <Calendar size={16} className="text-gray-400" /> 
-                        Mulai: {course.tanggal_mulai ? new Date(course.tanggal_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Belum ditentukan'}
+
+                {/* Grid Info Meta (Jadwal & Kuota) */}
+                <div className="grid grid-cols-2 gap-3 mt-auto mb-6">
+                    <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 flex flex-col justify-center">
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                            <Calendar size={14}/> Mulai
+                        </p>
+                        <p className="text-xs font-bold text-slate-700 leading-tight">
+                            {course.tanggal_mulai ? new Date(course.tanggal_mulai).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) : 'TBA'}
+                        </p>
                     </div>
-                    {/* 👇 PERUBAHAN DI SINI: TAMPILKAN KUOTA 10/50 & BISA DIKLIK 👇 */}
+
+                    {/* Tombol Kuota yang Interactive */}
                     <div 
-                        className="flex items-center gap-2 cursor-pointer hover:text-emerald-600 transition-colors"
-                        onClick={() => onShowMembers(course)} // Panggil fungsi saat diklik
+                        onClick={() => onShowMembers(course)}
+                        className="bg-slate-50 hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 p-3.5 rounded-2xl cursor-pointer transition-all duration-300 group/quota flex flex-col justify-center shadow-sm hover:shadow-md"
                         title="Klik untuk melihat daftar peserta"
                     >
-                        <Users size={16} className={enrolledCount > 0 ? 'text-emerald-500' : 'text-gray-400'} /> 
-                        Peserta: <span className="font-bold">{enrolledCount}</span> / {course.kuota || '∞'} 
+                        <p className="text-[10px] font-black text-slate-400 group-hover/quota:text-emerald-600 uppercase tracking-widest mb-1.5 flex items-center gap-1.5 transition-colors">
+                            <Users size={14}/> Peserta
+                            <ArrowRight size={12} className="ml-auto opacity-0 group-hover/quota:opacity-100 -translate-x-2 group-hover/quota:translate-x-0 transition-all"/>
+                        </p>
+                        <p className="text-xs font-bold text-slate-500 group-hover/quota:text-emerald-700 transition-colors">
+                            <span className={`text-base font-black ${enrolledCount > 0 ? 'text-emerald-600' : 'text-slate-700'}`}>{enrolledCount}</span> / {course.kuota || '∞'}
+                        </p>
                     </div>
                 </div>
-            </div>
 
-            {/* Bagian Aksi / Tombol (TETAP SAMA) */}
-            <div className="p-4 border-t border-gray-50 bg-gray-50/50 flex flex-wrap justify-between items-center gap-2">
-                <div className="flex gap-2">
-                    <button onClick={() => onDelete(course.id)} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus Kelas">
+                {/* --- BAGIAN AKSI / TOMBOL --- */}
+                <div className="flex items-center gap-2 pt-2">
+                    <Link 
+                        href={route('admin.courses.curriculum', course.id)} 
+                        className="flex-1 py-3.5 bg-slate-900 text-white text-sm font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-emerald-600 transition-all duration-300 shadow-lg shadow-slate-200 active:scale-95"
+                    >
+                        <Layers size={18} /> Kurikulum
+                    </Link>
+                    
+                    <button 
+                        onClick={() => onEdit(course)} 
+                        className="p-3.5 text-slate-400 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all shadow-sm active:scale-95" 
+                        title="Edit Kelas"
+                    >
+                        <Edit size={18} />
+                    </button>
+                    
+                    <button 
+                        onClick={() => onDelete(course.id)} 
+                        className="p-3.5 text-slate-400 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-rose-500 hover:border-rose-500 hover:text-white transition-all shadow-sm active:scale-95" 
+                        title="Hapus Kelas"
+                    >
                         <Trash2 size={18} />
                     </button>
-                    <button onClick={() => onEdit(course)} className="flex items-center gap-1 text-sm font-bold text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 px-3 py-1.5 rounded-lg transition-colors" title="Edit Pengaturan Kelas">
-                        Edit <ArrowRight size={16} />
-                    </button>
                 </div>
-                <Link 
-                    href={route('admin.courses.curriculum', course.id)} 
-                    className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors shadow-sm"
-                >
-                    <Layers size={16} /> Kurikulum
-                </Link>
             </div>
         </motion.div>
     );

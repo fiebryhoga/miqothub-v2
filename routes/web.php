@@ -16,11 +16,21 @@ use Inertia\Inertia;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
+    // Ambil kelas yang sedang dibuka, beserta bab dan materi yang berstatus 'is_preview = true'
+    $courses = \App\Models\Course::where('status', 'onsale')
+        ->with(['chapters.materials' => function ($query) {
+            $query->where('is_preview', true);
+        }])
+        ->get()
+        ->map(function ($course) {
+            $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
+            return $course;
+        });
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'courses' => $courses, // <-- Kirim data kelas ke React
     ]);
 })->name('welcome');
 
@@ -135,6 +145,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // 👇 TAMBAHKAN DUA ROUTE INI 👇
     Route::put('/exercises/{exercise}/reorder-questions', [\App\Http\Controllers\Admin\ExerciseController::class, 'reorderQuestions'])->name('questions.reorder');
     Route::put('/questions/{question}', [\App\Http\Controllers\Admin\ExerciseController::class, 'updateQuestion'])->name('questions.update');
+
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     
 });
 

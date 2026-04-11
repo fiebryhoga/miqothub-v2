@@ -111,21 +111,41 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $member->id,
             'pekerjaan' => 'nullable|string|max:255',
+            'umur' => 'nullable|integer|min:1',
             'alamat' => 'nullable|string',
             'status' => 'nullable|in:menikah,belum',
             'status_akun' => 'required|in:pending,aktif,suspen',
+            'password' => 'nullable|string|min:8', // Validasi Password Opsional
+            'foto_profile' => 'nullable|image|max:2048', // Validasi Foto Opsional
         ]);
 
-        $member->update([
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
             'pekerjaan' => $request->pekerjaan,
+            'umur' => $request->umur,
             'alamat' => $request->alamat,
             'status' => $request->status,
             'status_akun' => $request->status_akun,
-        ]);
+        ];
 
-        return back()->with('success', 'Data identitas member berhasil diperbarui.');
+        // Jika password diisi, enkripsi dan simpan. Jika kosong, biarkan password lama.
+        if ($request->filled('password')) {
+            $data['password'] = \Illuminate\Support\Facades\Hash::make($request->password);
+        }
+
+        // Jika ada upload foto profil baru
+        if ($request->hasFile('foto_profile')) {
+            // Hapus foto lama jika ada
+            if ($member->foto_profile) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($member->foto_profile);
+            }
+            $data['foto_profile'] = $request->file('foto_profile')->store('profile_photos', 'public');
+        }
+
+        $member->update($data);
+
+        return back()->with('success', 'Profil lengkap member berhasil diperbarui.');
     }
 
     public function destroy(User $member)

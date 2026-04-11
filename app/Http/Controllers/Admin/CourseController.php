@@ -91,6 +91,7 @@ class CourseController extends Controller
 
         $data = $request->except(['thumbnail']);
         $data['slug'] = Str::slug($request->nama . '-' . $request->batch); // Update slug jika nama/batch berubah
+        $data['harga_coret'] = $request->harga_coret ?? 0;
 
         if ($request->hasFile('thumbnail')) {
             if ($course->thumbnail) {

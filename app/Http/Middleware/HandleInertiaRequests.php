@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'app_settings' => \App\Models\Setting::pluck('value', 'key')->toArray(),
 
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
