@@ -167,14 +167,14 @@ export default function CourseModal({ isOpen, onClose, isEditMode, course }) {
                                             <div>
                                                 <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Harga Jual (Rp)</label>
                                                 <div className="relative">
-                                                    <DollarSign size={16} className="absolute top-3.5 left-3 text-slate-400" />
+                                                    <p className="absolute top-3.5 font-semibold text-xs left-3 text-slate-400">Rp.   </p>
                                                     <input type="number" value={data.harga} onChange={e => setData('harga', e.target.value)} className="pl-9 w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 py-3 text-sm font-black text-slate-900 shadow-sm outline-none transition-colors" placeholder="0" required />
                                                 </div>
                                             </div>
                                             <div>
                                                 <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Harga Coret</label>
                                                 <div className="relative">
-                                                    <DollarSign size={16} className="absolute top-3.5 left-3 text-slate-300" />
+                                                    <p className="absolute top-3.5 font-semibold text-xs left-3 text-slate-300">Rp.   </p>
                                                     <input type="number" value={data.harga_coret} onChange={e => setData('harga_coret', e.target.value)} className="pl-9 w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 py-3 text-sm font-bold text-slate-400 line-through shadow-sm outline-none transition-colors" placeholder="0" />
                                                 </div>
                                             </div>

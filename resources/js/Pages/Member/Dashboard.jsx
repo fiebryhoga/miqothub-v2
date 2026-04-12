@@ -1,167 +1,181 @@
-// resources/js/Pages/Member/Dashboard.jsx
+import React from 'react';
 import MemberLayout from '@/Layouts/MemberLayout';
 import { Head, Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { PlayCircle, BookOpen, Clock, ChevronRight, GraduationCap, Sparkles, Compass, MessageCircle } from 'lucide-react'; // <-- Tambahkan MessageCircle
+import { BookOpen, Trophy, Sparkles, PlayCircle, Clock, ChevronRight, Compass } from 'lucide-react';
 
-export default function Dashboard({ auth, myCourses = [] }) {
-    // ... variasi animasi sama ...
-     const containerVariants = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+export default function Dashboard({ auth, stats = {}, recentCourses = [] }) {
+    // Fallback data statistik jika dari backend belum dikirim
+    const userStats = {
+        kelas_aktif: stats.kelas_aktif || 0,
+        kuis_selesai: stats.kuis_selesai || 0,
+        sertifikat: stats.sertifikat || 0,
     };
 
     return (
         <MemberLayout user={auth.user}>
-            <Head title="Kelas Saya | Ruang Belajar" />
-            {/* ... Welcome banner & Header section TETAP SAMA ... */}
+            <Head title="Dashboard Member" />
 
-             {/* WELCOME BANNER */}
-             <motion.div 
-                initial={{ opacity: 0, y: -20 }}
+            {/* ======================================= */}
+            {/* HERO SECTION: AHLAN WA SAHLAN */}
+            {/* ======================================= */}
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gradient-to-r from-emerald-600 to-teal-500 rounded-3xl p-8 sm:p-10 text-white shadow-xl shadow-emerald-500/20 mb-10 relative overflow-hidden"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="bg-gradient-to-br from-blue-950 via-blue-900 to-blue-950 rounded-[2rem] p-8 md:p-12 shadow-2xl shadow-blue-950/20 relative overflow-hidden mb-10"
             >
-                {/* Ornamen Background */}
-                <div className="absolute top-0 right-0 -mt-10 -mr-10 opacity-20">
-                    <Sparkles size={200} />
-                </div>
-                
-                <div className="relative z-10">
-                    <div className="flex items-center gap-3 mb-2">
-                        <GraduationCap className="text-emerald-100" size={28} />
-                        <span className="text-emerald-100 font-bold uppercase tracking-wider text-sm">Dashboard Pembelajaran</span>
+                {/* Aksen Background Glow */}
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-[80px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[60px] pointer-events-none -translate-x-1/2 translate-y-1/2"></div>
+
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                    <div className="flex-1">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md border border-white/10 text-blue-200 text-xs font-bold uppercase tracking-widest mb-6">
+                            <Sparkles size={14} className="text-blue-300" /> Ruang Belajar Utama
+                        </div>
+                        
+                        {/* Kaligrafi / Teks Arab Elegan */}
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl text-white font-arabic mb-2 drop-shadow-lg" dir="rtl">
+                            أَهْلًا وَسَهْلًا
+                        </h1>
+                        <h2 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight drop-shadow-md">
+                            Ahlan wa Sahlan, {auth.user.name.split(' ')[0]}!
+                        </h2>
+                        
+                        <p className="text-blue-200 text-base md:text-lg max-w-2xl font-medium leading-relaxed">
+                            Semoga Allah memberikan kemudahan dalam setiap langkah belajarmu. Lanjutkan progres materi hari ini dan persiapkan dirimu dengan sebaik-baiknya.
+                        </p>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-extrabold mb-4">
-                        Ahlan wa Sahlan, {auth.user.name.split(' ')[0]}! 👋
-                    </h1>
-                    <p className="text-emerald-50 max-w-xl leading-relaxed">
-                        Siapkan dirimu untuk perjalanan spiritual dan keilmuan yang luar biasa. Lanjutkan pembelajaranmu atau jelajahi materi baru hari ini.
-                    </p>
+
+                    {/* Quick Info Box di Kanan Hero */}
+                    <div className="hidden lg:flex flex-col gap-3 shrink-0 w-64">
+                        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl flex items-center gap-4 shadow-inner">
+                            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-300">
+                                <Clock size={24} strokeWidth={2} />
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-blue-200 font-bold uppercase tracking-widest mb-1">Waktu Saat Ini</p>
+                                <p className="text-lg font-black text-white tracking-wider">
+                                    {new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </motion.div>
 
-            {/* HEADER SECTON */}
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Kelas Saya</h2>
-                    <p className="text-gray-500 text-sm mt-1">Daftar kelas yang sudah Anda ikuti.</p>
-                </div>
-                <div className="bg-white px-4 py-2 rounded-xl border border-gray-100 shadow-sm font-bold text-emerald-600 flex items-center gap-2">
-                    <BookOpen size={18} />
-                    {myCourses.length} Kelas Aktif
-                </div>
+            {/* ======================================= */}
+            {/* WIDGET STATISTIK */}
+            {/* ======================================= */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+                    className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-xl hover:shadow-blue-950/5 transition-all duration-300"
+                >
+                    <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-inner">
+                        <BookOpen size={28} strokeWidth={2} />
+                    </div>
+                    <div>
+                        <p className="text-3xl font-black text-blue-950 leading-none mb-1">{userStats.kelas_aktif}</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Kelas Diikuti</p>
+                    </div>
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+                    className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-xl hover:shadow-emerald-950/5 transition-all duration-300"
+                >
+                    <div className="w-16 h-16 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-inner">
+                        <PlayCircle size={28} strokeWidth={2} />
+                    </div>
+                    <div>
+                        <p className="text-3xl font-black text-slate-800 leading-none mb-1">{userStats.kuis_selesai}</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Kuis Diselesaikan</p>
+                    </div>
+                </motion.div>
+
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+                    className="bg-white rounded-[1.5rem] p-6 shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-xl hover:shadow-amber-950/5 transition-all duration-300"
+                >
+                    <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300 shadow-inner">
+                        <Trophy size={28} strokeWidth={2} />
+                    </div>
+                    <div>
+                        <p className="text-3xl font-black text-slate-800 leading-none mb-1">{userStats.sertifikat}</p>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Sertifikat Diraih</p>
+                    </div>
+                </motion.div>
             </div>
 
-            {myCourses.length === 0 ? (
-                // ... Empty state TETAP SAMA ...
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="bg-white rounded-3xl border border-dashed border-gray-300 p-16 text-center flex flex-col items-center justify-center min-h-[400px]"
+            {/* ======================================= */}
+            {/* AREA KELAS TERAKHIR / LANJUTKAN BELAJAR */}
+            {/* ======================================= */}
+            <div className="mb-6 flex items-center justify-between">
+                <div>
+                    <h3 className="text-xl font-black text-blue-950 tracking-tight">Lanjutkan Belajarmu</h3>
+                    <p className="text-sm font-semibold text-slate-500 mt-1">Akses cepat ke kelas yang sedang kamu ikuti.</p>
+                </div>
+                <Link 
+                    href={route('member.courses.index')}
+                    className="hidden sm:flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors group"
                 >
-                    <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
-                        <Compass size={40} className="text-gray-400" />
+                    Lihat Semua Kelas <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+            </div>
+
+            {recentCourses.length === 0 ? (
+                // Empty State Jika Belum Punya Kelas
+                <motion.div 
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+                    className="bg-white rounded-[2rem] border border-dashed border-slate-200 p-12 text-center flex flex-col items-center"
+                >
+                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-5 border border-slate-100">
+                        <Compass size={36} className="text-slate-300" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Belum Ada Kelas</h3>
-                    <p className="text-gray-500 max-w-md mx-auto mb-8">
-                        Sepertinya Anda belum memiliki kelas aktif atau transaksi Anda sedang dalam proses verifikasi oleh Admin.
-                    </p>
+                    <h4 className="text-lg font-black text-slate-800 mb-2">Belum Ada Kelas Aktif</h4>
+                    <p className="text-slate-500 font-medium mb-6 max-w-sm">Kamu belum terdaftar di kelas manapun. Yuk, cari program yang sesuai untukmu!</p>
                     <Link 
-                        href="/" // Sesuaikan dengan route halaman katalog utama (katalog publik)
-                        className="px-8 py-3.5 bg-gray-900 text-white font-bold rounded-2xl hover:bg-emerald-600 transition-colors shadow-lg hover:shadow-emerald-500/30 flex items-center gap-2"
+                        href={route('member.catalog')}
+                        className="px-6 py-3 bg-blue-950 text-white font-bold rounded-xl hover:bg-blue-900 shadow-lg shadow-blue-950/20 transition-all active:scale-95"
                     >
-                        Eksplorasi Katalog Kelas <ChevronRight size={18} />
+                        Eksplorasi Katalog
                     </Link>
                 </motion.div>
             ) : (
-                <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                >
-                    {myCourses.map((course) => (
+                // Grid Kelas Terakhir
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {recentCourses.map((course, index) => (
                         <motion.div 
-                            key={course.id} 
-                            variants={itemVariants}
-                            className="bg-white rounded-3xl p-3 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
+                            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 + (index * 0.1) }}
+                            key={course.id}
+                            className="bg-white rounded-[1.5rem] p-3 shadow-sm border border-slate-100 flex flex-col hover:shadow-2xl hover:shadow-blue-950/10 hover:-translate-y-1 transition-all duration-300 group"
                         >
-                            {/* Thumbnail TETAP SAMA */}
-                             <div className="relative h-48 rounded-2xl overflow-hidden bg-gray-100 mb-4">
+                            <div className="h-40 bg-slate-100 rounded-[1.25rem] relative overflow-hidden mb-4">
                                 {course.thumbnail_url ? (
-                                    <img 
-                                        src={course.thumbnail_url} 
-                                        alt={course.nama} 
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                                    />
+                                    <img src={course.thumbnail_url} alt={course.nama} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
                                 ) : (
-                                    <div className="w-full h-full bg-emerald-50 flex items-center justify-center">
-                                        <BookOpen size={40} className="text-emerald-200" />
-                                    </div>
+                                    <div className="w-full h-full flex items-center justify-center text-slate-300"><BookOpen size={40} /></div>
                                 )}
-                                
-                                {/* Overlay Gradient */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                                    <div className="flex items-center gap-2 text-white font-bold text-sm">
-                                        <PlayCircle size={18} /> Mulai Belajar
-                                    </div>
-                                </div>
-
-                                <div className="absolute top-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full text-xs font-bold text-gray-800 shadow-sm">
-                                    Batch {course.batch}
-                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-90 transition-opacity"></div>
                             </div>
 
-                            {/* Detail Kelas */}
-                            <div className="px-3 pb-2 flex-1 flex flex-col">
-                                <h3 className="text-lg font-bold text-gray-900 line-clamp-2 leading-tight mb-3 group-hover:text-emerald-600 transition-colors">
+                            <div className="px-2 pb-2 flex-1 flex flex-col">
+                                <h4 className="text-base font-black text-slate-800 leading-snug mb-4 line-clamp-2 group-hover:text-blue-900 transition-colors">
                                     {course.nama}
-                                </h3>
+                                </h4>
                                 
-                                <div className="flex items-center justify-between text-sm text-gray-500 font-medium mb-6 mt-auto">
-                                   <div className="flex items-center gap-4">
-                                        <div className="flex items-center gap-1.5">
-                                            <Clock size={16} className="text-emerald-500" /> Aktif
-                                        </div>
-                                        <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-                                        <div className="flex items-center gap-1.5">
-                                            <BookOpen size={16} className="text-blue-500" /> Modul
-                                        </div>
-                                   </div>
-                                </div>
-
-                                {/* 👇 PERUBAHAN DI SINI: TAMBAH TOMBOL WA 👇 */}
-                                <div className="flex flex-col gap-2">
-                                     {course.link_grup_wa && (
-                                        <a 
-                                            href={course.link_grup_wa} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className="w-full py-2.5 bg-green-50 text-green-700 font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-green-600 hover:text-white transition-colors border border-green-100"
-                                        >
-                                            <MessageCircle size={18} /> Grup WhatsApp
-                                        </a>
-                                    )}
-                                    <Link 
-                                        href={route('member.courses.show', course.id)} 
-                                        className="w-full py-3 bg-emerald-50 text-emerald-700 font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-emerald-600 group-hover:text-white transition-colors"
-                                    >
-                                        Akses Ruang Belajar <ChevronRight size={18} />
-                                    </Link>
-                                </div>
+                                <Link 
+                                    href={route('member.courses.show', course.id)} 
+                                    className="mt-auto w-full py-2.5 bg-slate-50 text-blue-950 border border-slate-200 rounded-xl text-sm font-bold hover:bg-blue-950 hover:text-white hover:border-blue-950 transition-all duration-300 shadow-sm flex items-center justify-center gap-2 group/btn"
+                                >
+                                    <PlayCircle size={18} className="text-slate-400 group-hover/btn:text-white transition-colors" /> Lanjutkan
+                                </Link>
                             </div>
                         </motion.div>
                     ))}
-                </motion.div>
+                </div>
             )}
         </MemberLayout>
     );

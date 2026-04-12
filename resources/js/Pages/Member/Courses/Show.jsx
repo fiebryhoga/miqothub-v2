@@ -1,7 +1,6 @@
-// resources/js/Pages/Member/Courses/Show.jsx
 import React, { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, BookOpen, GraduationCap } from 'lucide-react';
 import MaterialViewer from './Partials/MaterialViewer';
 import CurriculumSidebar from './Partials/CurriculumSidebar';
 
@@ -60,34 +59,54 @@ export default function Show({ auth, course }) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
+        <div className="min-h-screen bg-slate-50/50 flex flex-col font-sans select-none">
             <Head title={`${course.nama} - Ruang Belajar`} />
 
-            {/* TOP NAVBAR */}
-            <nav className="bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-md">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href={route('member.courses.index')} className="p-2 bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors flex items-center gap-2 pr-4">
-                            <ArrowLeft size={20} /> <span className="hidden md:block text-sm font-bold text-slate-300">Kelas Saya</span>
+            {/* ======================================= */}
+            {/* TOP NAVBAR (PREMIUM NAVY) */}
+            {/* ======================================= */}
+            <nav className="bg-blue-950 text-white sticky top-0 z-50 shadow-xl shadow-blue-950/10 border-b border-blue-900/50">
+                <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+                    
+                    {/* Kiri: Tombol Kembali & Info Kelas */}
+                    <div className="flex items-center gap-4 md:gap-5">
+                        <Link 
+                            href={route('member.courses.index')} 
+                            className="p-2.5 bg-blue-900/40 hover:bg-blue-800 rounded-xl transition-all duration-300 flex items-center gap-2 md:pr-4 border border-blue-800/50 hover:border-blue-500/50 group"
+                        >
+                            <ArrowLeft size={18} strokeWidth={2.5} className="group-hover:-translate-x-0.5 transition-transform" /> 
+                            <span className="hidden md:block text-sm font-bold text-blue-100">Kembali</span>
                         </Link>
                         <div>
                             <h1 className="font-bold text-lg leading-tight hidden md:block">{course.nama}</h1>
                             <p className="text-xs text-slate-400">Ruang Kelas</p>
                         </div>
                     </div>
+
+                    {/* Kanan: Info Pelajar (Opsional) */}
+                    <div className="hidden lg:flex items-center gap-3 bg-blue-900/30 px-4 py-2 rounded-xl border border-blue-800/30">
+                        <GraduationCap size={18} className="text-blue-400" />
+                        <div className="flex flex-col text-right">
+                            <span className="text-xs font-black text-white">{auth.user?.name}</span>
+                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Pelajar Aktif</span>
+                        </div>
+                    </div>
+
                 </div>
             </nav>
             
+            {/* ======================================= */}
             {/* MAIN CONTENT AREA */}
-            <div className="flex-1 max-w-screen-2xl mx-auto w-full flex flex-col lg:flex-row items-start gap-6 p-4 md:p-6 select-none">
+            {/* ======================================= */}
+            <main className="flex-1 max-w-[1600px] mx-auto w-full flex flex-col lg:flex-row items-start gap-6 lg:gap-8 p-4 md:p-6 lg:p-8">
                 
-                {/* KIRI: AREA KONTEN UTAMA */}
-                <div className="w-full lg:flex-1">
+                {/* KIRI: AREA KONTEN UTAMA (MATERIAL VIEWER) */}
+                <div className="w-full lg:flex-1 min-w-0">
                     <MaterialViewer activeMaterial={activeMaterial} />
                 </div>
 
                 {/* KANAN: SIDEBAR KURIKULUM */}
-                <div className="w-full lg:w-96 shrink-0 flex flex-col gap-4">
+                <div className="w-full lg:w-[400px] shrink-0 flex flex-col gap-4">
                     <CurriculumSidebar 
                         course={course} 
                         activeMaterial={activeMaterial} 
@@ -97,7 +116,7 @@ export default function Show({ auth, course }) {
                     />
                 </div>
 
-            </div>
+            </main>
         </div>
     );
 }

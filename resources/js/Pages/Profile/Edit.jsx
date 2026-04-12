@@ -1,39 +1,61 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import MemberLayout from '@/Layouts/MemberLayout';
 import { Head } from '@inertiajs/react';
-import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import { User, ShieldCheck, Settings } from 'lucide-react';
 
-export default function Edit({ mustVerifyEmail, status }) {
+export default function Edit({ auth, mustVerifyEmail, status }) {
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800">
-                    Profile
-                </h2>
-            }
-        >
-            <Head title="Profile" />
+        <MemberLayout user={auth.user}>
+            <Head title="Pengaturan Profil" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+            <div className="mb-8">
+                <h1 className="text-2xl font-black text-blue-950 tracking-tight flex items-center gap-2">
+                    <Settings size={24} className="text-blue-600" /> Pengaturan Akun
+                </h1>
+                <p className="text-slate-500 mt-1.5 text-sm font-semibold">
+                    Lengkapi identitas pribadi dan amankan akun Anda untuk akses layanan yang lebih baik.
+                </p>
+            </div>
+
+            <div className="space-y-8 pb-12">
+                {/* Bagian 1: Identitas Lengkap */}
+                <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-blue-950/5 transition-all duration-500">
+                    <div className="p-6 md:p-10">
+                        <div className="flex items-center gap-3 mb-8 pb-5 border-b border-slate-100">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                <User size={20} strokeWidth={2.5} />
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-black text-blue-950">Informasi Identitas</h2>
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Detail profil dan biodata diri</p>
+                            </div>
+                        </div>
+
                         <UpdateProfileInformationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
-                            className="max-w-xl"
                         />
                     </div>
+                </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <UpdatePasswordForm className="max-w-xl" />
-                    </div>
+                {/* Bagian 2: Keamanan */}
+                <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-blue-950/5 transition-all duration-500">
+                    <div className="p-6 md:p-10">
+                        <div className="flex items-center gap-3 mb-8 pb-5 border-b border-slate-100">
+                            <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600">
+                                <ShieldCheck size={20} strokeWidth={2.5} />
+                            </div>
+                            <div>
+                                <h2 className="text-lg font-black text-slate-800">Keamanan Akun</h2>
+                                <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Perbarui kata sandi secara berkala</p>
+                            </div>
+                        </div>
 
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                        <DeleteUserForm className="max-w-xl" />
+                        <UpdatePasswordForm />
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </MemberLayout>
     );
 }

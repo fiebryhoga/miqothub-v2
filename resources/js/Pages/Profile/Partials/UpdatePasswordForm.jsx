@@ -5,6 +5,7 @@ import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -44,95 +45,76 @@ export default function UpdatePasswordForm({ className = '' }) {
         });
     };
 
+    // Styling Input yang seragam dengan identitas
+    const inputStyle = "mt-1 block w-full rounded-xl border-slate-200 text-slate-700 font-semibold focus:border-blue-950 focus:ring-blue-950/10 shadow-sm transition-all";
+    const labelStyle = "text-blue-950 font-black uppercase text-[10px] tracking-widest mb-1.5";
+
     return (
         <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Update Password
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay
-                    secure.
-                </p>
-            </header>
-
-            <form onSubmit={updatePassword} className="mt-6 space-y-6">
+            {/* Header dihapus karena sudah ada di file Edit.jsx (parent) agar tidak double */}
+            <form onSubmit={updatePassword} className="space-y-6">
                 <div>
-                    <InputLabel
-                        htmlFor="current_password"
-                        value="Current Password"
-                    />
-
+                    <InputLabel htmlFor="current_password" value="Kata Sandi Saat Ini" className={labelStyle} />
                     <TextInput
                         id="current_password"
                         ref={currentPasswordInput}
                         value={data.current_password}
-                        onChange={(e) =>
-                            setData('current_password', e.target.value)
-                        }
+                        onChange={(e) => setData('current_password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className={inputStyle}
                         autoComplete="current-password"
+                        placeholder="••••••••"
                     />
-
-                    <InputError
-                        message={errors.current_password}
-                        className="mt-2"
-                    />
+                    <InputError message={errors.current_password} className="mt-2 font-bold" />
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password" value="New Password" />
-
+                    <InputLabel htmlFor="password" value="Kata Sandi Baru" className={labelStyle} />
                     <TextInput
                         id="password"
                         ref={passwordInput}
                         value={data.password}
                         onChange={(e) => setData('password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className={inputStyle}
                         autoComplete="new-password"
+                        placeholder="••••••••"
                     />
-
-                    <InputError message={errors.password} className="mt-2" />
+                    <InputError message={errors.password} className="mt-2 font-bold" />
                 </div>
 
                 <div>
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
+                    <InputLabel htmlFor="password_confirmation" value="Konfirmasi Kata Sandi Baru" className={labelStyle} />
                     <TextInput
                         id="password_confirmation"
                         value={data.password_confirmation}
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
+                        onChange={(e) => setData('password_confirmation', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className={inputStyle}
                         autoComplete="new-password"
+                        placeholder="••••••••"
                     />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
+                    <InputError message={errors.password_confirmation} className="mt-2 font-bold" />
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <div className="flex items-center gap-4 pt-2">
+                    <PrimaryButton 
+                        disabled={processing}
+                        className="px-8 py-3 bg-blue-950 hover:bg-blue-900 shadow-lg shadow-blue-900/20"
+                    >
+                        {processing ? 'Menyimpan...' : 'Perbarui Sandi'}
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
+                        enter="transition ease-in-out duration-300"
+                        enterFrom="opacity-0 translate-y-2"
+                        leave="transition ease-in-out duration-300"
+                        leaveTo="opacity-0 translate-y-2"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
+                        {/* hmm */}
+                        <p className="text-sm font-bold text-emerald-600 flex items-center gap-1.5">
+                            <CheckCircle2 size={16} /> Berhasil diperbarui.
                         </p>
                     </Transition>
                 </div>

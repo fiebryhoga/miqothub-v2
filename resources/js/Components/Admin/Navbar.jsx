@@ -6,63 +6,79 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Navbar({ user, setIsSidebarOpen }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [imageError, setImageError] = useState(false); // State untuk fallback jika gambar gagal dimuat
 
-    // Asumsi properti foto profil dari database Anda (sesuaikan jika berbeda)
-    const profilePhoto = user.avatar || user.foto_profil || user.profile_photo_url; 
+    // Fungsi cerdas untuk menangkap URL foto profil
+    const getAvatarUrl = () => {
+        // Cek semua kemungkinan field foto profil dari database (sudah disesuaikan ke foto_profile)
+        const photoPath = user?.foto_profile || user?.avatar || user?.profile_photo_path || user?.profile_photo_url || user?.photo;
+        
+        if (!photoPath) return null;
+        // Jika sudah berupa URL penuh (Google Auth, dll)
+        if (photoPath.startsWith('http') || photoPath.startsWith('data:')) return photoPath;
+        // Jika sudah ada /storage/ dari backend
+        if (photoPath.startsWith('/storage/')) return photoPath;
+        // Default Laravel storage
+        return `/storage/${photoPath}`;
+    };
+
+    const photoUrl = getAvatarUrl();
 
     return (
-        <header className="h-20 bg-white/80 backdrop-blur-xl border-b border-slate-200 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-20">
-            {/* Bagian Kiri: Tombol Menu (Mobile) & Judul Halaman */}
+        <header className="h-20 bg-white/90 backdrop-blur-xl border-b border-slate-100 flex items-center justify-between px-4 sm:px-8 sticky top-0 z-30 shadow-sm">
+            {/* --- Bagian Kiri: Tombol Menu (Mobile) & Judul --- */}
             <div className="flex items-center gap-4 sm:gap-6">
                 <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setIsSidebarOpen(true)} 
-                    className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-900 md:hidden transition-colors"
+                    className="p-2.5 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-blue-950 md:hidden transition-colors border border-transparent hover:border-slate-200"
                 >
-                    <Menu size={24} />
+                    <Menu size={22} />
                 </motion.button>
 
-                {/* Teks Konteks (Disembunyikan di layar sangat kecil) */}
+                {/* Teks Konteks */}
                 <div className="hidden lg:block">
-                    <h2 className="text-xl font-black text-slate-900 leading-tight tracking-tight">Dashboard</h2>
-                    <p className="text-xs text-slate-500 font-medium mt-0.5">Pantau aktivitas sistem hari ini</p>
+                    <h2 className="text-xl font-black text-blue-950 leading-tight tracking-tight">Dashboard</h2>
+                    <p className="text-xs text-slate-500 font-bold mt-0.5">Overview aktivitas sistem Anda</p>
                 </div>
             </div>
 
-            {/* Bagian Kanan: Search, Notifikasi, Profile */}
-            <div className="flex items-center gap-4 sm:gap-6">
+            {/* --- Bagian Kanan: Search, Notifikasi, Profile --- */}
+            <div className="flex items-center gap-3 sm:gap-5">
                 
-                {/* Search Bar Modern */}
+                {/* Search Bar Modern Navy */}
                 <motion.div 
                     animate={{ width: isSearchFocused ? 320 : 240 }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     className="hidden md:flex relative group"
                 >
-                    <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors ${isSearchFocused ? 'text-blue-600' : 'text-slate-400'}`}>
-                        <Search size={18} />
+                    <div className={`absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors ${isSearchFocused ? 'text-blue-900' : 'text-slate-400'}`}>
+                        <Search size={16} />
                     </div>
                     <input 
                         type="text" 
-                        placeholder="Cari pendaftar, modul..." 
+                        placeholder="Cari kelas, peserta..." 
                         onFocus={() => setIsSearchFocused(true)}
                         onBlur={() => setIsSearchFocused(false)}
-                        className="pl-11 pr-12 py-2.5 w-full bg-slate-50 border border-slate-200 rounded-full text-sm font-medium focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all shadow-sm outline-none"
+                        className="pl-11 pr-12 py-2.5 w-full bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-700 focus:bg-white focus:border-blue-900 focus:ring-4 focus:ring-blue-900/10 transition-all shadow-sm outline-none placeholder:text-slate-400 placeholder:font-medium"
                     />
-                    {/* Hotkey Hint untuk Estetika */}
+                    {/* Hotkey Hint */}
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <span className="text-[10px] font-bold text-slate-400 border border-slate-200 px-1.5 py-0.5 rounded bg-white shadow-sm">⌘K</span>
+                        <span className={`text-[10px] font-black border px-1.5 py-0.5 rounded-lg shadow-sm transition-colors ${isSearchFocused ? 'bg-blue-900 text-white border-blue-900' : 'text-slate-400 border-slate-200 bg-white'}`}>
+                            ⌘K
+                        </span>
                     </div>
                 </motion.div>
 
-                {/* Garis Pembatas vertical */}
-                <div className="w-px h-8 bg-slate-200 hidden sm:block"></div>
+                {/* Garis Pembatas */}
+                <div className="w-px h-8 bg-slate-200 hidden sm:block mx-1"></div>
 
-                {/* Tombol Notifikasi dengan Efek Ping */}
+                {/* Tombol Notifikasi (Navy Ping) */}
                 <motion.button 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="relative p-2.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                    className="relative p-2.5 text-slate-400 hover:text-blue-950 hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-200"
                 >
                     <Bell size={20} />
                     <span className="absolute top-2 right-2.5 flex h-2.5 w-2.5">
@@ -71,41 +87,42 @@ export default function Navbar({ user, setIsSidebarOpen }) {
                     </span>
                 </motion.button>
 
-                {/* User Dropdown Profile */}
+                {/* --- User Dropdown Profile --- */}
                 <div className="relative">
                     <motion.button 
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setDropdownOpen(!dropdownOpen)}
-                        className="flex items-center gap-3 p-1.5 pr-4 bg-white border border-slate-200 shadow-sm rounded-full hover:border-blue-300 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 group"
+                        className="flex items-center gap-3 p-1.5 pr-4 bg-white border border-slate-200 shadow-sm rounded-full hover:border-blue-900/30 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-blue-950/10 group"
                     >
-                        {/* Area Foto Profil / Inisial */}
-                        <div className="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-sm shadow-inner overflow-hidden border border-slate-100 group-hover:border-blue-200 transition-colors">
-                            {profilePhoto ? (
+                        {/* Avatar Area with Fallback */}
+                        <div className="w-10 h-10 rounded-full bg-blue-950 flex items-center justify-center text-white font-black text-sm shadow-inner overflow-hidden border border-slate-100 group-hover:border-blue-200 transition-colors shrink-0">
+                            {photoUrl && !imageError ? (
                                 <img 
-                                    src={profilePhoto.startsWith('http') ? profilePhoto : `/storage/${profilePhoto}`} 
-                                    alt={user.name} 
+                                    src={photoUrl} 
+                                    alt={user?.name || 'User'} 
                                     className="w-full h-full object-cover"
+                                    onError={() => setImageError(true)} // Jika link broken, otomatis sembunyikan img & panggil fallback huruf
                                 />
                             ) : (
-                                <span>{user.name.charAt(0).toUpperCase()}</span>
+                                <span>{user?.name?.charAt(0).toUpperCase() || 'A'}</span>
                             )}
                         </div>
 
                         <div className="hidden sm:flex flex-col items-start">
-                            <span className="text-sm font-bold text-slate-800 leading-none group-hover:text-blue-600 transition-colors">
-                                {user.name}
+                            <span className="text-sm font-black text-slate-800 leading-none group-hover:text-blue-950 transition-colors">
+                                {user?.name || 'Administrator'}
                             </span>
-                            <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest mt-1">
+                            <span className="text-[10px] font-bold text-blue-900/70 uppercase tracking-widest mt-1 bg-blue-50 px-1.5 py-0.5 rounded-md">
                                 Admin
                             </span>
                         </div>
                     </motion.button>
 
+                    {/* Dropdown Menu (Navy Touch) */}
                     <AnimatePresence>
                         {dropdownOpen && (
                             <>
-                                {/* Backdrop tidak terlihat untuk menutup dropdown saat klik area luar */}
                                 <div className="fixed inset-0 z-30" onClick={() => setDropdownOpen(false)}></div>
                                 
                                 <motion.div 
@@ -113,25 +130,38 @@ export default function Navbar({ user, setIsSidebarOpen }) {
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 15, scale: 0.95 }}
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                    className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 py-2 z-40 overflow-hidden"
+                                    className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl shadow-blue-950/10 border border-slate-100 py-2 z-40 overflow-hidden"
                                 >
-                                    <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
-                                        <p className="text-sm font-bold text-slate-900">{user.name}</p>
-                                        <p className="text-xs font-medium text-slate-500 truncate mt-0.5">{user.email}</p>
+                                    {/* User Info Header in Dropdown */}
+                                    <div className="px-5 py-4 border-b border-slate-100 bg-gradient-to-br from-slate-50 to-white">
+                                        <p className="text-sm font-black text-blue-950">{user?.name}</p>
+                                        <p className="text-xs font-bold text-slate-400 truncate mt-0.5">{user?.email}</p>
                                     </div>
                                     
+                                    {/* Menu Items */}
                                     <div className="py-2">
-                                        <Link href={route('profile.edit')} className="flex items-center gap-3 px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">
-                                            <UserIcon size={18} /> Profil Saya
+                                        <Link 
+                                            href={route('profile.edit')} 
+                                            className="flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-950 transition-colors"
+                                        >
+                                            <UserIcon size={16} /> Profil Saya
                                         </Link>
-                                        <button className="w-full flex items-center gap-3 px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">
-                                            <Settings size={18} /> Pengaturan Sistem
+                                        <button 
+                                            className="w-full flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-950 transition-colors"
+                                        >
+                                            <Settings size={16} /> Pengaturan Sistem
                                         </button>
                                     </div>
                                     
-                                    <div className="border-t border-slate-100 py-1.5">
-                                        <Link href={route('logout')} method="post" as="button" className="w-full text-left flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-rose-600 hover:bg-rose-50 transition-colors">
-                                            <LogOut size={18} /> Keluar
+                                    {/* Logout Area */}
+                                    <div className="border-t border-slate-100 pt-2 pb-1">
+                                        <Link 
+                                            href={route('logout')} 
+                                            method="post" 
+                                            as="button" 
+                                            className="w-full text-left flex items-center gap-3 px-5 py-2.5 text-sm font-black text-rose-500 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                                        >
+                                            <LogOut size={16} strokeWidth={2.5} /> Keluar
                                         </Link>
                                     </div>
                                 </motion.div>
