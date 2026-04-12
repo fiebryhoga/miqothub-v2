@@ -8,7 +8,7 @@ export default function Index({ auth, myCourses = [] }) {
         <MemberLayout user={auth.user}>
             <Head title="Kelas Saya" />
 
-            {/* --- HEADER SECTION --- */}
+            
             <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-black text-blue-950 tracking-tight flex items-center gap-2">
@@ -27,7 +27,7 @@ export default function Index({ auth, myCourses = [] }) {
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white rounded-[2rem] border border-dashed border-slate-200 p-12 lg:p-20 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden"
                 >
-                    {/* Background Aksen Hiasan */}
+                    
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-50/50 to-transparent pointer-events-none"></div>
 
                     <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 relative z-10">
@@ -57,7 +57,7 @@ export default function Index({ auth, myCourses = [] }) {
                             key={course.id} 
                             className="bg-white rounded-[1.5rem] p-3.5 shadow-sm border border-slate-100 flex flex-col hover:shadow-2xl hover:shadow-blue-950/10 hover:-translate-y-1.5 transition-all duration-500 group"
                         >
-                            {/* THUMBNAIL */}
+                            
                             <div className="h-52 bg-slate-100 rounded-[1.25rem] relative overflow-hidden mb-4 group-hover:shadow-inner transition-all">
                                 {course.thumbnail_url ? (
                                     <img 
@@ -71,10 +71,10 @@ export default function Index({ auth, myCourses = [] }) {
                                     </div>
                                 )}
                                 
-                                {/* Overlay Gradient Navy */}
+                                
                                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-950/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 
-                                {/* Badge Batch */}
+                                
                                 <div className="absolute top-4 left-4 z-10">
                                     <span className="px-3 py-1.5 bg-white/95 text-blue-950 text-[10px] font-black uppercase tracking-widest rounded-lg shadow-sm">
                                         Batch {course.batch}
@@ -82,22 +82,22 @@ export default function Index({ auth, myCourses = [] }) {
                                 </div>
                             </div>
 
-                            {/* KONTEN CARD */}
+                            
                             <div className="px-2 pb-1 flex-1 flex flex-col">
                                 <h3 className="text-lg font-black text-slate-800 leading-snug mb-3 line-clamp-2 group-hover:text-blue-900 transition-colors">
                                     {course.nama}
                                 </h3>
                                 
-                                {/* DESKRIPSI SINGKAT (Opsional, agar card tidak kosong) */}
+                                
                                 {course.deskripsi && (
                                     <p className="text-xs font-medium text-slate-500 line-clamp-2 mb-4">
                                         {course.deskripsi}
                                     </p>
                                 )}
                                 
-                                {/* TOMBOL AKSI */}
+                                
                                 <div className="mt-auto pt-4 border-t border-slate-100/80 flex flex-col gap-2.5">
-                                    {/* Tombol Mulai Belajar (Primary) */}
+                                    
                                     <Link 
                                         href={route('member.courses.show', course.id)} 
                                         className="w-full flex items-center justify-center gap-2 py-3 bg-blue-950 text-white rounded-xl text-sm font-bold hover:bg-blue-900 hover:shadow-lg hover:shadow-blue-950/20 transition-all duration-300 group/btn"
@@ -106,7 +106,7 @@ export default function Index({ auth, myCourses = [] }) {
                                         Mulai Belajar
                                     </Link>
 
-                                    {/* Tombol Grup WA (Secondary - Muncul jika link_grup_wa ada) */}
+                                    
                                     {course.link_grup_wa && (
                                         <a 
                                             href={course.link_grup_wa} 

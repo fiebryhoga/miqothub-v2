@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('exercise_scores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Relasi ke member
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
             $table->foreignId('exercise_id')->constrained()->onDelete('cascade');
             $table->integer('skor');
             $table->integer('jumlah_benar');

@@ -7,7 +7,7 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
 
     const { data, setData, post, processing, reset } = useForm({ course_id: '' });
 
-    // Ekstrak semua kelas yang AKTIF dari semua transaksi member ini
+    
     let activeCourses = [];
     if (member.transactions) {
         member.transactions.forEach(trx => {
@@ -21,7 +21,7 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
         });
     }
 
-    // Filter course yang belum dimiliki member untuk ditampilkan di Dropdown
+    
     const availableCourses = allCourses.filter(c => !activeCourses.find(ac => ac.id === c.id));
 
     const handleEnroll = (e) => {
@@ -42,7 +42,7 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
 
     const getExpiryDate = (dateString) => {
         const date = new Date(dateString);
-        date.setFullYear(date.getFullYear() + 1); // 1 Tahun dari tanggal enroll
+        date.setFullYear(date.getFullYear() + 1); 
         return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
     };
 
@@ -50,12 +50,12 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-                    {/* Backdrop */}
+                    
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer transition-opacity" />
                     
                     <motion.div initial={{ scale: 0.95, opacity: 0, y: 15 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 15 }} className="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border border-slate-100">
                         
-                        {/* Header Modal */}
+                        
                         <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-50 text-blue-900 rounded-lg">
@@ -69,7 +69,7 @@ export default function EnrollmentModal({ isOpen, onClose, member, allCourses })
                             <button onClick={onClose} className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors"><X size={20}/></button>
                         </div>
 
-                        {/* Modal Body */}
+                        
                         <div className="p-8 overflow-y-auto scrollbar-thin bg-white">
                             <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Kelas Aktif Saat Ini ({activeCourses.length})</h3>
                             

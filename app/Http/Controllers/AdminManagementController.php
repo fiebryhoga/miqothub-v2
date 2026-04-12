@@ -66,7 +66,7 @@ class AdminManagementController extends Controller
         ]);
     }
 
-    // Mengupdate data Admin
+    
     public function update(Request $request, User $admin)
     {
         $request->validate([
@@ -86,7 +86,7 @@ class AdminManagementController extends Controller
         }
 
         if ($request->hasFile('foto_profile')) {
-            // Hapus foto lama jika ada
+            
             if ($admin->foto_profile) {
                 Storage::disk('public')->delete($admin->foto_profile);
             }
@@ -98,7 +98,7 @@ class AdminManagementController extends Controller
         return redirect()->route('admin.management.index')->with('success', 'Data Admin berhasil diperbarui.');
     }
 
-    // Menghapus Admin
+    
     public function destroy(User $admin)
     {
         if ($admin->foto_profile) {

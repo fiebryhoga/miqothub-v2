@@ -7,15 +7,15 @@ export default function Closed({ material, exercise }) {
         <div className="min-h-screen bg-slate-50/80 flex flex-col items-center justify-center p-4 relative overflow-hidden">
             <Head title={`Latihan Ditutup: ${exercise.judul}`} />
 
-            {/* Aksen Background Radial Navy */}
+            
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/5 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="w-full max-w-md bg-white rounded-[2rem] shadow-2xl shadow-blue-950/5 overflow-hidden border border-slate-100 text-center relative z-10">
-                {/* Header Pattern Navy */}
+                
                 <div className="h-32 absolute top-0 w-full bg-gradient-to-b from-blue-950/10 to-transparent"></div>
                 
                 <div className="p-10 md:p-12 relative z-10 flex flex-col items-center">
-                    {/* Ikon Gembok Timbul */}
+                    
                     <div className="w-24 h-24 bg-white rounded-[1.5rem] flex items-center justify-center shadow-lg shadow-blue-900/10 mb-8 -mt-16 border border-slate-100/50">
                         <Lock size={40} className="text-blue-950" strokeWidth={1.5} />
                     </div>
@@ -29,7 +29,7 @@ export default function Closed({ material, exercise }) {
                         </p>
                     </div>
 
-                    {/* Tombol Kembali ke Kelas */}
+                    
                     <Link 
                         href={route('member.courses.show', material.chapter.course_id)} 
                         className="w-full py-4 bg-blue-950 text-white rounded-xl font-bold hover:bg-blue-900 transition-all duration-300 shadow-lg shadow-blue-950/20 active:scale-95 flex items-center justify-center gap-2 group"

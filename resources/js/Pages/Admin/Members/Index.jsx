@@ -8,7 +8,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useMemo } from 'react';
 
-// Import Semua Partials
+
 import ConfirmModal from './Partials/ConfirmModal';
 import ViewMemberModal from './Partials/ViewMemberModal';
 import EnrollmentModal from './Partials/EnrollmentModal';
@@ -18,11 +18,11 @@ import EditMemberModal from './Partials/EditMemberModal';
 export default function Index({ auth, members, allCourses }) {
     const { flash = {} } = usePage().props;
     
-    // State Navigasi & Search
+    
     const [activeTab, setActiveTab] = useState('aktif'); 
     const [searchQuery, setSearchQuery] = useState('');
     
-    // State Modals
+    
     const [viewModal, setViewModal] = useState({ isOpen: false, member: null });
     const [editModal, setEditModal] = useState({ isOpen: false, member: null });
     const [createModal, setCreateModal] = useState(false);
@@ -32,7 +32,7 @@ export default function Index({ auth, members, allCourses }) {
     const [processingAction, setProcessingAction] = useState(false);
     const [verifyCourseIds, setVerifyCourseIds] = useState([]);
 
-    // --- LOGIKA FILTER DATA UNTUK 3 TAB ---
+    
     const filteredMembers = useMemo(() => {
         const tabFiltered = members.filter(m => {
             const hasPendingTransaction = m.transactions?.some(t => t.status === 'pending');
@@ -50,15 +50,15 @@ export default function Index({ auth, members, allCourses }) {
         );
     }, [members, activeTab, searchQuery]);
 
-    // Counter Notifikasi Tab
+    
     const activeCount = members.filter(m => m.status_akun === 'aktif').length;
     const registrasiCount = members.filter(m => m.status_akun === 'pending').length;
     const pembelianCount = members.filter(m => m.status_akun === 'aktif' && m.transactions?.some(t => t.status === 'pending')).length;
 
-    // --- UTILITIES ---
+    
     const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
 
-    // --- HANDLERS ---
+    
     const triggerConfirm = (type, member) => {
         let config = {};
         if (type === 'verify') {
@@ -72,7 +72,7 @@ export default function Index({ auth, members, allCourses }) {
                 message: isNewAccount 
                     ? `Verifikasi pembayaran dan aktifkan akun untuk ${member.name}?` 
                     : `Setujui pengajuan penambahan kelas untuk member aktif ${member.name}?`, 
-                icon: <CheckCircle size={32} />, color: 'blue' // Diganti ke blue
+                icon: <CheckCircle size={32} />, color: 'blue' 
             };
         } else if (type === 'reject') {
             const isNewAccount = member.status_akun === 'pending';
@@ -118,17 +118,17 @@ export default function Index({ auth, members, allCourses }) {
                 </button>
             </div>
 
-            {/* TABS & SEARCH BAR */}
+            
             <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 mb-6">
                 <div className="flex bg-slate-100/80 p-1.5 rounded-xl w-full xl:w-auto relative overflow-x-auto scrollbar-thin border border-slate-200/60">
-                    {/* Tab Aktif (Biru Dongker) */}
+                    
                     <button onClick={() => setActiveTab('aktif')} className={`relative whitespace-nowrap px-6 py-2.5 text-sm font-bold rounded-lg transition-colors z-10 flex items-center gap-2 ${activeTab === 'aktif' ? 'text-blue-900' : 'text-slate-500 hover:text-slate-700'}`}>
                         {activeTab === 'aktif' && <motion.div layoutId="tabBg" className="absolute inset-0 bg-white rounded-lg shadow-sm border border-slate-200 z-[-1]" />}
                         <UserCheck size={18} /> Member Aktif 
                         <span className={`ml-1 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'aktif' ? 'bg-blue-100 text-blue-700' : 'bg-slate-200 text-slate-500'}`}>{activeCount}</span>
                     </button>
 
-                    {/* Tab Registrasi (Violet) */}
+                    
                     <button onClick={() => setActiveTab('registrasi')} className={`relative whitespace-nowrap px-6 py-2.5 text-sm font-bold rounded-lg transition-colors z-10 flex items-center gap-2 ${activeTab === 'registrasi' ? 'text-violet-900' : 'text-slate-500 hover:text-slate-700'}`}>
                         {activeTab === 'registrasi' && <motion.div layoutId="tabBg" className="absolute inset-0 bg-white rounded-lg shadow-sm border border-slate-200 z-[-1]" />}
                         <UserPlus size={18} /> Registrasi Baru 
@@ -136,7 +136,7 @@ export default function Index({ auth, members, allCourses }) {
                         <span className={`ml-1 px-2 py-0.5 rounded-md text-[10px] ${activeTab === 'registrasi' ? 'bg-violet-100 text-violet-700' : 'bg-slate-200 text-slate-500'}`}>{registrasiCount}</span>
                     </button>
 
-                    {/* Tab Pembelian (Sky Blue / Biru Terang) */}
+                    
                     <button onClick={() => setActiveTab('pembelian')} className={`relative whitespace-nowrap px-6 py-2.5 text-sm font-bold rounded-lg transition-colors z-10 flex items-center gap-2 ${activeTab === 'pembelian' ? 'text-sky-900' : 'text-slate-500 hover:text-slate-700'}`}>
                         {activeTab === 'pembelian' && <motion.div layoutId="tabBg" className="absolute inset-0 bg-white rounded-lg shadow-sm border border-slate-200 z-[-1]" />}
                         <ShoppingCart size={18} /> Pembelian Paket
@@ -145,7 +145,7 @@ export default function Index({ auth, members, allCourses }) {
                     </button>
                 </div>
 
-                {/* Search Bar */}
+                
                 <div className="relative w-full xl:w-80 shrink-0">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input 
@@ -155,7 +155,7 @@ export default function Index({ auth, members, allCourses }) {
                 </div>
             </div>
 
-            {/* Flash Message */}
+            
             <AnimatePresence>
                 {flash?.success && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 bg-blue-50 border border-blue-100 text-blue-900 rounded-xl font-bold flex items-center gap-3 text-sm shadow-sm">
@@ -164,7 +164,7 @@ export default function Index({ auth, members, allCourses }) {
                 )}
             </AnimatePresence>
 
-            {/* TABLE CONTAINER */}
+            
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="overflow-x-auto scrollbar-thin">
                     <table className="w-full text-left border-collapse whitespace-nowrap">
@@ -187,7 +187,7 @@ export default function Index({ auth, members, allCourses }) {
                                 return (
                                     <motion.tr initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.03 }} key={member.id} className="hover:bg-slate-50/80 transition-colors group">
                                         
-                                        {/* IDENTITAS */}
+                                        
                                         <td className="p-6">
                                             <div className="flex items-center gap-4">
                                                 {member.foto_profile ? (
@@ -209,7 +209,7 @@ export default function Index({ auth, members, allCourses }) {
                                             </div>
                                         </td>
                                         
-                                        {/* KOLOM DINAMIS (AKTIF) */}
+                                        
                                         {activeTab === 'aktif' && (
                                             <>
                                                 <td className="p-6">
@@ -229,7 +229,7 @@ export default function Index({ auth, members, allCourses }) {
                                             </>
                                         )}
 
-                                        {/* KOLOM DINAMIS (REGISTRASI) */}
+                                        
                                         {activeTab === 'registrasi' && (
                                             <>
                                                 <td className="p-6">
@@ -243,7 +243,7 @@ export default function Index({ auth, members, allCourses }) {
                                             </>
                                         )}
 
-                                        {/* KOLOM DINAMIS (PEMBELIAN) */}
+                                        
                                         {activeTab === 'pembelian' && (
                                             <>
                                                 <td className="p-6">
@@ -268,7 +268,7 @@ export default function Index({ auth, members, allCourses }) {
                                             </>
                                         )}
 
-                                        {/* MANAJEMEN AKSI */}
+                                        
                                         <td className="p-6">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button onClick={() => setViewModal({ isOpen: true, member })} title="Lihat Bukti Pembayaran / Detail" className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors border border-transparent hover:border-slate-200"><Eye size={18} /></button>
@@ -296,7 +296,7 @@ export default function Index({ auth, members, allCourses }) {
                 </div>
             </div>
 
-            {/* KOMPONEN MODAL TERPISAH (PARTIALS) */}
+            
             <ViewMemberModal isOpen={viewModal.isOpen} onClose={() => setViewModal({ isOpen: false, member: null })} member={viewModal.member} />
             <EnrollmentModal 
                 isOpen={enrollModal.isOpen} 

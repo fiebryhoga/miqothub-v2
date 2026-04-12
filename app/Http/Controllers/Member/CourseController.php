@@ -10,10 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    /**
-     * Menampilkan daftar 'Kelas Saya' (Sudah diletakkan di Dashboard sebelumnya, 
-     * tapi ini kalau mau dipisah halamannya)
-     */
+    
     public function index()
     {
         $myCourses = Auth::user()->courses()->get()->map(function ($course) {
@@ -26,26 +23,24 @@ class CourseController extends Controller
         ]);
     }
 
-    /**
-     * Menampilkan Ruang Belajar untuk 1 Kelas spesifik
-     */
+    
     public function show($id)
     {
         $user = Auth::user();
         
-        // 1. KEAMANAN: Pastikan user benar-benar memiliki kelas ini (sudah verified)
+        
         $hasCourse = $user->courses()->where('courses.id', $id)->exists();
 
         if (!$hasCourse) {
-            // Jika iseng nembak URL ID kelas lain, lemparkan error 403 Forbidden
+            
             abort(403, 'Akses Ditolak. Anda belum membeli atau menyelesaikan pembayaran untuk kelas ini.');
         }
 
-        // 2. Ambil data course beserta kurikulum (chapters & materials)
+        
         $course = Course::with(['chapters' => function($query) {
-            $query->orderBy('created_at', 'asc'); // Urutkan bab dari yang pertama dibuat
+            $query->orderBy('created_at', 'asc'); 
         }, 'chapters.materials' => function($query) {
-            $query->orderBy('created_at', 'asc'); // Urutkan materi
+            $query->orderBy('created_at', 'asc'); 
         }])->findOrFail($id);
 
         return Inertia::render('Member/Courses/Show', [
@@ -53,12 +48,12 @@ class CourseController extends Controller
         ]);
     }
 
-    // Menampilkan daftar kelas yang BELUM dibeli oleh member
+    
     public function catalog()
     {
         $user = auth()->user();
         
-        // Cari ID kelas yang sudah dimiliki atau sedang diproses (pending)
+        
         $ownedCourseIds = \App\Models\Transaction::where('user_id', $user->id)
             ->whereIn('status', ['verified', 'pending'])
             ->with('courses')
@@ -68,7 +63,7 @@ class CourseController extends Controller
             ->unique()
             ->toArray();
 
-        // Tampilkan kelas yang statusnya 'onsale' dan belum dimiliki member
+        
         $availableCourses = \App\Models\Course::where('status', 'onsale')
             ->whereNotIn('id', $ownedCourseIds)
             ->get()
@@ -82,7 +77,7 @@ class CourseController extends Controller
         ]);
     }
 
-    // Memproses pengajuan pembelian kelas baru
+    
     public function purchase(\Illuminate\Http\Request $request)
     {
         $request->validate([
@@ -98,7 +93,7 @@ class CourseController extends Controller
             'kode_transaksi' => 'INV-' . date('Ymd') . '-' . strtoupper(uniqid()),
             'total_harga' => $course->harga,
             'bukti_pembayaran' => $buktiPath,
-            'status' => 'pending', // Masuk antrean Admin
+            'status' => 'pending', 
         ]);
 
         $transaction->courses()->attach($course->id, ['harga_saat_beli' => $course->harga]);

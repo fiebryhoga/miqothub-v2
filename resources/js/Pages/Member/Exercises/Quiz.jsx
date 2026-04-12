@@ -42,7 +42,7 @@ export default function Quiz({ material, exercise, questions }) {
             <Head title={`Kuis: ${exercise.judul}`} />
 
             <div className="max-w-4xl mx-auto">
-                {/* --- HEADER & PROGRESS BAR NAVY --- */}
+                
                 <div className="mb-8">
                     <h1 className="text-2xl md:text-3xl font-black text-blue-950 mb-5 tracking-tight">{exercise.judul}</h1>
                     
@@ -56,7 +56,7 @@ export default function Quiz({ material, exercise, questions }) {
                             </span>
                         </div>
                         
-                        {/* Track Progress Bar */}
+                        
                         <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
                             <div 
                                 className="bg-gradient-to-r from-blue-800 to-blue-500 h-2 rounded-full transition-all duration-700 ease-out" 
@@ -66,10 +66,10 @@ export default function Quiz({ material, exercise, questions }) {
                     </div>
                 </div>
 
-                {/* --- AREA SOAL --- */}
+                
                 <div className="bg-white rounded-[2rem] shadow-xl shadow-blue-950/5 border border-slate-100 p-6 md:p-10 lg:p-12 mb-8">
                     
-                    {/* Tampilkan Gambar Soal (Jika Ada) */}
+                    
                     {currentQ.gambar_soal && (
                         <div className="mb-8 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 inline-block p-2 shadow-inner">
                             <img src={`/storage/${currentQ.gambar_soal}`} alt="Ilustrasi Soal" className="max-h-[300px] w-auto object-contain rounded-xl" />
@@ -80,7 +80,7 @@ export default function Quiz({ material, exercise, questions }) {
                         {currentQ.pertanyaan}
                     </p>
 
-                    {/* AREA OPSI JAWABAN */}
+                    
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                         {['a', 'b', 'c', 'd', 'e'].map((opt) => {
                             const isSelected = data.answers[currentQ.id] === opt;
@@ -110,7 +110,7 @@ export default function Quiz({ material, exercise, questions }) {
                                         </span>
                                     </div>
 
-                                    {/* Tampilkan Gambar Opsi (Jika Ada) */}
+                                    
                                     {currentQ[`gambar_${opt}`] && (
                                         <div className="ml-14 mt-2 rounded-xl overflow-hidden bg-white border border-slate-100 inline-block p-1">
                                             <img src={`/storage/${currentQ[`gambar_${opt}`]}`} alt={`Opsi ${opt}`} className="max-h-24 w-auto object-contain rounded-lg" />
@@ -122,7 +122,7 @@ export default function Quiz({ material, exercise, questions }) {
                     </div>
                 </div>
 
-                {/* --- NAVIGASI BAWAH --- */}
+                
                 <div className="flex justify-between items-center bg-white p-4 rounded-[1.5rem] shadow-sm border border-slate-100">
                     <button 
                         onClick={() => setCurrentIndex(prev => prev - 1)}

@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ConfirmModal({ isOpen, onClose, onConfirm, title, message, icon, color, children, isProcessing }) {    
-    // Set warna dinamis berdasarkan prop 'color'
-    // Mengganti 'emerald' menjadi 'blue' untuk menyelaraskan dengan tema
+    
+    
     const colorTheme = {
         blue: 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/30 text-blue-600 bg-blue-50',
-        emerald: 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/30 text-blue-600 bg-blue-50', // Fallback jika masih ada prop emerald
+        emerald: 'bg-blue-600 hover:bg-blue-700 shadow-blue-500/30 text-blue-600 bg-blue-50', 
         amber: 'bg-amber-500 hover:bg-amber-600 shadow-amber-500/30 text-amber-600 bg-amber-50',
         red: 'bg-rose-600 hover:bg-rose-700 shadow-rose-500/30 text-rose-600 bg-rose-50'
     };
@@ -27,7 +27,7 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, title, messag
                         <h3 className="text-xl font-black text-slate-900 mb-2">{title}</h3>
                         <p className="text-sm text-slate-500 mb-6 font-medium leading-relaxed">{message}</p>
                         
-                        {/* AREA UNTUK CHECKBOX KELAS (Jika ada children) */}
+                        
                         {children && (
                             <div className="w-full text-left overflow-y-auto scrollbar-thin mb-8">
                                 {children}

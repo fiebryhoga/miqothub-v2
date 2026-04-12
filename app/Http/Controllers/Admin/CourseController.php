@@ -13,7 +13,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        // Muat relasi transactions yang 'verified' beserta user yang melakukannya
+        
         $courses = Course::with(['transactions' => function ($query) {
             $query->where('status', 'verified')->with('user:id,name,email');
         }])->latest()->get()->map(function ($course) {
@@ -44,7 +44,7 @@ class CourseController extends Controller
             'tanggal_mulai' => 'nullable|date',
             'link_grup_wa' => 'nullable|url',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'fitur' => 'nullable|array', // Fitur dikirim sebagai array dari React
+            'fitur' => 'nullable|array', 
         ]);
 
         $thumbnailPath = null;
@@ -52,7 +52,7 @@ class CourseController extends Controller
             $thumbnailPath = $request->file('thumbnail')->store('course_thumbnails', 'public');
         }
 
-        // Membuat slug otomatis dari nama kelas + batch agar unik
+        
         $slug = Str::slug($request->nama . '-' . $request->batch);
 
         Course::create([
@@ -66,7 +66,7 @@ class CourseController extends Controller
             'kuota' => $request->kuota,
             'tanggal_mulai' => $request->tanggal_mulai,
             'link_grup_wa' => $request->link_grup_wa,
-            'fitur' => $request->fitur, // Otomatis jadi JSON berkat Model Casting
+            'fitur' => $request->fitur, 
             'thumbnail' => $thumbnailPath,
         ]);
 
@@ -90,7 +90,7 @@ class CourseController extends Controller
         ]);
 
         $data = $request->except(['thumbnail']);
-        $data['slug'] = Str::slug($request->nama . '-' . $request->batch); // Update slug jika nama/batch berubah
+        $data['slug'] = Str::slug($request->nama . '-' . $request->batch); 
         $data['harga_coret'] = $request->harga_coret ?? 0;
 
         if ($request->hasFile('thumbnail')) {
@@ -115,5 +115,5 @@ class CourseController extends Controller
         return redirect()->route('admin.courses.index')->with('success', 'Kelas berhasil dihapus permanen.');
     }
 
-    // Fungsi edit, update, dan destroy akan kita buat selanjutnya agar fokus dulu ke Index & Create
+    
 }

@@ -64,9 +64,9 @@ export default function Show({ auth, exercise, scores }) {
         <AdminLayout user={auth.user}>
             <Head title={`Kelola Latihan: ${exercise.judul}`} />
 
-            {/* HEADER HERO */}
+            
             <div className="mb-8 p-8 bg-white rounded-[2rem] shadow-sm border border-slate-200 relative overflow-hidden">
-                {/* Efek Blur Latar Belakang */}
+                
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 opacity-60 pointer-events-none"></div>
 
                 <div className="relative z-10 flex flex-col md:flex-row justify-between md:items-end gap-6">
@@ -88,7 +88,7 @@ export default function Show({ auth, exercise, scores }) {
                         </div>
                         <p className="text-slate-500 text-sm font-medium max-w-2xl leading-relaxed mt-2">{exercise.deskripsi || 'Kelola daftar soal dan pantau nilai peserta untuk latihan ini.'}</p>
                         
-                        {/* Meta Badges */}
+                        
                         <div className="flex flex-wrap gap-2.5 mt-5">
                             <span className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-lg flex items-center gap-1.5 ${exercise.is_active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60' : 'bg-rose-50 text-rose-700 border border-rose-200/60'}`}>
                                 <CheckCircle2 size={14}/> {exercise.is_active ? 'Aktif' : 'Ditutup'}
@@ -111,7 +111,7 @@ export default function Show({ auth, exercise, scores }) {
                         </div>
                     </div>
                     
-                    {/* Action Buttons */}
+                    
                     <div className="flex flex-col sm:flex-row gap-3">
                         <button onClick={() => setSettingModal(true)} className="flex items-center justify-center gap-2 px-5 py-3 bg-white text-slate-700 rounded-xl font-bold hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm border border-slate-200 text-sm">
                             <Settings size={18} /> Konfigurasi
@@ -123,7 +123,7 @@ export default function Show({ auth, exercise, scores }) {
                 </div>
             </div>
 
-            {/* FLASH MESSAGE */}
+            
             <AnimatePresence>
                 {flash?.success && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 bg-blue-50 border border-blue-100 text-blue-900 rounded-xl font-bold flex items-center gap-3 text-sm shadow-sm">
@@ -132,7 +132,7 @@ export default function Show({ auth, exercise, scores }) {
                 )}
             </AnimatePresence>
 
-            {/* TAB NAVIGATION */}
+            
             <div className="flex bg-slate-100/80 p-1.5 rounded-xl w-full max-w-md mb-6 relative border border-slate-200/60 shadow-sm">
                 <button onClick={() => setActiveTab('soal')} className={`relative flex-1 px-6 py-2.5 text-sm font-bold rounded-lg transition-colors z-10 flex items-center justify-center gap-2 ${activeTab === 'soal' ? 'text-blue-900' : 'text-slate-500 hover:text-slate-700'}`}>
                     {activeTab === 'soal' && <motion.div layoutId="activeTabEx" className="absolute inset-0 bg-white rounded-lg shadow-sm border border-slate-200 z-[-1]" />}
@@ -144,12 +144,12 @@ export default function Show({ auth, exercise, scores }) {
                 </button>
             </div>
 
-            {/* ========================================= */}
-            {/* TAB CONTENT: SOAL                         */}
-            {/* ========================================= */}
+            
+            
+            
             {activeTab === 'soal' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 relative">
-                    {/* Loader Reordering */}
+                    
                     {isReordering && (
                         <div className="absolute inset-0 bg-white/60 backdrop-blur-sm z-10 flex items-center justify-center rounded-3xl">
                             <div className="px-6 py-3 bg-slate-900 text-white rounded-xl font-bold shadow-xl animate-pulse text-sm">Menyimpan Urutan...</div>
@@ -170,14 +170,14 @@ export default function Show({ auth, exercise, scores }) {
                     ) : (
                         questions.map((q, index) => (
                             <div key={q.id} className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-6 hover:border-blue-300 transition-colors group">
-                                {/* Nomor & Reorder */}
+                                
                                 <div className="flex flex-row md:flex-col items-center gap-2 shrink-0 border-b md:border-b-0 border-slate-100 pb-4 md:pb-0">
                                     <button onClick={() => moveQuestion(index, 'up')} disabled={index === 0} className="p-1 text-slate-400 hover:text-blue-600 disabled:opacity-30 transition-colors"><ArrowUp size={20}/></button>
                                     <div className="w-10 h-10 bg-blue-50 text-blue-700 rounded-xl font-black flex items-center justify-center text-lg border border-blue-100 shadow-sm">{index + 1}</div>
                                     <button onClick={() => moveQuestion(index, 'down')} disabled={index === questions.length - 1} className="p-1 text-slate-400 hover:text-blue-600 disabled:opacity-30 transition-colors"><ArrowDown size={20}/></button>
                                 </div>
                                 
-                                {/* Konten Soal */}
+                                
                                 <div className="flex-1">
                                     {q.gambar_soal && (
                                         <div className="mb-4 rounded-xl overflow-hidden bg-slate-50 max-w-sm border border-slate-200 shadow-sm p-1">
@@ -186,7 +186,7 @@ export default function Show({ auth, exercise, scores }) {
                                     )}
                                     <h4 className="text-lg font-bold text-slate-800 mb-6 whitespace-pre-wrap leading-relaxed">{q.pertanyaan}</h4>
                                     
-                                    {/* Grid Opsi Jawaban */}
+                                    
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {['a', 'b', 'c', 'd', 'e'].map((opt) => {
                                             const isCorrect = q.jawaban_benar === opt;
@@ -210,7 +210,7 @@ export default function Show({ auth, exercise, scores }) {
                                     </div>
                                 </div>
 
-                                {/* Aksi Card */}
+                                
                                 <div className="shrink-0 flex md:flex-col justify-end md:justify-start gap-2 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-6">
                                     <button onClick={() => setModal({ show: true, question: q })} className="p-2.5 text-slate-400 bg-white hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors border border-slate-200 shadow-sm" title="Edit Soal"><Edit size={18}/></button>
                                     <button onClick={() => deleteQuestion(q.id)} className="p-2.5 text-slate-400 bg-white hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-colors border border-slate-200 shadow-sm" title="Hapus Soal"><Trash2 size={18}/></button>
@@ -221,9 +221,9 @@ export default function Show({ auth, exercise, scores }) {
                 </motion.div>
             )}
 
-            {/* ========================================= */}
-            {/* TAB CONTENT: REKAP NILAI                  */}
-            {/* ========================================= */}
+            
+            
+            
             {activeTab === 'nilai' && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
                     <div className="p-6 border-b border-slate-100 bg-white flex justify-between items-center">
@@ -275,9 +275,9 @@ export default function Show({ auth, exercise, scores }) {
                 </motion.div>
             )}
 
-            {/* ========================================= */}
-            {/* MODAL PENGATURAN KUIS                     */}
-            {/* ========================================= */}
+            
+            
+            
             <AnimatePresence>
                 {settingModal && (
                     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">

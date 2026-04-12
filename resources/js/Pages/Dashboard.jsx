@@ -21,7 +21,7 @@ export default function Dashboard({ auth }) {
                 <p className="text-gray-500 mt-1">Selamat datang kembali, {auth.user.name}. Berikut ringkasan sistem hari ini.</p>
             </div>
 
-            {/* Grid Statistik */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
                 {stats.map((stat, index) => (
                     <motion.div 
@@ -40,7 +40,7 @@ export default function Dashboard({ auth }) {
                 ))}
             </div>
 
-            {/* Area Tabel Dummy / Aktivitas */}
+            
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-lg font-bold text-gray-900">Pendaftar Member Terbaru</h2>
@@ -58,7 +58,7 @@ export default function Dashboard({ auth }) {
                             </tr>
                         </thead>
                         <tbody className="text-sm">
-                            {/* Dummy Row 1 */}
+                            
                             <tr className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">
@@ -72,7 +72,7 @@ export default function Dashboard({ auth }) {
                                     <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">Terverifikasi</span>
                                 </td>
                             </tr>
-                            {/* Dummy Row 2 */}
+                            
                             <tr className="hover:bg-gray-50 transition-colors">
                                 <td className="py-4">
                                     <div className="flex items-center gap-3">

@@ -13,7 +13,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
     return (
         <>
-            {/* Overlay untuk mobile */}
+            
             {isOpen && (
                 <div 
                     className="fixed inset-0 bg-slate-900/60 z-20 md:hidden backdrop-blur-sm transition-opacity"
@@ -21,12 +21,12 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                 ></div>
             )}
 
-            {/* Sidebar Tema Terang dengan Aksen Biru Dongker (Navy) */}
+            
             <aside className={`fixed inset-y-0 left-0 z-30 w-72 bg-white border-r border-slate-200 transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:inset-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                {/* Logo Area */}
+                
                 <div className="flex items-center justify-between h-20 px-6 border-b border-slate-100">
                     <Link href="/" className="flex items-center gap-2.5 text-2xl font-black tracking-tighter text-slate-900">
-                        {/* Ikon Logo Biru Dongker */}
+                        
                         <div className="p-2 bg-blue-900 rounded-lg text-white shadow-md shadow-blue-900/20">
                             <BookOpen size={20} strokeWidth={2.5} />
                         </div>
@@ -37,7 +37,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     </button>
                 </div>
 
-                {/* Menu Navigasi */}
+                
                 <nav className="p-4 space-y-1.5 mt-2">
                     <p className="px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Menu Utama</p>
                     
@@ -51,7 +51,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                                 : 'text-slate-500 hover:bg-slate-50 hover:text-blue-900 border border-transparent'
                             }`}
                         >
-                            {/* Warna icon menyesuaikan status */}
+                            
                             <span className={`${item.active ? 'text-white' : 'text-slate-400 group-hover:text-blue-800'} transition-colors`}>
                                 {item.icon}
                             </span>

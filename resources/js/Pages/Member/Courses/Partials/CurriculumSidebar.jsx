@@ -4,7 +4,7 @@ import { PlayCircle, FileBadge, MonitorPlay, ClipboardList, FileText, ChevronDow
 
 export default function CurriculumSidebar({ course, activeMaterial, setActiveMaterial, expandedChapters, toggleChapter }) {
     
-    // Fungsi Render Ikon di Sidebar
+    
     const getMaterialIcon = (type, isActive) => {
         const colorClass = isActive ? 'text-blue-200' : 'text-slate-400 group-hover/btn:text-blue-500 transition-colors';
         switch (type) {
@@ -18,7 +18,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
 
     return (
         <div className="bg-white rounded-[1.5rem] shadow-sm border border-slate-200 overflow-hidden sticky top-24 flex flex-col max-h-[calc(100vh-100px)]">
-            {/* Header Sidebar */}
+            
             <div className="p-5 border-b border-slate-100 bg-slate-50/80 flex items-center gap-3 shrink-0">
                 <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-800 shrink-0">
                     <BookOpen size={20} strokeWidth={2.5} />
@@ -29,7 +29,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                 </div>
             </div>
 
-            {/* List Kurikulum (Scrollable) */}
+            
             <div className="flex-1 overflow-y-auto custom-scrollbar p-3">
                 {(!course.chapters || course.chapters.length === 0) ? (
                     <div className="text-center text-slate-400 py-10 flex flex-col items-center gap-3">
@@ -40,7 +40,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                     course.chapters?.map((chapter, index) => (
                         <div key={chapter.id} className="mb-3 last:mb-0">
                             
-                            {/* Judul Bab (Accordion Header) */}
+                            
                             <button 
                                 onClick={() => toggleChapter(chapter.id)}
                                 className={`w-full flex items-center justify-between p-3.5 rounded-xl transition-all border ${
@@ -62,7 +62,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                                 </div>
                             </button>
 
-                            {/* Daftar Materi di dalam Bab */}
+                            
                             <AnimatePresence>
                                 {expandedChapters.includes(chapter.id) && (
                                     <motion.div 
@@ -85,7 +85,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                                                                 : 'hover:bg-slate-50'
                                                         }`}
                                                     >
-                                                        {/* Indikator Titik (Ikon) */}
+                                                        
                                                         <div className={`mt-0.5 shrink-0 w-8 h-8 rounded-full flex items-center justify-center border-[3px] transition-all duration-300 ${
                                                             isActive 
                                                             ? 'border-blue-800 bg-blue-900' 
@@ -94,7 +94,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                                                             {getMaterialIcon(material.tipe, isActive)}
                                                         </div>
                                                         
-                                                        {/* Teks Materi */}
+                                                        
                                                         <div className="flex-1 min-w-0 py-0.5">
                                                             <p className={`text-sm font-bold leading-tight mb-1.5 truncate transition-colors ${
                                                                 isActive ? 'text-white' : 'text-slate-700 group-hover/btn:text-blue-950'
@@ -102,7 +102,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                                                                 {material.judul}
                                                             </p>
                                                             <div className="flex items-center gap-2">
-                                                                {/* Badge Tipe */}
+                                                                
                                                                 <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${
                                                                     isActive 
                                                                     ? 'bg-blue-900/50 text-blue-200 border-blue-800' 
@@ -111,7 +111,7 @@ export default function CurriculumSidebar({ course, activeMaterial, setActiveMat
                                                                     {material.tipe === 'text_only' ? 'Teks' : material.tipe}
                                                                 </span>
                                                                 
-                                                                {/* Durasi */}
+                                                                
                                                                 {material.durasi && (
                                                                     <span className={`text-[11px] font-bold flex items-center gap-1 transition-colors ${
                                                                         isActive ? 'text-blue-300' : 'text-slate-400 group-hover/btn:text-slate-500'

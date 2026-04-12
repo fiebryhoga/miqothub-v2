@@ -59,10 +59,10 @@ export default function Welcome({ auth, courses = [] }) {
         <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-500 selection:text-white relative overflow-x-hidden scroll-smooth">
             <Head title="MiqotHub - Platform Pembelajaran Digital" />
 
-            {/* --- SUBTLE BACKGROUND --- */}
+            
             <div className="absolute top-0 w-full h-[70vh] bg-gradient-to-b from-white via-blue-50/40 to-[#F8FAFC] z-0 pointer-events-none"></div>
 
-            {/* --- NAVBAR --- */}
+            
             <nav className="fixed top-0 w-full z-40 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
                     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }} className="text-xl sm:text-2xl font-black tracking-tighter text-slate-900 flex items-center gap-2">
@@ -89,7 +89,7 @@ export default function Welcome({ auth, courses = [] }) {
                 </div>
             </nav>
 
-            {/* --- HERO SECTION --- */}
+            
             <main className="relative z-10 flex flex-col items-center justify-center min-h-[85vh] px-4 sm:px-6 pt-28 pb-16 md:pt-36 md:pb-20">
                 <motion.div className="text-center max-w-4xl mx-auto" variants={staggerContainer} initial="hidden" animate="visible">
                     <motion.div variants={fadeUpVariant} className="mb-5 md:mb-6 inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white border border-slate-200 shadow-sm text-slate-600 text-[10px] sm:text-xs font-bold tracking-wider uppercase">
@@ -122,7 +122,7 @@ export default function Welcome({ auth, courses = [] }) {
                 </motion.div>
             </main>
 
-            {/* --- PREVIEW MATERI GRATIS (LIST/SYLLABUS STYLE) --- */}
+            
             {previewMaterials.length > 0 && (
                 <section className="relative z-10 py-16 md:py-24 bg-white border-y border-slate-100">
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="max-w-5xl mx-auto px-4 sm:px-6">
@@ -141,12 +141,12 @@ export default function Welcome({ auth, courses = [] }) {
                                     onClick={() => setActivePreview(material)}
                                     className="group flex items-start gap-3 sm:gap-4 p-4 sm:p-5 bg-white border border-slate-200 rounded-2xl hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 cursor-pointer"
                                 >
-                                    {/* Icon Indicator */}
+                                    
                                     <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center border border-slate-100 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-colors duration-300">
                                         {material.tipe === 'video' ? <Play size={20} fill="currentColor" className="ml-1" /> : <FileText size={20} />}
                                     </div>
                                     
-                                    {/* Text Info */}
+                                    
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2 mb-1 sm:mb-1.5">
                                             <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest rounded-md">Preview</span>
@@ -155,7 +155,7 @@ export default function Welcome({ auth, courses = [] }) {
                                         <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">{material.judul}</h3>
                                     </div>
                                     
-                                    {/* Arrow CTA - Tampil selalu di mobile, hover di desktop */}
+                                    
                                     <div className="self-center md:opacity-0 md:-translate-x-2 md:group-hover:opacity-100 md:group-hover:translate-x-0 transition-all duration-300 text-slate-300 md:text-blue-500">
                                         <ChevronRight size={18} className="sm:w-5 sm:h-5" />
                                     </div>
@@ -166,7 +166,7 @@ export default function Welcome({ auth, courses = [] }) {
                 </section>
             )}
 
-            {/* --- PRICELIST / COURSE CATALOG --- */}
+            
             <section id="pricelist" className="relative z-10 py-16 md:py-24 bg-[#F8FAFC]">
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-10 md:mb-12 gap-4 text-center md:text-left">
@@ -222,7 +222,7 @@ export default function Welcome({ auth, courses = [] }) {
                 </motion.div>
             </section>
 
-            {/* --- FEATURES SECTION --- */}
+            
             <section id="fitur" className="relative z-10 py-16 md:py-24 bg-white border-t border-slate-100">
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="text-center mb-10 md:mb-16">
@@ -238,7 +238,7 @@ export default function Welcome({ auth, courses = [] }) {
                             { icon: Award, title: "Rekap Terpadu", desc: "Pantau nilai latihan, masa aktif kelas, dan kelola profil Anda dengan mudah." }
                         ].map((fitur, idx) => (
                             <motion.div key={idx} variants={fadeUpVariant} className="p-6 sm:p-8 bg-[#F8FAFC] rounded-[1.5rem] border border-slate-100 hover:border-blue-200 transition-colors duration-300">
-                                {/* Seragam warna fitur ke tema SaaS Clean (Blue) */}
+                                
                                 <div className="w-12 h-12 bg-white border border-slate-200 text-blue-600 rounded-xl flex items-center justify-center mb-5 shadow-sm">
                                     <fitur.icon size={22} strokeWidth={2.5} />
                                 </div>
@@ -254,20 +254,20 @@ export default function Welcome({ auth, courses = [] }) {
                 <p>&copy; {new Date().getFullYear()} MiqotHub. All rights reserved.</p>
             </footer>
 
-            {/* ======================================================== */}
-            {/* 🍿 POPUP MODAL THEATER UNTUK MATERI PREVIEW */}
-            {/* ======================================================== */}
+            
+            
+            
             <AnimatePresence>
                 {activePreview && (
                     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6 z-50">
-                        {/* Backdrop */}
+                        
                         <motion.div 
                             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
                             onClick={() => setActivePreview(null)} 
                             className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer" 
                         />
                         
-                        {/* Container Theater - Responsif (Bottom Sheet di HP, Modal di Laptop) */}
+                        
                         <motion.div 
                             initial={{ y: "100%", opacity: 0 }} 
                             animate={{ y: 0, opacity: 1 }} 
@@ -275,18 +275,18 @@ export default function Welcome({ auth, courses = [] }) {
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
                             className="relative w-full sm:max-w-4xl bg-white rounded-t-3xl sm:rounded-[2rem] shadow-2xl flex flex-col h-[90vh] sm:h-auto sm:max-h-[90vh] overflow-hidden"
                         >
-                            {/* Tombol Tutup Floating */}
+                            
                             <button onClick={() => setActivePreview(null)} className="absolute top-4 right-4 z-50 p-2 bg-slate-900/10 hover:bg-slate-900 text-slate-700 hover:text-white rounded-full backdrop-blur-md transition-all">
                                 <X size={20} />
                             </button>
 
-                            {/* Drag Indicator (Visual only, for mobile cue) */}
+                            
                             <div className="w-full flex justify-center py-3 sm:hidden absolute top-0 z-40 bg-gradient-to-b from-slate-900/40 to-transparent pointer-events-none">
                                 <div className="w-12 h-1.5 bg-white/50 rounded-full"></div>
                             </div>
 
                             <div className="overflow-y-auto scrollbar-thin flex-1 flex flex-col bg-white">
-                                {/* --- AREA MEDIA --- */}
+                                
                                 {activePreview.tipe === 'video' && activePreview.link_video ? (
                                     <div className="w-full aspect-video bg-black relative shrink-0">
                                         <iframe 
@@ -311,7 +311,7 @@ export default function Welcome({ auth, courses = [] }) {
                                     </div>
                                 )}
 
-                                {/* --- AREA DESKRIPSI --- */}
+                                
                                 <div className="p-5 sm:p-8 md:p-10 flex-1">
                                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
                                         <div>

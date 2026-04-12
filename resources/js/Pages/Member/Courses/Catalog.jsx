@@ -47,7 +47,7 @@ export default function Catalog({ auth, courses }) {
         <MemberLayout user={auth.user}>
             <Head title="Katalog Kelas" />
 
-            {/* --- HEADER SECTION --- */}
+            
             <div className="mb-8">
                 <h1 className="text-2xl font-black text-blue-950 tracking-tight flex items-center gap-2">
                     <ShoppingBag size={24} className="text-blue-600" /> Katalog Program Kelas
@@ -163,9 +163,9 @@ export default function Catalog({ auth, courses }) {
                 </div>
             )}
 
-            {/* ======================================= */}
-            {/* MODAL PEMBAYARAN (CHECKOUT POPUP) */}
-            {/* ======================================= */}
+            
+            
+            
             <AnimatePresence>
                 {selectedCourse && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
@@ -195,7 +195,7 @@ export default function Catalog({ auth, courses }) {
 
                             <form onSubmit={submit} className="p-6 md:p-8 space-y-6 overflow-y-auto custom-scrollbar">
                                 
-                                {/* Info Tagihan & Rekening Dinamis */}
+                                
                                 <div className="p-6 bg-gradient-to-br from-blue-950 to-blue-900 rounded-2xl relative overflow-hidden shadow-lg shadow-blue-950/20 text-white">
                                     <div className="absolute -right-4 -top-4 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
                                     
@@ -204,11 +204,11 @@ export default function Catalog({ auth, courses }) {
                                         {formatRupiah(selectedCourse.harga)}
                                     </p>
                                     
-                                    {/* LIST REKENING DINAMIS DARI PENGATURAN */}
+                                    
                                     <div className="space-y-3 relative z-10">
                                         <p className="text-xs font-bold text-blue-200">Silakan transfer ke rekening berikut:</p>
                                         
-                                        {/* Bank 1 */}
+                                        
                                         {app_settings?.bank1_active === 'true' && (
                                             <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 flex items-center gap-3.5 hover:bg-white/15 transition-colors">
                                                 <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center text-white shrink-0">
@@ -222,7 +222,7 @@ export default function Catalog({ auth, courses }) {
                                             </div>
                                         )}
 
-                                        {/* Bank 2 */}
+                                        
                                         {app_settings?.bank2_active === 'true' && (
                                             <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20 flex items-center gap-3.5 hover:bg-white/15 transition-colors">
                                                 <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center text-white shrink-0">
@@ -236,7 +236,7 @@ export default function Catalog({ auth, courses }) {
                                             </div>
                                         )}
 
-                                        {/* Fallback Jika Semua Bank Inaktif di Pengaturan */}
+                                        
                                         {(!app_settings?.bank1_active || app_settings?.bank1_active !== 'true') && (!app_settings?.bank2_active || app_settings?.bank2_active !== 'true') && (
                                             <div className="bg-rose-500/20 backdrop-blur-md p-3 rounded-xl border border-rose-500/30">
                                                 <p className="text-xs text-rose-200 font-bold text-center">Metode pembayaran belum dikonfigurasi oleh Admin.</p>
@@ -245,7 +245,7 @@ export default function Catalog({ auth, courses }) {
                                     </div>
                                 </div>
 
-                                {/* Area Upload Struk */}
+                                
                                 <div>
                                     <label className="text-sm font-black text-slate-700 mb-2.5 flex items-center gap-2">
                                         <Receipt size={16} className="text-blue-600"/> Upload Bukti Transfer
@@ -272,7 +272,7 @@ export default function Catalog({ auth, courses }) {
                                     {errors.bukti_pembayaran && <p className="text-rose-500 text-xs font-bold mt-2">{errors.bukti_pembayaran}</p>}
                                 </div>
 
-                                {/* Tombol Submit */}
+                                
                                 <button 
                                     type="submit" 
                                     disabled={processing || !data.bukti_pembayaran} 

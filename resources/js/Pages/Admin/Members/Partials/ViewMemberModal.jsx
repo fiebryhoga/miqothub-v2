@@ -7,7 +7,7 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
     const formatRupiah = (angka) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
     const formatDate = (dateString) => new Date(dateString).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 
-    // Ambil data transaksi pertama (karena alur kita 1 member 1 transaksi pendaftaran)
+    
     const transaction = member.transactions && member.transactions.length > 0 ? member.transactions[0] : null;
     const courses = transaction?.courses || [];
 
@@ -15,25 +15,25 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
         <AnimatePresence>
             {isOpen && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-                    {/* Backdrop */}
+                    
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer transition-opacity" />
                     
-                    {/* Modal Content */}
+                    
                     <motion.div 
                         initial={{ scale: 0.95, opacity: 0, y: 15 }} 
                         animate={{ scale: 1, opacity: 1, y: 0 }} 
                         exit={{ scale: 0.95, opacity: 0, y: 15 }} 
                         className="relative z-10 w-full max-w-5xl overflow-hidden rounded-[2rem] shadow-2xl bg-white flex flex-col lg:flex-row max-h-[95vh] border border-slate-100"
                     >
-                        {/* ======================= */}
-                        {/* KIRI: PROFIL IDENTITAS  */}
-                        {/* ======================= */}
+                        
+                        
+                        
                         <div className="w-full lg:w-5/12 bg-slate-50 flex flex-col overflow-y-auto scrollbar-thin border-r border-slate-200 shrink-0">
                             <div className="p-8 pb-6 border-b border-slate-200/60 bg-white relative shrink-0">
                                 <button onClick={onClose} className="lg:hidden absolute top-6 right-6 p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors"><X size={20}/></button>
                                 
                                 <div className="flex items-center gap-4 mb-5">
-                                    {/* Avatar Navy Blue */}
+                                    
                                     {member.foto_profile ? (
                                         <img src={`/storage/${member.foto_profile}`} alt={member.name} className="w-16 h-16 rounded-full object-cover border border-slate-200 shadow-sm shrink-0" />
                                     ) : (
@@ -80,9 +80,9 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
                             </div>
                         </div>
 
-                        {/* =============================== */}
-                        {/* KANAN: TRANSAKSI & DAFTAR KELAS */}
-                        {/* =============================== */}
+                        
+                        
+                        
                         <div className="w-full lg:w-7/12 p-8 relative flex flex-col bg-white overflow-y-auto scrollbar-thin">
                             <button onClick={onClose} className="hidden lg:block absolute top-6 right-6 p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors z-10"><X size={20}/></button>
                             
@@ -96,9 +96,9 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
                             {transaction ? (
                                 <div className="space-y-6">
                                     
-                                    {/* 1. Ringkasan Transaksi (Modern Dark Invoice Card) */}
+                                    
                                     <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 flex flex-col sm:flex-row justify-between sm:items-center gap-5 shadow-lg shadow-slate-900/10 relative overflow-hidden">
-                                        {/* Dekorasi Card */}
+                                        
                                         <div className="absolute -right-6 -top-6 text-slate-800/50 rotate-12 pointer-events-none">
                                             <Receipt size={100} />
                                         </div>
@@ -125,7 +125,7 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
                                         </div>
                                     </div>
 
-                                    {/* 2. Daftar Kelas yang Dipilih */}
+                                    
                                     <div>
                                         <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <BookOpen size={14} className="text-blue-500" /> 
@@ -148,7 +148,7 @@ export default function ViewMemberModal({ isOpen, onClose, member }) {
                                         </div>
                                     </div>
 
-                                    {/* 3. Bukti Transfer */}
+                                    
                                     <div>
                                         <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                                             <Receipt size={14} className="text-blue-500" /> 

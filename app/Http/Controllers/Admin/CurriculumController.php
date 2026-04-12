@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\Course;
 use App\Models\Material;
-use App\Models\Exercise; // <-- Penting untuk auto-create kuis
+use App\Models\Exercise; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str; // <-- Penting untuk nama file PDF
+use Illuminate\Support\Str; 
 use Inertia\Inertia;
 
 class CurriculumController extends Controller
@@ -22,9 +22,9 @@ class CurriculumController extends Controller
         ]);
     }
 
-    // ==========================================
-    // BAGIAN BAB (CHAPTER)
-    // ==========================================
+    
+    
+    
     public function storeChapter(Request $request, Course $course)
     {
         $request->validate([
@@ -53,12 +53,12 @@ class CurriculumController extends Controller
         return back()->with('success', 'Bab dan seluruh materinya berhasil dihapus.');
     }
 
-    // ==========================================
-    // BAGIAN MATERI (MATERIAL)
-    // ==========================================
-    // ==========================================
-    // 1. BUAT MATERI BIASA (Video, PDF, Teks)
-    // ==========================================
+    
+    
+    
+    
+    
+    
     public function storeMaterial(Request $request, Chapter $chapter)
     {
         $request->validate([
@@ -92,9 +92,9 @@ class CurriculumController extends Controller
         return back()->with('success', 'Materi berhasil ditambahkan!');
     }
 
-    // ==========================================
-    // 2. BUAT PERTEMUAN (Zoom / Meet)
-    // ==========================================
+    
+    
+    
     public function storeMeeting(Request $request, Chapter $chapter)
     {
         $request->validate([
@@ -122,9 +122,9 @@ class CurriculumController extends Controller
         return back()->with('success', 'Jadwal Pertemuan berhasil ditambahkan!');
     }
 
-    // ==========================================
-    // 3. BUAT LATIHAN (Kuis)
-    // ==========================================
+    
+    
+    
     public function storeExercise(Request $request, Chapter $chapter)
     {
         $request->validate([
@@ -134,7 +134,7 @@ class CurriculumController extends Controller
             'urutan' => 'required|integer|min:0',
         ]);
 
-        // Auto-create induk kuis di tabel exercises
+        
         $exercise = \App\Models\Exercise::create([
             'judul' => 'Kuis: ' . $request->judul,
             'deskripsi' => $request->deskripsi,
@@ -175,7 +175,7 @@ class CurriculumController extends Controller
         $data = $request->except(['file_path']); 
         $data['is_preview'] = $request->is_preview ?? false;
 
-        // Manajemen Update File PDF
+        
         if ($request->hasFile('file_path')) {
             if ($material->file_path) {
                 Storage::disk('public')->delete($material->file_path);
@@ -185,13 +185,13 @@ class CurriculumController extends Controller
             $data['file_path'] = $file->storeAs('course_materials', $fileName, 'public');
         }
 
-        // Hapus file lama jika tipe diganti dari PDF ke yang lain
+        
         if ($request->tipe !== 'pdf' && $material->file_path) {
             Storage::disk('public')->delete($material->file_path);
             $data['file_path'] = null;
         }
 
-        // Jika tiba-tiba materi diedit jadi latihan, tapi belum punya ID latihan
+        
         if ($request->tipe === 'latihan' && !$material->exercise_id) {
             $exercise = Exercise::create([
                 'judul' => 'Kuis: ' . $request->judul,
@@ -204,7 +204,7 @@ class CurriculumController extends Controller
 
         $material->update($data);
 
-        // Jika materi latihan cuma di-edit judul/deskripsinya, update juga di tabel exercises
+        
         if ($request->tipe === 'latihan' && $material->exercise_id) {
             $material->exercise->update([
                 'judul' => 'Kuis: ' . $request->judul,
@@ -221,7 +221,7 @@ class CurriculumController extends Controller
             Storage::disk('public')->delete($material->file_path);
         }
         
-        // Hapus juga Latihannya (kuisnya) jika materi tersebut dihapus
+        
         if ($material->tipe === 'latihan' && $material->exercise_id) {
             $material->exercise()->delete();
         }
@@ -230,37 +230,37 @@ class CurriculumController extends Controller
         return back()->with('success', 'Materi berhasil dihapus.');
     }
 
-    // ==========================================
-    // BAGIAN REORDER (GESER URUTAN)
-    // ==========================================
+    
+    
+    
     public function reorderChapter(Request $request, Chapter $chapter)
     {
         $direction = $request->direction;
         $course = $chapter->course;
 
-        // 1. Ambil semua chapter di kelas ini, urutkan sesuai tampilan visual saat ini
+        
         $chapters = $course->chapters()->orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
 
-        // 2. Cari index (posisi urutan array) dari chapter yang diklik
+        
         $currentIndex = $chapters->search(function ($c) use ($chapter) {
             return $c->id === $chapter->id;
         });
 
-        // 3. Tentukan target index untuk ditukar posisinya
+        
         if ($direction === 'up' && $currentIndex > 0) {
             $swapIndex = $currentIndex - 1;
         } elseif ($direction === 'down' && $currentIndex < $chapters->count() - 1) {
             $swapIndex = $currentIndex + 1;
         } else {
-            return back(); // Batalkan jika sudah di paling atas/bawah
+            return back(); 
         }
 
-        // 4. Tukar posisi di dalam data Collection
+        
         $temp = $chapters[$currentIndex];
         $chapters[$currentIndex] = $chapters[$swapIndex];
         $chapters[$swapIndex] = $temp;
 
-        // 5. Tulis ulang seluruh angka 'urutan' dari 1 sampai N agar bersih dari duplikat
+        
         foreach ($chapters as $index => $c) {
             $c->update(['urutan' => $index + 1]);
         }
@@ -273,15 +273,15 @@ class CurriculumController extends Controller
         $direction = $request->direction;
         $chapter = $material->chapter;
 
-        // 1. Ambil semua materi dalam bab ini
+        
         $materials = $chapter->materials()->orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
 
-        // 2. Cari index materi yang diklik
+        
         $currentIndex = $materials->search(function ($m) use ($material) {
             return $m->id === $material->id;
         });
 
-        // 3. Tentukan target index
+        
         if ($direction === 'up' && $currentIndex > 0) {
             $swapIndex = $currentIndex - 1;
         } elseif ($direction === 'down' && $currentIndex < $materials->count() - 1) {
@@ -290,12 +290,12 @@ class CurriculumController extends Controller
             return back();
         }
 
-        // 4. Tukar posisi
+        
         $temp = $materials[$currentIndex];
         $materials[$currentIndex] = $materials[$swapIndex];
         $materials[$swapIndex] = $temp;
 
-        // 5. Tulis ulang urutan dengan rapi
+        
         foreach ($materials as $index => $m) {
             $m->update(['urutan' => $index + 1]);
         }

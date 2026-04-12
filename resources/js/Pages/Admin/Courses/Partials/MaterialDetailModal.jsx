@@ -42,7 +42,7 @@ export default function MaterialDetailModal({ show, onClose, material }) {
         <AnimatePresence>
             {show && material && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
-                    {/* Backdrop */}
+                    
                     <motion.div 
                         initial={{ opacity: 0 }} 
                         animate={{ opacity: 1 }} 
@@ -51,17 +51,17 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" 
                     />
                     
-                    {/* Modal Box */}
+                    
                     <motion.div 
                         initial={{ scale: 0.95, opacity: 0, y: 15 }} 
                         animate={{ scale: 1, opacity: 1, y: 0 }} 
                         exit={{ scale: 0.95, opacity: 0, y: 15 }} 
                         className="relative z-10 w-full max-w-4xl bg-white rounded-3xl shadow-2xl shadow-slate-900/20 overflow-hidden flex flex-col max-h-[95vh] border border-slate-100"
                     >
-                        {/* HEADER MODAL */}
+                        
                         <div className="p-6 border-b border-slate-100 flex justify-between items-start bg-white shrink-0">
                             <div className="flex items-start gap-4 pr-4">
-                                {/* Icon Tipe Konten */}
+                                
                                 <div className={`p-3 rounded-xl shadow-sm border shrink-0 mt-1 ${
                                     isVideo ? 'bg-blue-50 border-blue-200 text-blue-600' : 
                                     isPdf ? 'bg-rose-50 border-rose-200 text-rose-600' : 
@@ -90,10 +90,10 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                             </button>
                         </div>
 
-                        {/* BODY CONTENT */}
+                        
                         <div className="overflow-y-auto scrollbar-thin bg-slate-50/50 flex-1">
                             
-                            {/* AREA MEDIA UTAMA */}
+                            
                             <div className="p-6">
                                 {isVideo && material.link_video && (
                                     <div className="w-full aspect-video bg-slate-900 rounded-2xl overflow-hidden shadow-md border border-slate-800 relative">
@@ -127,10 +127,10 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                                 )}
                             </div>
 
-                            {/* GRID INFORMASI DETAIL */}
+                            
                             <div className="px-6 pb-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
                                 
-                                {/* Kolom Kiri: Deskripsi (Lebih Lebar) */}
+                                
                                 <div className="lg:col-span-2">
                                     <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm h-full">
                                         <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
@@ -151,13 +151,13 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                                     </div>
                                 </div>
 
-                                {/* Kolom Kanan: Meta Data */}
+                                
                                 <div>
                                     <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                                         <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 border-b border-slate-100 pb-3">Detail Informasi</h4>
                                         
                                         <ul className="space-y-4">
-                                            {/* Durasi */}
+                                            
                                             <li className="flex items-start gap-3">
                                                 <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-500 shrink-0">
                                                     <Clock size={16} />
@@ -168,7 +168,7 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                                                 </div>
                                             </li>
 
-                                            {/* Tipe */}
+                                            
                                             <li className="flex items-start gap-3">
                                                 <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-500 shrink-0">
                                                     <Tag size={16} />
@@ -181,7 +181,7 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                                                 </div>
                                             </li>
 
-                                            {/* Tanggal Dibuat */}
+                                            
                                             <li className="flex items-start gap-3">
                                                 <div className="p-2 bg-slate-50 border border-slate-100 rounded-lg text-slate-500 shrink-0">
                                                     <Calendar size={16} />
@@ -195,7 +195,7 @@ export default function MaterialDetailModal({ show, onClose, material }) {
                                             </li>
                                         </ul>
 
-                                        {/* Tombol Link Asli untuk Video */}
+                                        
                                         {isVideo && material.link_video && (
                                             <div className="mt-6 pt-5 border-t border-slate-100">
                                                 <a href={material.link_video} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-white hover:bg-slate-50 text-slate-700 text-sm font-bold rounded-xl transition-colors border border-slate-200 shadow-sm">

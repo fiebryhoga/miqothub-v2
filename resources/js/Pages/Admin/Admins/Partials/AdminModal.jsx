@@ -62,14 +62,14 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop (Slate/Navy theme) */}
+                    
                     <motion.div 
                         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                         onClick={onClose}
                         className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity"
                     />
 
-                    {/* Modal Box */}
+                    
                     <div className="fixed inset-0 flex items-center justify-center z-50 p-4 sm:p-6 pointer-events-none">
                         <motion.div 
                             initial={{ opacity: 0, scale: 0.95, y: 15 }} 
@@ -78,7 +78,7 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                             transition={{ type: "spring", stiffness: 300, damping: 25 }}
                             className="bg-white w-full max-w-xl rounded-3xl shadow-2xl shadow-slate-900/20 overflow-hidden pointer-events-auto flex flex-col max-h-[95vh] border border-slate-100"
                         >
-                            {/* Header Modal */}
+                            
                             <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-start bg-white z-10">
                                 <div>
                                     <h2 className="text-2xl font-black text-slate-900 tracking-tight">
@@ -93,10 +93,10 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                                 </button>
                             </div>
 
-                            {/* Form Body */}
+                            
                             <form onSubmit={submit} className="flex-1 overflow-y-auto scrollbar-thin z-10 flex flex-col bg-white">
                                 <div className="p-8 pb-4">
-                                    {/* Upload Area */}
+                                    
                                     <div className="mb-8 flex flex-col items-center">
                                         <div className="relative w-28 h-28 mb-3">
                                             <div className="w-full h-full rounded-full border-[3px] border-slate-100 bg-slate-50 flex items-center justify-center overflow-hidden relative group shadow-sm transition-colors hover:border-blue-200">
@@ -117,9 +117,9 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                                         {errors.foto_profile && <p className="text-rose-500 text-xs mt-1 font-semibold">{errors.foto_profile}</p>}
                                     </div>
 
-                                    {/* Input Fields Container */}
+                                    
                                     <div className="space-y-5">
-                                        {/* Input Nama */}
+                                        
                                         <div>
                                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Nama Lengkap</label>
                                             <div className="relative">
@@ -135,7 +135,7 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                                             {errors.name && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.name}</p>}
                                         </div>
 
-                                        {/* Input Email */}
+                                        
                                         <div>
                                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
                                             <div className="relative">
@@ -151,7 +151,7 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                                             {errors.email && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.email}</p>}
                                         </div>
 
-                                        {/* Input Password */}
+                                        
                                         <div>
                                             <label className="flex justify-between items-center text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
                                                 <span>Password Akses</span>
@@ -173,7 +173,7 @@ export default function AdminModal({ isOpen, onClose, isEditMode, admin }) {
                                     </div>
                                 </div>
                                 
-                                {/* Footer Form */}
+                                
                                 <div className="mt-auto px-8 py-5 border-t border-slate-100 bg-[#F8FAFC] flex justify-end gap-3">
                                     <button 
                                         type="button" onClick={onClose} disabled={processing}

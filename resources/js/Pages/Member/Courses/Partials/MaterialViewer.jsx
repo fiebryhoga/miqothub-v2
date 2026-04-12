@@ -40,9 +40,9 @@ export default function MaterialViewer({ activeMaterial }) {
     return (
         <div className="bg-white rounded-[1.5rem] shadow-sm border border-slate-200 overflow-hidden flex flex-col">
             
-            {/* ======================================= */}
-            {/* 1. TAMPILAN VIDEO */}
-            {/* ======================================= */}
+            
+            
+            
             {activeMaterial.tipe === 'video' && (
                 <div className="aspect-video bg-slate-900 w-full relative border-b border-slate-200 shadow-inner overflow-hidden">
                     {activeMaterial.link_video ? (
@@ -61,9 +61,9 @@ export default function MaterialViewer({ activeMaterial }) {
                 </div>
             )}
 
-            {/* ======================================= */}
-            {/* 2. TAMPILAN PDF (SECURE SHIELD VIEW) */}
-            {/* ======================================= */}
+            
+            
+            
             {activeMaterial.tipe === 'pdf' && (
                 <div 
                     className="bg-slate-100 flex flex-col border-b border-slate-200 relative select-none"
@@ -72,20 +72,20 @@ export default function MaterialViewer({ activeMaterial }) {
                 >
                     <div className="w-full h-[70vh] md:h-[75vh] relative z-0 flex items-center justify-center overflow-hidden">
                         
-                        {/* Frame PDF */}
+                        
                         <iframe 
                             src={`/storage/${activeMaterial.file_path}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} 
                             className="w-full h-full border-none bg-slate-100 pointer-events-auto"
                             title="PDF Viewer Secure"
                         ></iframe>
 
-                        {/* TAMENG PROTEKSI */}
+                        
                         <div className="absolute top-0 left-0 w-full h-14 bg-transparent z-10 cursor-not-allowed" title="Dilindungi"></div>
                         <div className="absolute top-0 right-0 w-16 h-full bg-transparent z-10 cursor-not-allowed"></div>
                         <div className="absolute bottom-0 right-0 w-24 h-24 bg-transparent z-10 cursor-not-allowed"></div>
                     </div>
 
-                    {/* Bar Peringatan Premium Navy */}
+                    
                     <div className="p-3.5 bg-blue-950 text-blue-100 text-xs font-bold text-center flex items-center justify-center gap-2.5 relative z-20 shadow-[0_-4px_15px_rgba(0,0,0,0.2)] tracking-wide">
                         <ShieldAlert size={16} className="text-blue-400"/>
                         Dokumen dilindungi. Dilarang menyalin, mengunduh, atau mendistribusikan materi ini.
@@ -93,12 +93,12 @@ export default function MaterialViewer({ activeMaterial }) {
                 </div>
             )}
 
-            {/* ======================================= */}
-            {/* 3. TAMPILAN PERTEMUAN (MEET/ZOOM) */}
-            {/* ======================================= */}
+            
+            
+            
             {activeMaterial.tipe === 'pertemuan' && (
                 <div className="bg-gradient-to-br from-blue-50/50 via-white to-slate-50 p-10 md:p-20 flex flex-col items-center text-center border-b border-slate-200 relative overflow-hidden">
-                    {/* Aksen Background */}
+                    
                     <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
 
                     <div className="w-24 h-24 bg-white text-blue-700 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-blue-900/5 border border-blue-100 relative z-10">
@@ -139,9 +139,9 @@ export default function MaterialViewer({ activeMaterial }) {
                 </div>
             )}
 
-            {/* ======================================= */}
-            {/* 4. TAMPILAN LATIHAN (KUIS) */}
-            {/* ======================================= */}
+            
+            
+            
             {activeMaterial.tipe === 'latihan' && (
                 <div className="bg-gradient-to-br from-slate-50 via-white to-blue-50/40 p-10 md:p-20 flex flex-col items-center text-center border-b border-slate-200 relative overflow-hidden">
                     <div className="w-24 h-24 bg-white text-blue-700 rounded-full flex items-center justify-center mb-6 shadow-xl shadow-blue-900/5 border border-blue-100 relative z-10">
@@ -170,9 +170,9 @@ export default function MaterialViewer({ activeMaterial }) {
                 </div>
             )}
 
-            {/* ======================================= */}
-            {/* BAGIAN DESKRIPSI BAWAH */}
-            {/* ======================================= */}
+            
+            
+            
             <div className="p-8 lg:p-10 bg-white">
                 <div className="flex items-center gap-3 mb-5">
                     <span className="px-3 py-1.5 bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-widest rounded-lg border border-blue-100/50">

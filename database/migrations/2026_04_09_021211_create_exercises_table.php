@@ -12,9 +12,9 @@ return new class extends Migration
             $table->id();
             $table->string('judul');
             $table->text('deskripsi')->nullable();
-            $table->string('password')->nullable(); // Kosong = tidak perlu password
+            $table->string('password')->nullable(); 
             $table->boolean('is_active')->default(true);
-            $table->integer('waktu_menit')->default(30); // <-- UBAH JADI WAKTU MENIT
+            $table->integer('waktu_menit')->default(30); 
             $table->timestamps();
         });
     }

@@ -74,7 +74,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
         <AnimatePresence>
             {show && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 sm:p-6">
-                    {/* Backdrop */}
+                    
                     <motion.div 
                         initial={{ opacity: 0 }} 
                         animate={{ opacity: 1 }} 
@@ -83,14 +83,14 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" 
                     />
                     
-                    {/* Modal Box */}
+                    
                     <motion.div 
                         initial={{ scale: 0.95, opacity: 0, y: 15 }} 
                         animate={{ scale: 1, opacity: 1, y: 0 }} 
                         exit={{ scale: 0.95, opacity: 0, y: 15 }} 
                         className="relative z-10 w-full max-w-2xl bg-white rounded-3xl shadow-2xl shadow-slate-900/20 overflow-hidden max-h-[95vh] flex flex-col border border-slate-100"
                     >
-                        {/* Header Premium */}
+                        
                         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-50 text-blue-900 rounded-lg">
@@ -105,7 +105,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                             </button>
                         </div>
 
-                        {/* Form Body */}
+                        
                         <form onSubmit={submit} className="flex-1 overflow-y-auto scrollbar-thin bg-white flex flex-col">
                             <div className="p-6 space-y-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -149,7 +149,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                                     </div>
                                 </div>
 
-                                {/* BLOK SEMANTIK DINAMIS */}
+                                
                                 {data.tipe === 'video' && (
                                     <div className="p-5 bg-blue-50 border border-blue-200/60 rounded-2xl shadow-sm">
                                         <label className="block text-[10px] font-bold text-blue-800 uppercase tracking-widest mb-2">Link URL Video</label>
@@ -192,7 +192,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                                     </div>
                                 )}
 
-                                {/* Deskripsi */}
+                                
                                 <div>
                                     <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Deskripsi Tambahan / Catatan</label>
                                     <textarea 
@@ -202,7 +202,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                                     ></textarea>
                                 </div>
 
-                                {/* Preview Checkbox */}
+                                
                                 <label className="flex items-center gap-4 p-4 bg-slate-50 hover:bg-blue-50 rounded-2xl border border-slate-200 hover:border-blue-200 cursor-pointer transition-colors group shadow-sm">
                                     <div className="relative flex items-center">
                                         <input 
@@ -217,7 +217,7 @@ export default function MaterialModal({ show, onClose, chapterId, material, next
                                 </label>
                             </div>
 
-                            {/* Footer Form */}
+                            
                             <div className="px-6 py-5 border-t border-slate-100 bg-[#F8FAFC] flex justify-end gap-3 shrink-0">
                                 <button 
                                     type="button" onClick={onClose} 

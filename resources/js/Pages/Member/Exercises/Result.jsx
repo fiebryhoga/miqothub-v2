@@ -21,7 +21,7 @@ export default function Result({ material, exercise, score }) {
         <div className="min-h-screen bg-slate-50/80 flex items-center justify-center p-4 relative overflow-hidden">
             <Head title={`Hasil: ${exercise.judul}`} />
 
-            {/* Efek Latar Belakang Radial Glow */}
+            
             <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[100px] pointer-events-none opacity-20 ${isPassed ? 'bg-emerald-400' : 'bg-rose-400'}`}></div>
 
             <motion.div 
@@ -30,12 +30,12 @@ export default function Result({ material, exercise, score }) {
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
                 className="w-full max-w-xl bg-white rounded-[2.5rem] shadow-2xl shadow-blue-950/5 border border-slate-100 overflow-hidden text-center relative z-10"
             >
-                {/* Latar Belakang Atas Dinamis (Bentuk Gelombang/Garis Keras) */}
+                
                 <div className={`h-40 absolute top-0 w-full opacity-10 ${isPassed ? 'bg-gradient-to-b from-emerald-500 to-transparent' : 'bg-gradient-to-b from-rose-500 to-transparent'}`}></div>
 
                 <div className="p-8 md:p-12 relative z-10">
                     
-                    {/* Ikon Timbul dengan Animasi Bouncing */}
+                    
                     <motion.div 
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
@@ -52,13 +52,13 @@ export default function Result({ material, exercise, score }) {
                     </h2>
                     <p className="text-slate-500 font-semibold mb-10">Anda telah menyelesaikan kuis <strong className="text-blue-950">{exercise.judul}</strong></p>
 
-                    {/* Ringkasan Nilai Bulat (Circular Progress) */}
+                    
                     <div className="flex justify-center mb-12">
                         <div className="relative">
                             <svg className="w-48 h-48 transform -rotate-90 drop-shadow-md">
-                                {/* Track abu-abu dasar */}
+                                
                                 <circle cx="96" cy="96" r="84" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
-                                {/* Track warna skor berjalan */}
+                                
                                 <circle 
                                     cx="96" cy="96" r="84" 
                                     stroke="currentColor" strokeWidth="12" fill="transparent" strokeLinecap="round"
@@ -78,7 +78,7 @@ export default function Result({ material, exercise, score }) {
                         </div>
                     </div>
 
-                    {/* Rincian Statistik */}
+                    
                     <div className="grid grid-cols-2 gap-4 md:gap-6 mb-10">
                         <div className="p-5 bg-white rounded-2xl border border-slate-100 shadow-sm shadow-slate-200/50 flex flex-col items-center group hover:border-emerald-200 hover:bg-emerald-50/30 transition-colors">
                             <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mb-3 text-emerald-600">
@@ -96,7 +96,7 @@ export default function Result({ material, exercise, score }) {
                         </div>
                     </div>
 
-                    {/* Tombol Navigasi Navy */}
+                    
                     <Link 
                         href={route('member.courses.show', material.chapter.course_id)} 
                         className="inline-flex items-center justify-center gap-2.5 w-full py-4 bg-blue-950 text-white rounded-xl font-black hover:bg-blue-900 transition-all duration-300 shadow-xl shadow-blue-950/20 active:scale-95 group"

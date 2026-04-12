@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('judul'); 
             $table->longText('deskripsi')->nullable(); 
             
-            // Tipe sudah mencakup semuanya
+            
             $table->enum('tipe', ['video', 'pdf', 'text_only', 'pertemuan', 'latihan']); 
             $table->string('link_video')->nullable(); 
             $table->string('file_path')->nullable(); 
@@ -26,17 +26,17 @@ return new class extends Migration
             $table->boolean('is_preview')->default(false); 
             $table->integer('urutan')->default(0); 
             
-            // ==========================================
-            // KOLOM BARU UNTUK FITUR PERTEMUAN
-            // ==========================================
+            
+            
+            
             $table->dateTime('tanggal_waktu_meet')->nullable();
             $table->string('link_meet')->nullable();
             $table->string('password_meet')->nullable();
             
-            // ==========================================
-            // KOLOM BARU UNTUK FITUR LATIHAN
-            // ==========================================
-            // Relasi ke tabel Latihan (Jika materinya bertipe latihan)
+            
+            
+            
+            
             $table->foreignId('exercise_id')->nullable()->constrained('exercises')->nullOnDelete();
             
             $table->timestamps();

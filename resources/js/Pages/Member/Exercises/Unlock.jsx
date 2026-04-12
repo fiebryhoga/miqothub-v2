@@ -17,7 +17,7 @@ export default function Unlock({ material, exercise }) {
         <div className="min-h-screen bg-slate-50/80 flex flex-col items-center justify-center p-4 relative overflow-hidden">
             <Head title={`Buka Kuis: ${exercise.judul}`} />
 
-            {/* Aksen Blur Navy di Background */}
+            
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/5 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/3"></div>
 
             <motion.div 
@@ -35,9 +35,9 @@ export default function Unlock({ material, exercise }) {
 
                 <div className="bg-white rounded-[2rem] shadow-2xl shadow-blue-950/10 overflow-hidden border border-slate-100 flex flex-col">
                     
-                    {/* Header Premium Navy Card */}
+                    
                     <div className="bg-gradient-to-br from-blue-950 to-blue-900 p-8 flex flex-col items-center text-center relative overflow-hidden">
-                        {/* Motif Lingkaran Transparan di dalam Header */}
+                        
                         <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
                         <div className="absolute -left-6 -bottom-6 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
 
@@ -50,7 +50,7 @@ export default function Unlock({ material, exercise }) {
                         </p>
                     </div>
 
-                    {/* Form Input Password */}
+                    
                     <form onSubmit={submit} className="p-8">
                         {errors.password && (
                             <motion.div 

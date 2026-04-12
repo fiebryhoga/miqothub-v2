@@ -8,7 +8,7 @@ import AdminModal from './Partials/AdminModal';
 export default function Index({ auth, admins }) {
     const { flash = {} } = usePage().props; 
     
-    // State Manajemen Modal
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [selectedAdmin, setSelectedAdmin] = useState(null);
@@ -35,7 +35,7 @@ export default function Index({ auth, admins }) {
         <AdminLayout user={auth.user}>
             <Head title="Manajemen Admin" />
 
-            {/* Header */}
+            
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-800">Manajemen Admin</h1>
@@ -50,7 +50,7 @@ export default function Index({ auth, admins }) {
                 </button>
             </div>
 
-            {/* Flash Message */}
+            
             <AnimatePresence>
                 {flash?.success && (
                     <motion.div 
@@ -65,7 +65,7 @@ export default function Index({ auth, admins }) {
                 )}
             </AnimatePresence>
 
-            {/* Tabel Data Admin */}
+            
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse whitespace-nowrap">
@@ -85,7 +85,7 @@ export default function Index({ auth, admins }) {
                                 >
                                     <td className="p-5">
                                         <div className="flex items-center gap-4">
-                                            {/* Avatar / Foto */}
+                                            
                                             {admin.foto_url ? (
                                                 <img src={admin.foto_url} alt={admin.name} className="w-11 h-11 rounded-full object-cover border border-slate-200 shadow-sm" />
                                             ) : (
@@ -95,9 +95,9 @@ export default function Index({ auth, admins }) {
                                                 </div>
                                             )}
                                             <div>
-                                                {/* Hover Teks: Biru Dongker */}
+                                                
                                                 <p className="font-bold text-slate-800 group-hover:text-blue-900 transition-colors text-sm">{admin.name}</p>
-                                                {/* Badge: Teks Biru Dongker */}
+                                                
                                                 <span className="inline-flex items-center gap-1.5 mt-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-900 uppercase tracking-widest border border-blue-200">
                                                     <ShieldAlert size={10} /> Admin Utama
                                                 </span>
@@ -127,7 +127,7 @@ export default function Index({ auth, admins }) {
                 </div>
             </div>
 
-            {/* Panggil Modal Component */}
+            
             <AdminModal 
                 isOpen={isModalOpen} 
                 onClose={() => setIsModalOpen(false)} 

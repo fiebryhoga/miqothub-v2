@@ -49,12 +49,12 @@ export default function Register({ courses }) {
     const totalPrice = selectedCourses.reduce((sum, course) => sum + course.harga, 0);
 
     return (
-        // Tema disesuaikan dengan Slate/Neutral Clean
+        
         <div className="min-h-screen bg-[#F8FAFC] py-16 px-4 sm:px-6 lg:px-8 selection:bg-blue-500 selection:text-white overflow-x-hidden font-sans">
             <Head title="Pendaftaran Kelas - MiqotHub" />
 
             <div className="max-w-7xl mx-auto relative z-10">
-                {/* Tombol Kembali (Clean Minimalist) */}
+                
                 <Link href="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-slate-900 transition-colors mb-10 font-semibold text-sm bg-white px-5 py-2.5 rounded-full border border-slate-200 shadow-sm hover:shadow-md">
                     <ArrowLeft size={18} /> Kembali ke Beranda
                 </Link>
@@ -63,7 +63,7 @@ export default function Register({ courses }) {
                     initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} 
                     className="w-full bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row overflow-visible"
                 >
-                    {/* --- KOLOM KIRI (Pilihan Kelas) - Dark Slate Theme --- */}
+                    
                     <div className="w-full md:w-[42%] bg-slate-900 p-8 sm:p-10 lg:p-12 text-white flex flex-col relative shrink-0 md:rounded-l-[2rem] rounded-t-[2rem] md:rounded-tr-none">
                         
                         <div className="mb-10">
@@ -74,7 +74,7 @@ export default function Register({ courses }) {
                             <p className="text-slate-300 text-sm font-medium leading-relaxed">Tentukan kelas yang ingin diikuti, lalu lakukan pembayaran sesuai instruksi di bawah.</p>
                         </div>
 
-                        {/* Daftar Kelas */}
+                        
                         <div className="space-y-4 mb-12">
                             <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">Kelas Tersedia ({courses.length})</h3>
                             {courses.length === 0 ? (
@@ -104,7 +104,7 @@ export default function Register({ courses }) {
                             {errors.course_ids && <p className="text-rose-400 text-xs font-semibold mt-2">{errors.course_ids}</p>}
                         </div>
 
-                        {/* Area Pembayaran */}
+                        
                         {data.course_ids.length > 0 && (
                             <div className="shrink-0 space-y-6 pt-10 mt-10 border-t border-slate-800">
                                 <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Instruksi Pembayaran</h3>
@@ -169,7 +169,7 @@ export default function Register({ courses }) {
                         </div>
                     </div>
 
-                    {/* --- KOLOM KANAN (Form Data Diri) - Light Clean Theme --- */}
+                    
                     <div className="w-full md:w-[58%] p-8 sm:p-12 lg:p-16 flex flex-col bg-white overflow-visible">
                         <div className="mb-10 shrink-0">
                             <h3 className="text-3xl font-black text-slate-900 mb-2 leading-tight">Lengkapi<br/>Identitas Diri</h3>

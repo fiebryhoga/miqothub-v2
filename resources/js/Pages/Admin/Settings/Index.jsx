@@ -6,7 +6,7 @@ import { Save, Settings, Phone, CreditCard, ShieldAlert, CheckCircle2 } from 'lu
 export default function Index({ auth, settings }) {
     const { flash = {} } = usePage().props;
 
-    // Helper konversi boolean
+    
     const getBool = (val) => val === 'true' || val === true;
 
     const { data, setData, post, processing, transform } = useForm({
@@ -55,7 +55,7 @@ export default function Index({ auth, settings }) {
 
             <form onSubmit={submit} className="space-y-6">
                 
-                {/* --- KOTAK 1: KONTAK ADMIN --- */}
+                
                 <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-200">
                     <div className="flex items-center gap-4 mb-8 pb-4 border-b border-slate-100">
                         <div className="p-3 bg-blue-900 text-white rounded-xl shadow-md shadow-blue-900/20">
@@ -80,7 +80,7 @@ export default function Index({ auth, settings }) {
                     </div>
                 </div>
 
-                {/* --- KOTAK 2: METODE PEMBAYARAN 1 --- */}
+                
                 <div className={`bg-white p-8 rounded-[2rem] shadow-sm border-2 transition-all duration-300 ${data.bank1_active ? 'border-blue-500 shadow-xl shadow-blue-900/5' : 'border-slate-100 opacity-60'}`}>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 pb-4 border-b border-slate-100">
                         <div className="flex items-center gap-4">
@@ -114,7 +114,7 @@ export default function Index({ auth, settings }) {
                     </div>
                 </div>
 
-                {/* --- KOTAK 3: METODE PEMBAYARAN 2 --- */}
+                
                 <div className={`bg-white p-8 rounded-[2rem] shadow-sm border-2 transition-all duration-300 ${data.bank2_active ? 'border-blue-500 shadow-xl shadow-blue-900/5' : 'border-slate-100 opacity-60'}`}>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 pb-4 border-b border-slate-100">
                         <div className="flex items-center gap-4">

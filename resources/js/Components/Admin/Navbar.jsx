@@ -6,19 +6,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Navbar({ user, setIsSidebarOpen }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
-    const [imageError, setImageError] = useState(false); // State untuk fallback jika gambar gagal dimuat
+    const [imageError, setImageError] = useState(false); 
 
-    // Fungsi cerdas untuk menangkap URL foto profil
+    
     const getAvatarUrl = () => {
-        // Cek semua kemungkinan field foto profil dari database (sudah disesuaikan ke foto_profile)
+        
         const photoPath = user?.foto_profile || user?.avatar || user?.profile_photo_path || user?.profile_photo_url || user?.photo;
         
         if (!photoPath) return null;
-        // Jika sudah berupa URL penuh (Google Auth, dll)
+        
         if (photoPath.startsWith('http') || photoPath.startsWith('data:')) return photoPath;
-        // Jika sudah ada /storage/ dari backend
+        
         if (photoPath.startsWith('/storage/')) return photoPath;
-        // Default Laravel storage
+        
         return `/storage/${photoPath}`;
     };
 
@@ -74,19 +74,6 @@ export default function Navbar({ user, setIsSidebarOpen }) {
                 {/* Garis Pembatas */}
                 <div className="w-px h-8 bg-slate-200 hidden sm:block mx-1"></div>
 
-                {/* Tombol Notifikasi (Navy Ping) */}
-                <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative p-2.5 text-slate-400 hover:text-blue-950 hover:bg-slate-50 rounded-xl transition-all border border-transparent hover:border-slate-200"
-                >
-                    <Bell size={20} />
-                    <span className="absolute top-2 right-2.5 flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500 border-2 border-white"></span>
-                    </span>
-                </motion.button>
-
                 {/* --- User Dropdown Profile --- */}
                 <div className="relative">
                     <motion.button 
@@ -102,7 +89,7 @@ export default function Navbar({ user, setIsSidebarOpen }) {
                                     src={photoUrl} 
                                     alt={user?.name || 'User'} 
                                     className="w-full h-full object-cover"
-                                    onError={() => setImageError(true)} // Jika link broken, otomatis sembunyikan img & panggil fallback huruf
+                                    onError={() => setImageError(true)} 
                                 />
                             ) : (
                                 <span>{user?.name?.charAt(0).toUpperCase() || 'A'}</span>
@@ -146,11 +133,6 @@ export default function Navbar({ user, setIsSidebarOpen }) {
                                         >
                                             <UserIcon size={16} /> Profil Saya
                                         </Link>
-                                        <button 
-                                            className="w-full flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-950 transition-colors"
-                                        >
-                                            <Settings size={16} /> Pengaturan Sistem
-                                        </button>
                                     </div>
                                     
                                     {/* Logout Area */}

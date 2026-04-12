@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { BookOpen, Trophy, Sparkles, PlayCircle, Clock, ChevronRight, Compass } from 'lucide-react';
 
 export default function Dashboard({ auth, stats = {}, recentCourses = [] }) {
-    // Fallback data statistik jika dari backend belum dikirim
+    
     const userStats = {
         kelas_aktif: stats.kelas_aktif || 0,
         kuis_selesai: stats.kuis_selesai || 0,
@@ -126,7 +126,7 @@ export default function Dashboard({ auth, stats = {}, recentCourses = [] }) {
             </div>
 
             {recentCourses.length === 0 ? (
-                // Empty State Jika Belum Punya Kelas
+                
                 <motion.div 
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
                     className="bg-white rounded-[2rem] border border-dashed border-slate-200 p-12 text-center flex flex-col items-center"
@@ -144,7 +144,7 @@ export default function Dashboard({ auth, stats = {}, recentCourses = [] }) {
                     </Link>
                 </motion.div>
             ) : (
-                // Grid Kelas Terakhir
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {recentCourses.map((course, index) => (
                         <motion.div 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('kode_transaksi')->unique(); // Misal: INV-20260409-001
+            $table->string('kode_transaksi')->unique(); 
             $table->integer('total_harga');
-            $table->string('bukti_pembayaran'); // Path foto bukti transfer
+            $table->string('bukti_pembayaran'); 
             $table->enum('status', ['pending', 'verified', 'rejected'])->default('pending');
-            $table->text('catatan_admin')->nullable(); // Jika ditolak, admin bisa kasih alasan
+            $table->text('catatan_admin')->nullable(); 
             $table->timestamps();
         });
     }

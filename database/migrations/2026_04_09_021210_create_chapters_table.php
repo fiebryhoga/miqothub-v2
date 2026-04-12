@@ -14,8 +14,8 @@ return new class extends Migration
     Schema::create('chapters', function (Blueprint $table) {
         $table->id();
         $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
-        $table->string('judul'); // Cth: "Bab 1: Fiqih Dasar"
-        $table->integer('urutan')->default(0); // Untuk sorting urutan Bab
+        $table->string('judul'); 
+        $table->integer('urutan')->default(0); 
         $table->timestamps();
     });
 }

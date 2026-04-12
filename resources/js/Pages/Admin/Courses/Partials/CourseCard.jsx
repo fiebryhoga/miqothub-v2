@@ -13,9 +13,9 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
             transition={{ delay: index * 0.1 }} 
             className="relative bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col group hover:shadow-2xl hover:shadow-blue-950/20 hover:-translate-y-2 transition-all duration-500"
         >
-            {/* --- HERO / IMAGE SECTION (Full Bleed) --- */}
+            
             <div className="relative h-64 w-full overflow-hidden bg-slate-100">
-                {/* Image */}
+                
                 {course.thumbnail_url ? (
                     <img 
                         src={course.thumbnail_url} 
@@ -28,10 +28,10 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                     </div>
                 )}
                 
-                {/* Gradient Overlay - Dark Navy Area */}
+                
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-blue-950/50 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                {/* Top Badges */}
+                
                 <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-10">
                     <span className="px-3 py-1.5 text-[10px] font-black uppercase tracking-widest bg-white/20 text-white backdrop-blur-md rounded-lg border border-white/20 shadow-sm">
                         Batch {course.batch}
@@ -45,7 +45,7 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                     </span>
                 </div>
 
-                {/* Overlapping Content (Title & Price inside Image Area) */}
+                
                 <div className="absolute bottom-0 left-0 right-0 p-5 pb-6 text-white transform translate-y-1 group-hover:translate-y-0 transition-transform duration-300 z-10">
                     <h3 className="text-xl font-black mb-1.5 line-clamp-2 leading-snug drop-shadow-md group-hover:text-blue-100 transition-colors">
                         {course.nama}
@@ -63,13 +63,13 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                 </div>
             </div>
 
-            {/* --- BOTTOM SECTION (Info & Actions) --- */}
-            {/* Sedikit naik ke atas menutupi ujung bawah gambar agar seamless */}
+            
+            
             <div className="flex flex-col p-5 bg-white relative z-20 rounded-t-[1.5rem] -mt-3">
                 
-                {/* Meta Grid (Jadwal & Kuota) */}
+                
                 <div className="flex items-center justify-between gap-4 mb-5">
-                    {/* Mulai Kelas */}
+                    
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-blue-900 shrink-0">
                             <Calendar size={16} />
@@ -82,10 +82,10 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                         </div>
                     </div>
 
-                    {/* Garis Pemisah Vertical */}
+                    
                     <div className="h-8 w-px bg-slate-200"></div>
 
-                    {/* Kuota / Peserta */}
+                    
                     <div 
                         onClick={() => onShowMembers(course)}
                         className="flex items-center gap-3 cursor-pointer group/quota p-1.5 -mr-1.5 rounded-2xl hover:bg-slate-50 transition-colors"
@@ -105,7 +105,7 @@ export default function CourseCard({ course, index, onEdit, onDelete, formatRupi
                     </div>
                 </div>
 
-                {/* Actions */}
+                
                 <div className="flex items-center gap-2 pt-4 border-t border-slate-200 border-dashed">
                     <Link 
                         href={route('admin.courses.curriculum', course.id)} 

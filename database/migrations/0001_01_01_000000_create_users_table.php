@@ -18,16 +18,16 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             
-            // Hak Akses & Status Akun
+            
             $table->enum('role', ['admin', 'member'])->default('member');
             $table->enum('status_akun', ['pending', 'aktif', 'suspen'])->default('pending');
             $table->string('foto_profile')->nullable();
             
-            // Data Diri Member (Dibuat nullable agar admin tidak wajib isi)
+            
             $table->text('alamat')->nullable();
             $table->string('pekerjaan')->nullable();
-            $table->integer('umur')->nullable(); // <--- Tambahan kolom umur
-            $table->enum('status', ['menikah', 'belum'])->nullable(); // Status Perkawinan
+            $table->integer('umur')->nullable(); 
+            $table->enum('status', ['menikah', 'belum'])->nullable(); 
             
             $table->rememberToken();
             $table->timestamps();

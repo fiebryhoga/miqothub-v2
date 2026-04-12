@@ -19,7 +19,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             </div>
 
             <div className="space-y-8 pb-12">
-                {/* Bagian 1: Identitas Lengkap */}
+                
                 <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-blue-950/5 transition-all duration-500">
                     <div className="p-6 md:p-10">
                         <div className="flex items-center gap-3 mb-8 pb-5 border-b border-slate-100">
@@ -39,7 +39,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                     </div>
                 </div>
 
-                {/* Bagian 2: Keamanan */}
+                
                 <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-blue-950/5 transition-all duration-500">
                     <div className="p-6 md:p-10">
                         <div className="flex items-center gap-3 mb-8 pb-5 border-b border-slate-100">

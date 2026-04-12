@@ -47,7 +47,7 @@ export default function DeleteUserForm({ className = '' }) {
 
     return (
         <section className={`space-y-6 ${className}`}>
-            {/* Header dihapus karena sudah dikelola oleh parent komponen (Edit.jsx) */}
+            
             
             <button 
                 onClick={confirmUserDeletion}

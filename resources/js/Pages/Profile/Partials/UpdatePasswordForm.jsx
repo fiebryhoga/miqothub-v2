@@ -45,13 +45,12 @@ export default function UpdatePasswordForm({ className = '' }) {
         });
     };
 
-    // Styling Input yang seragam dengan identitas
+    
     const inputStyle = "mt-1 block w-full rounded-xl border-slate-200 text-slate-700 font-semibold focus:border-blue-950 focus:ring-blue-950/10 shadow-sm transition-all";
     const labelStyle = "text-blue-950 font-black uppercase text-[10px] tracking-widest mb-1.5";
 
     return (
         <section className={className}>
-            {/* Header dihapus karena sudah ada di file Edit.jsx (parent) agar tidak double */}
             <form onSubmit={updatePassword} className="space-y-6">
                 <div>
                     <InputLabel htmlFor="current_password" value="Kata Sandi Saat Ini" className={labelStyle} />
@@ -112,7 +111,6 @@ export default function UpdatePasswordForm({ className = '' }) {
                         leave="transition ease-in-out duration-300"
                         leaveTo="opacity-0 translate-y-2"
                     >
-                        {/* hmm */}
                         <p className="text-sm font-bold text-emerald-600 flex items-center gap-1.5">
                             <CheckCircle2 size={16} /> Berhasil diperbarui.
                         </p>

@@ -12,14 +12,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('exercise_id')->constrained()->cascadeOnDelete();
             
-            // Kolom Urutan
+            
             $table->integer('urutan')->default(0);
             
-            // Teks dan Gambar Soal Utama
+            
             $table->text('pertanyaan');
             $table->string('gambar_soal')->nullable();
             
-            // Teks dan Gambar Opsi
+            
             $table->text('opsi_a');
             $table->string('gambar_a')->nullable();
             $table->text('opsi_b');

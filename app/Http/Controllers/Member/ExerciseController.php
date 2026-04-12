@@ -16,8 +16,8 @@ class ExerciseController extends Controller
         $exercise = $material->exercise()->with('questions')->firstOrFail();
         $user = Auth::user();
 
-        // 1. CEK NILAI DULUAN: Kalau sudah pernah ngerjain, langsung tampilkan nilainya.
-        // Meskipun kuis sudah ditutup, member yang sudah ngerjain tetep berhak lihat nilainya.
+        
+        
         $existingScore = ExerciseScore::where('user_id', $user->id)
                                       ->where('exercise_id', $exercise->id)
                                       ->first();
@@ -30,7 +30,7 @@ class ExerciseController extends Controller
             ]);
         }
 
-        // 2. CEK STATUS KUIS: Kalau belum ngerjain dan kuis ditutup, tampilkan halaman Closed
+        
         if (!$exercise->is_active) {
             return Inertia::render('Member/Exercises/Closed', [
                 'material' => $material,
@@ -38,7 +38,7 @@ class ExerciseController extends Controller
             ]);
         }
 
-        // 3. CEK PASSWORD
+        
         $sessionKey = 'unlocked_exercise_' . $exercise->id;
         if ($exercise->password && !session()->has($sessionKey)) {
             return Inertia::render('Member/Exercises/Unlock', [
@@ -47,7 +47,7 @@ class ExerciseController extends Controller
             ]);
         }
 
-        // 4. TAMPILKAN SOAL (Kunci Jawaban Disembunyikan)
+        
         $questions = $exercise->questions->map(function($q) {
             return collect($q)->except(['jawaban_benar', 'created_at', 'updated_at']);
         });
@@ -85,10 +85,10 @@ class ExerciseController extends Controller
 
         $totalSoal = $questions->count();
         
-        // Kalkulasi Nilai Skala 100
+        
         $nilai = $totalSoal > 0 ? round(($benar / $totalSoal) * 100) : 0;
 
-        // 👇 PERBAIKANNYA DI SINI 👇 Sesuaikan dengan nama kolom migration
+        
         \App\Models\ExerciseScore::updateOrCreate(
             [
                 'user_id' => auth()->id(),
@@ -98,7 +98,7 @@ class ExerciseController extends Controller
                 'skor' => $nilai,
                 'jumlah_benar' => $benar,
                 'total_soal' => $totalSoal,
-                'dikerjakan_pada' => now(), // Tambahkan ini sesuai migration
+                'dikerjakan_pada' => now(), 
             ]
         );
 

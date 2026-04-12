@@ -21,7 +21,7 @@ export default function Navbar({ user, onMenuClick }) {
 
     return (
         <header className="h-20 bg-white/90 backdrop-blur-xl border-b border-slate-100 sticky top-0 z-30 flex items-center justify-between px-4 sm:px-8 shadow-sm">
-            {/* --- Bagian Kiri: Tombol Menu & Judul --- */}
+            
             <div className="flex items-center gap-4 sm:gap-6">
                 <motion.button 
                     whileHover={{ scale: 1.05 }}
@@ -32,35 +32,24 @@ export default function Navbar({ user, onMenuClick }) {
                     <Menu size={22} />
                 </motion.button>
 
-                {/* Teks Konteks (Disembunyikan di HP) */}
+                
                 <div className="hidden sm:block">
                     <h2 className="text-xl font-black text-emerald-950 flex items-center gap-2 tracking-tight">
-                        <Sparkles size={18} className="text-emerald-600" /> Ruang Belajar
+                        <Sparkles size={18} className="text-blu-800" /> Ruang Belajar
                     </h2>
                     <p className="text-xs text-slate-500 font-bold mt-0.5">Lanjutkan progres belajar Anda hari ini</p>
                 </div>
             </div>
 
-            {/* --- Bagian Kanan: Notifikasi & Profile --- */}
+            
             <div className="flex items-center gap-3 sm:gap-5">
                 
-                {/* Tombol Notifikasi */}
-                <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative p-2.5 text-slate-400 hover:text-emerald-700 hover:bg-emerald-50 rounded-xl transition-all border border-transparent hover:border-emerald-200"
-                >
-                    <Bell size={20} />
-                    <span className="absolute top-2 right-2.5 flex h-2.5 w-2.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500 border-2 border-white"></span>
-                    </span>
-                </motion.button>
+                
 
-                {/* Garis Pemisah */}
+                
                 <div className="w-px h-8 bg-slate-200 hidden sm:block mx-1"></div>
 
-                {/* Dropdown Profile */}
+                
                 <div className="relative">
                     <motion.button 
                         whileHover={{ scale: 1.02 }}
@@ -68,7 +57,7 @@ export default function Navbar({ user, onMenuClick }) {
                         onClick={() => setDropdownOpen(!dropdownOpen)} 
                         className="flex items-center gap-3 p-1.5 pr-4 bg-white border border-slate-200 shadow-sm rounded-full hover:border-emerald-300 hover:shadow-md transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500/20 group"
                     >
-                        {/* Area Foto Profil */}
+                        
                         <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-black text-sm shadow-inner overflow-hidden border border-emerald-100 group-hover:border-emerald-300 transition-colors shrink-0">
                             {photoUrl && !imageError ? (
                                 <img 
@@ -82,7 +71,7 @@ export default function Navbar({ user, onMenuClick }) {
                             )}
                         </div>
                         
-                        {/* Info Nama */}
+                        
                         <div className="hidden sm:flex flex-col items-start">
                             <span className="text-sm font-black text-slate-800 leading-none group-hover:text-emerald-700 transition-colors">
                                 {user?.name?.split(' ')[0] || 'Member'}
@@ -104,20 +93,20 @@ export default function Navbar({ user, onMenuClick }) {
                                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                     className="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl shadow-emerald-900/10 border border-slate-100 py-2 z-50 overflow-hidden"
                                 >
-                                    {/* Header Dropdown */}
+                                    
                                     <div className="px-5 py-4 border-b border-slate-100 bg-gradient-to-br from-emerald-50 to-white">
                                         <p className="text-sm font-black text-emerald-950">{user?.name}</p>
                                         <p className="text-xs font-bold text-slate-400 truncate mt-0.5">{user?.email}</p>
                                     </div>
 
-                                    {/* Menu Items */}
+                                    
                                     <div className="py-2">
                                         <Link href={route('profile.edit')} className="flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition-colors">
                                             <UserIcon size={16} /> Profil Saya
                                         </Link>
                                     </div>
                                     
-                                    {/* Logout Area */}
+                                    
                                     <div className="border-t border-slate-100 pt-2 pb-1">
                                         <Link href={route('logout')} method="post" as="button" className="w-full text-left flex items-center gap-3 px-5 py-2.5 text-sm font-black text-rose-500 hover:bg-rose-50 hover:text-rose-600 transition-colors">
                                             <LogOut size={16} strokeWidth={2.5} /> Keluar

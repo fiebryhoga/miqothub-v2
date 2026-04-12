@@ -33,7 +33,7 @@ export default function ChapterModal({ show, onClose, courseId, chapter, nextOrd
         <AnimatePresence>
             {show && (
                 <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-                    {/* Backdrop */}
+                    
                     <motion.div 
                         initial={{ opacity: 0 }} 
                         animate={{ opacity: 1 }} 
@@ -42,14 +42,14 @@ export default function ChapterModal({ show, onClose, courseId, chapter, nextOrd
                         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" 
                     />
                     
-                    {/* Modal Box */}
+                    
                     <motion.div 
                         initial={{ scale: 0.95, opacity: 0, y: 15 }} 
                         animate={{ scale: 1, opacity: 1, y: 0 }} 
                         exit={{ scale: 0.95, opacity: 0, y: 15 }} 
                         className="relative z-10 w-full max-w-md bg-white rounded-[2rem] shadow-2xl shadow-slate-900/20 overflow-hidden border border-slate-100 flex flex-col"
                     >
-                        {/* Header Premium */}
+                        
                         <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-blue-50 text-blue-900 rounded-lg">
@@ -64,7 +64,7 @@ export default function ChapterModal({ show, onClose, courseId, chapter, nextOrd
                             </button>
                         </div>
 
-                        {/* Form Body */}
+                        
                         <form onSubmit={submit} className="flex flex-col">
                             <div className="p-6 space-y-5 bg-white">
                                 <div>
@@ -92,7 +92,7 @@ export default function ChapterModal({ show, onClose, courseId, chapter, nextOrd
                                 </div>
                             </div>
 
-                            {/* Footer Form */}
+                            
                             <div className="px-6 py-5 border-t border-slate-100 bg-[#F8FAFC] flex justify-end gap-3 shrink-0">
                                 <button 
                                     type="button" 

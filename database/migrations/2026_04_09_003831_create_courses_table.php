@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('slug')->unique();
             $table->text('deskripsi');
-            $table->json('fitur')->nullable(); // Disimpan dalam format JSON (misal: ["Sertifikat", "Grup WA"])
+            $table->json('fitur')->nullable(); 
             $table->integer('harga')->default(0);
             $table->integer('harga_coret')->default(0);
             $table->string('thumbnail')->nullable();

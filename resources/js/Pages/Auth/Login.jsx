@@ -31,7 +31,7 @@ export default function Login({ status, canResetPassword }) {
         <div className="min-h-screen flex items-center justify-center bg-[#F8FAFC] p-4 sm:p-6 selection:bg-blue-500 selection:text-white font-sans relative">
             <Head title="Masuk - MiqotHub" />
 
-            {/* Tombol Kembali - Disederhanakan (Tanpa backdrop blur) agar ringan */}
+            
             <Link href="/" className="absolute top-6 left-6 sm:top-8 sm:left-8 flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors z-20 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
                 <ArrowLeft size={18} />
                 <span className="font-semibold text-sm">Kembali</span>
@@ -43,16 +43,16 @@ export default function Login({ status, canResetPassword }) {
                 animate="visible"
                 className="w-full max-w-5xl bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 overflow-hidden flex flex-col md:flex-row relative z-10 border border-slate-100"
             >
-                {/* --- BAGIAN KIRI (Branding) --- */}
-                {/* Dioptimasi: Menghilangkan mix-blend-mode yang memberatkan GPU */}
+                
+                
                 <div className="hidden md:flex md:w-5/12 bg-slate-900 relative flex-col justify-between overflow-hidden">
-                    {/* Gambar Background cukup pakai opacity, tidak perlu overlay blend */}
+                    
                     <img src="/assets/images/bg-login.jpg" className="absolute inset-0 w-full h-full object-cover opacity-20" alt="Background Login" loading="lazy" />
                     
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent pointer-events-none"></div>
 
                     <div className="relative h-full w-full p-10 flex flex-col justify-between z-10">
-                        {/* Logo */}
+                        
                         <div className="text-2xl font-black tracking-tighter text-white flex items-center gap-2">
                             <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-md">
                                 <BookOpen size={18} strokeWidth={2.5} />
@@ -69,7 +69,7 @@ export default function Login({ status, canResetPassword }) {
                             </p>
                         </div>
 
-                        {/* Quote Box - Menggunakan solid opacity alih-alih backdrop-blur */}
+                        
                         <div className="p-5 bg-white/10 rounded-2xl border border-white/10 text-white">
                             <div className="flex items-center gap-2 mb-2 text-amber-400">
                                 <Sparkles size={16} /> <span className="text-[10px] font-bold uppercase tracking-widest">Inspirasi</span>
@@ -81,8 +81,8 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
 
-                {/* --- BAGIAN KANAN (Form Login) --- */}
-                {/* Dioptimasi: Menghilangkan motion.div pada setiap input agar render form instan */}
+                
+                
                 <div className="w-full md:w-7/12 p-8 sm:p-12 lg:p-14 flex flex-col justify-center bg-white">
                     <div className="mb-8 text-center md:text-left">
                         <h3 className="text-3xl font-black text-slate-900 mb-2">Masuk ke Akun</h3>
@@ -96,7 +96,7 @@ export default function Login({ status, canResetPassword }) {
                     )}
 
                     <form onSubmit={submit} className="space-y-5">
-                        {/* Input Email */}
+                        
                         <div>
                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email Address</label>
                             <div className="relative">
@@ -117,7 +117,7 @@ export default function Login({ status, canResetPassword }) {
                             {errors.email && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.email}</p>}
                         </div>
 
-                        {/* Input Password */}
+                        
                         <div>
                             <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password</label>
                             <div className="relative">
@@ -137,7 +137,7 @@ export default function Login({ status, canResetPassword }) {
                             {errors.password && <p className="text-rose-500 text-xs mt-1.5 font-semibold">{errors.password}</p>}
                         </div>
 
-                        {/* Remember Me & Lupa Password */}
+                        
                         <div className="flex items-center justify-between pt-1">
                             <label className="flex items-center cursor-pointer group">
                                 <input
@@ -160,7 +160,7 @@ export default function Login({ status, canResetPassword }) {
                             )}
                         </div>
 
-                        {/* Tombol Submit (Solid Color, tanpa animasi gradient yang berat) */}
+                        
                         <div className="pt-4">
                             <button
                                 disabled={processing}
@@ -171,7 +171,7 @@ export default function Login({ status, canResetPassword }) {
                             </button>
                         </div>
 
-                        {/* Link Daftar */}
+                        
                         <div className="text-center mt-6">
                             <p className="text-sm text-slate-500 font-medium">
                                 Belum punya akun?{' '}

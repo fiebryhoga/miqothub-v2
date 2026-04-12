@@ -64,9 +64,9 @@ export default function Curriculum({ auth, course }) {
         <AdminLayout user={auth.user}>
             <Head title={`Kurikulum: ${course.nama}`} />
 
-            {/* HEADER HERO */}
+            
             <div className="relative mb-8 p-8 bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
-                {/* Efek Blur Latar Belakang Biru */}
+                
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 opacity-60 pointer-events-none"></div>
                 
                 <div className="relative z-10">
@@ -96,7 +96,7 @@ export default function Curriculum({ auth, course }) {
                 </div>
             </div>
 
-            {/* FLASH MESSAGE */}
+            
             <AnimatePresence>
                 {flash?.success && (
                     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="mb-6 p-4 bg-blue-50 border border-blue-100 text-blue-900 rounded-xl font-bold text-sm flex items-center gap-3 shadow-sm">
@@ -108,7 +108,7 @@ export default function Curriculum({ auth, course }) {
                 )}
             </AnimatePresence>
 
-            {/* MAIN CONTENT AREA */}
+            
             <div className="space-y-6">
                 {chapters.length === 0 ? (
                     <div className="bg-white rounded-[2rem] border-2 border-dashed border-slate-200 p-20 text-center flex flex-col items-center justify-center min-h-[400px]">
@@ -128,7 +128,7 @@ export default function Curriculum({ auth, course }) {
                     chapters.map((chapter, index) => (
                         <div key={chapter.id} className="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden group/chapter">
                             
-                            {/* CHAPTER HEADER */}
+                            
                             <div className="bg-white px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 gap-4 transition-colors hover:bg-slate-50/80">
                                 <div className="flex items-center gap-4 cursor-pointer select-none flex-1" onClick={() => toggleChapter(chapter.id)}>
                                     <button className={`p-2 rounded-xl transition-colors ${expandedChapters.includes(chapter.id) ? 'bg-blue-900 text-white shadow-md' : 'bg-slate-100 border border-slate-200 text-slate-500 hover:text-blue-900 hover:bg-blue-50'}`}>
@@ -141,14 +141,14 @@ export default function Curriculum({ auth, course }) {
                                 </div>
                                 <div className="flex items-center gap-2 sm:opacity-0 group-hover/chapter:opacity-100 transition-opacity">
                                     
-                                    {/* ARROW BUTTONS BAB */}
+                                    
                                     <div className="flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm mr-2">
                                         <button onClick={() => moveChapter(chapter.id, 'up')} disabled={index === 0} className="p-2.5 text-slate-400 hover:text-blue-900 hover:bg-blue-50 disabled:opacity-30 disabled:hover:bg-white transition-colors" title="Geser ke Atas"><ArrowUp size={16}/></button>
                                         <div className="w-px h-5 bg-slate-200"></div>
                                         <button onClick={() => moveChapter(chapter.id, 'down')} disabled={index === chapters.length - 1} className="p-2.5 text-slate-400 hover:text-blue-900 hover:bg-blue-50 disabled:opacity-30 disabled:hover:bg-white transition-colors" title="Geser ke Bawah"><ArrowDown size={16}/></button>
                                     </div>
 
-                                    {/* MANAJEMEN BAB */}
+                                    
                                     <button 
                                         onClick={() => setModalMaterial({ show: true, chapterId: chapter.id, material: null, nextOrder: chapter.materials?.length + 1 || 1 })} 
                                         className="text-xs font-bold px-4 py-2.5 bg-blue-50 border border-blue-100 text-blue-900 rounded-xl hover:bg-blue-900 hover:text-white transition-colors flex items-center gap-1.5 shadow-sm"
@@ -170,7 +170,7 @@ export default function Curriculum({ auth, course }) {
                                 </div>
                             </div>
 
-                            {/* MATERIALS LIST */}
+                            
                             <AnimatePresence>
                                 {expandedChapters.includes(chapter.id) && (
                                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden bg-[#F8FAFC]">
@@ -181,11 +181,11 @@ export default function Curriculum({ auth, course }) {
                                                     return (
                                                         <div key={material.id} className="group flex flex-col md:flex-row md:items-center justify-between p-4 bg-white rounded-2xl border border-slate-200 hover:border-blue-300 hover:shadow-md transition-all gap-4 relative overflow-hidden shadow-sm">
                                                             
-                                                            {/* Indikator Garis Kiri */}
+                                                            
                                                             <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${config.bg} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
 
                                                             <div className="flex items-start md:items-center gap-4 flex-1 pl-2">
-                                                                {/* Ikon Semantik */}
+                                                                
                                                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center border shrink-0 shadow-sm ${config.bg} ${config.color} ${config.border}`}>
                                                                     {config.icon}
                                                                 </div>
@@ -211,7 +211,7 @@ export default function Curriculum({ auth, course }) {
                                                             
                                                             <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-all justify-end border-t border-slate-100 md:border-0 pt-4 md:pt-0 items-center">
                                                                 
-                                                                {/* ARROW BUTTONS MATERI */}
+                                                                
                                                                 <div className="flex items-center bg-white border border-slate-200 rounded-lg overflow-hidden mr-2 shadow-sm">
                                                                     <button onClick={() => moveMaterial(material.id, 'up')} disabled={matIndex === 0} className="p-2 text-slate-400 hover:text-blue-900 hover:bg-blue-50 disabled:opacity-30 disabled:hover:bg-white transition-colors" title="Geser ke Atas"><ArrowUp size={14}/></button>
                                                                     <div className="w-px h-4 bg-slate-200"></div>
@@ -256,7 +256,7 @@ export default function Curriculum({ auth, course }) {
                 )}
             </div>
 
-            {/* PARTIAL MODALS */}
+            
             <AnimatePresence>
                 {modalChapter.show && (
                     <ChapterModal show={modalChapter.show} onClose={() => setModalChapter({ show: false, chapter: null })} courseId={course.id} chapter={modalChapter.chapter} nextOrder={chapters.length + 1} />

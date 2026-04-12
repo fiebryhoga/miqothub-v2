@@ -48,13 +48,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('Dashboard'); 
         }
 
+        // 1. Ambil semua kelas yang diikuti member
         $myCourses = $user->courses()->get()->map(function ($course) {
             $course->thumbnail_url = $course->thumbnail ? asset('storage/' . $course->thumbnail) : null;
             return $course;
         });
 
+        // 2. Hitung Statistik untuk Widget
+        $kelasAktif = $myCourses->count();
+        // Hitung kuis yang sudah dikerjakan berdasarkan tabel exercise_scores
+        $kuisSelesai = \App\Models\ExerciseScore::where('user_id', $user->id)->count(); 
+        $sertifikat = 0; // Jika nanti ada tabel sertifikat, hitung di sini
+
+        // 3. Ambil 3 kelas terakhir untuk bagian "Lanjutkan Belajarmu"
+        // (Diambil dari collection $myCourses yang sudah di-format thumbnail-nya)
+        $recentCourses = $myCourses->take(3);
+
+        // 4. Kirim semua data ke React (Harus sesuai dengan props yang diminta Dashboard.jsx)
         return Inertia::render('Member/Dashboard', [
-            'myCourses' => $myCourses
+            'stats' => [
+                'kelas_aktif' => $kelasAktif,
+                'kuis_selesai' => $kuisSelesai,
+                'sertifikat' => $sertifikat,
+            ],
+            'recentCourses' => $recentCourses,
         ]);
     })->name('dashboard');
 

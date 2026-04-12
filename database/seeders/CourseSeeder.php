@@ -43,9 +43,9 @@ class CourseSeeder extends Seeder
                 'fitur' => ['E-Sertifikat', 'Studi Kasus Real', 'Konsultasi 1-on-1 dengan Alumni'],
                 'harga' => 1000000,
                 'harga_coret' => 0,
-                'status' => 'offsale', // Status kelas ini ditutup
-                'kuota' => null, // Kuota unlimited
-                'tanggal_mulai' => now()->subDays(10)->toDateString(), // Tanggal sudah lewat
+                'status' => 'offsale', 
+                'kuota' => null, 
+                'tanggal_mulai' => now()->subDays(10)->toDateString(), 
             ],
         ];
 
@@ -54,7 +54,7 @@ class CourseSeeder extends Seeder
                 'nama' => $course['nama'],
                 'slug' => Str::slug($course['nama'] . '-' . $course['batch']),
                 'deskripsi' => $course['deskripsi'],
-                'fitur' => $course['fitur'], // Akan otomatis di-cast menjadi JSON berkat Model
+                'fitur' => $course['fitur'], 
                 'harga' => $course['harga'],
                 'harga_coret' => $course['harga_coret'],
                 'batch' => $course['batch'],
